@@ -1,0 +1,144 @@
+/**
+ * Auto-Fix Issue Script (Codex CLI only)
+ *
+ * Parses a structured GitHub Issue from AI PR Review,
+ * then runs Codex CLI IN THE REPO ROOT so it reads:
+ *   - AGENTS.md (repo rules)
+ *   - .codex/config.toml (agent config)
+ *   - Full codebase (all files, imports, tests)
+ *
+ * Codex is a real agent — it reads files, edits code, runs tests,
+ * and self-heals. Not a dumb prompt-in/text-out API call.
+ *
+ * Environment variables:
+ *   ISSUE_NUMBER, ISSUE_BODY, ISSUE_TITLE
+ */
+
+import { execSync, spawnSync } from 'child_process';
+import fs from 'fs';
+
+const {
+  ISSUE_NUMBER,
+  ISSUE_TITLE = '',
+  ISSUE_BODY = '',
+} = process.env;
+
+function parseIssueBody(body) {
+  const result = { file: null, severity: null, finding: '', diffContext: '' };
+
+  const yamlMatch = body.match(/```yaml\n([\s\S]*?)```/);
+  if (yamlMatch) {
+    const yaml = yamlMatch[1];
+    const fileMatch = yaml.match(/file:\s*(.+)/);
+    const severityMatch = yaml.match(/severity:\s*(.+)/);
+    if (fileMatch) result.file = fileMatch[1].trim();
+    if (severityMatch) result.severity = severityMatch[1].trim();
+  }
+
+  const findingMatch = body.match(/### Finding\n([\s\S]*?)(?=### |---|$)/);
+  if (findingMatch) result.finding = findingMatch[1].trim();
+
+  const diffMatch = body.match(/```diff\n([\s\S]*?)```/);
+  if (diffMatch) result.diffContext = diffMatch[1].trim();
+
+  return result;
+}
+
+async function main() {
+  console.log(`🤖 Auto-Fix Issue #${ISSUE_NUMBER}`);
+  console.log(`   Title: ${ISSUE_TITLE}`);
+
+  // Step 1: Verify codex is installed
+  try {
+    const ver = spawnSync('codex', ['--version'], { encoding: 'utf8', timeout: 5000 });
+    if (ver.status !== 0) throw new Error('not found');
+    console.log(`   ✅ Codex CLI: ${ver.stdout.trim()}`);
+  } catch {
+    console.log('   ❌ Codex CLI not found. Install: npm install -g @openai/codex');
+    fs.appendFileSync(process.env.GITHUB_OUTPUT || '/dev/null', 'fixed=false\n');
+    return;
+  }
+
+  // Step 2: Parse issue metadata
+  const issue = parseIssueBody(ISSUE_BODY);
+  console.log(`   File: ${issue.file || '(not specified)'}`);
+  console.log(`   Severity: ${issue.severity || 'unknown'}`);
+
+  if (!issue.file || !issue.finding) {
+    console.log('   ❌ Could not extract file/finding from issue. Skipping.');
+    fs.appendFileSync(process.env.GITHUB_OUTPUT || '/dev/null', 'fixed=false\n');
+    return;
+  }
+
+  // Step 3: Build prompt for Codex
+  // Codex runs IN the repo, so it already has AGENTS.md + .codex/config.toml context
+  const prompt = [
+    `Fix GitHub Issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}`,
+    ``,
+    `Severity: ${issue.severity}`,
+    `File: ${issue.file}`,
+    ``,
+    `Problem:`,
+    issue.finding,
+    ``,
+    issue.diffContext ? `Diff context:\n${issue.diffContext}` : '',
+    ``,
+    `Instructions:`,
+    `1. Read the file "${issue.file}" first to understand full context`,
+    `2. Fix ONLY the specific issue — do NOT refactor unrelated code`,
+    `3. Run "npm run lint" after fixing (if available)`,
+    `4. Run "npm test" after fixing (if available)`,
+    `5. If tests fail, read the error output and fix again`,
+  ].filter(Boolean).join('\n');
+
+  // Step 4: Run Codex in full-auto mode, inside the repo root
+  console.log(`   🤖 Running Codex CLI (full-auto, in repo root)...`);
+  console.log(`   📂 CWD: ${process.cwd()}`);
+
+  const result = spawnSync('codex', [
+    '--approval-mode', 'full-auto',
+    '--quiet',
+    prompt,
+  ], {
+    encoding: 'utf8',
+    timeout: 300_000,    // 5 min max
+    stdio: ['pipe', 'pipe', 'pipe'],
+    cwd: process.cwd(),  // repo root (checked out by actions/checkout)
+  });
+
+  if (result.stdout) {
+    console.log(`   📝 Codex output:\n${result.stdout.slice(0, 3000)}`);
+  }
+  if (result.stderr) {
+    console.log(`   ⚠️ Codex stderr:\n${result.stderr.slice(0, 1000)}`);
+  }
+
+  // Step 5: Check if Codex actually changed any files
+  let hasChanges = false;
+  try {
+    const diff = execSync('git diff --name-only', { encoding: 'utf8' }).trim();
+    if (diff) {
+      hasChanges = true;
+      console.log(`   📄 Changed files:\n${diff}`);
+    } else {
+      console.log('   ⚠️ Codex ran but no files were changed.');
+    }
+  } catch {
+    console.log('   ⚠️ Could not check git diff.');
+  }
+
+  // Step 6: Signal result to workflow
+  fs.appendFileSync(process.env.GITHUB_OUTPUT || '/dev/null', `fixed=${hasChanges}\n`);
+
+  if (hasChanges) {
+    console.log(`   🎉 Fix applied for issue #${ISSUE_NUMBER}`);
+  } else {
+    console.log(`   ⚠️ No changes. Escalating to human.`);
+  }
+}
+
+main().catch(err => {
+  console.error('❌ Auto-fix failed:', err.message);
+  fs.appendFileSync(process.env.GITHUB_OUTPUT || '/dev/null', 'fixed=false\n');
+  process.exit(1);
+});

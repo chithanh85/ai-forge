@@ -1,0 +1,60 @@
+# Credentials — NEVER COMMIT
+credentials/credentials.toml
+credentials/telegram.env
+credentials/*.pem
+credentials/*.key
+
+
+# Environment files
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+.next/
+.nuxt/
+.output/
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker volumes
+docker-data/
+
+# Test output
+coverage/
+test-results/
+.playwright/
+
+# Temp
+.tmp/
+tmp/
+*.log
+
+# Turbo
+.turbo/
+
+# GitNexus (large binary)
+.gitnexus/lbug
+.gitnexus/parse-cache/
+
+# vbsec Security Scanner
+vbsec-reports/
+.vbsec-tmp/
+
+# Open Design runtime (local SQLite + project artifacts)
+.od/

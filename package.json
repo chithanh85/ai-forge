@@ -1,0 +1,46 @@
+{
+  "name": "ai-forge",
+  "version": "4.0.2",
+  "private": true,
+  "description": "Autonomous Multi-Agent Template",
+  "scripts": {
+    "dev": "echo 'Configure your dev server here'",
+    "build": "echo 'Configure your build here'",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --fix",
+    "lint:check": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky install",
+    "check:env-parity": "python scripts/maintenance/env_parity_check.py",
+    "wiki:lint": "python .agent/scripts/wiki_lint.py",
+    "verify": "python .agent/scripts/verify_all.py",
+    "audit": "python .agent/scripts/checklist.py ."
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "eslint": "^9.0.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.0.0",
+    "vitest": "^3.0.0"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  }
+}

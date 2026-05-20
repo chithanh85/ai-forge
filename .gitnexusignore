@@ -1,0 +1,13 @@
+# GitNexus Ignore — Files to skip during code intelligence indexing
+node_modules/
+dist/
+build/
+.next/
+coverage/
+test-results/
+*.log
+*.lock
+pnpm-lock.yaml
+package-lock.json
+.git/
+.tmp/

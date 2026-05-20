@@ -1,0 +1,29 @@
+name: 🚨 Hotfix
+description: Critical production issue requiring immediate fix
+labels: ["hotfix", "priority:critical"]
+body:
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: What is broken and who is affected?
+    validations:
+      required: true
+  - type: textarea
+    id: symptoms
+    attributes:
+      label: Symptoms / Error Messages
+    validations:
+      required: true
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Temporary Workaround
+      description: Is there a workaround available?
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - Production
+        - Staging

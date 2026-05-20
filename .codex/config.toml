@@ -1,0 +1,24 @@
+# Codex CLI Configuration
+# Dành cho OpenAI Codex CLI — đọc AGENTS.md để biết quy tắc chung.
+
+[project]
+name = "ai-forge"
+
+# Model mặc định
+model = "gpt-5.5"
+model_reasoning_effort = "high"
+
+# Sandbox — giới hạn quyền truy cập
+sandbox_mode = ":workspace"
+
+# Approval policy — yêu cầu duyệt khi thao tác nguy hiểm
+approval_policy = "on-failure"
+
+# Hooks — chạy trước/sau các hành động của Codex
+[[hooks]]
+type = "pre-commit"
+command = "pnpm lint-staged"
+
+[[hooks]]
+type = "pre-push"
+command = "pnpm test"
