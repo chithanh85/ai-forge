@@ -58,3 +58,6 @@ vbsec-reports/
 
 # Open Design runtime (local SQLite + project artifacts)
 .od/
+
+# Clawpatch local state (findings, patches, runs)
+.clawpatch/

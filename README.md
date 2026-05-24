@@ -2,12 +2,13 @@
 
 > **Từ một ý tưởng thô sơ đến hệ thống phần mềm hoàn chỉnh, được hiện thực hóa bởi một "dàn nhạc" AI tự trị.**
 
-[![Version](https://img.shields.io/badge/version-4.0.3-blue.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-4.0.2-blue.svg)](package.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Multi-Agent](https://img.shields.io/badge/Architecture-Multi--Agent-orange.svg)]()
 [![vbsec](https://img.shields.io/badge/Security-vbsec_21_rules-critical.svg)]()
 [![GitNexus](https://img.shields.io/badge/MCP-GitNexus-green.svg)]()
 [![Open Design](https://img.shields.io/badge/Design-Open_Design_72_Systems-ff69b4.svg)](https://github.com/nexu-io/open-design)
+[![Clawpatch](https://img.shields.io/badge/Review-Clawpatch_Proactive-yellow.svg)](https://github.com/openclaw/clawpatch)
 [![Auto Fix](https://img.shields.io/badge/CI-Auto--Fix_via_Codex-blueviolet.svg)]()
 [![Telegram](https://img.shields.io/badge/AFK-Telegram_Reports-blue.svg)](https://github.com/thith/teleport)
 
@@ -120,6 +121,19 @@ Hệ thống không phụ thuộc vào "cảm hứng" viết code của AI, mà 
 - **Socratic Gate:** Không bao giờ "code mù". Khi yêu cầu phức tạp, AI dừng lại đặt 3 câu hỏi chiến lược về trade-offs, architecture, và security.
 - **Security Gate:** Trước khi deploy, `/audit` phải trả về verdict PASS hoặc WARN. Verdict FAIL = chặn deploy.
 - **Kiến trúc Chuẩn mực:** Bắt buộc dùng `UUID/ULID`, chống N+1 query, và yêu cầu các bản ghi Architecture Decision Records (ADR) trước khi thiết kế hệ thống mới.
+
+---
+
+## 🦀 Clawpatch — Proactive Local Review & Patching (Rà soát & vá lỗi chủ động)
+
+Bên cạnh luồng Auto-Fix dựa trên CI (Reactive), AI Forge tích hợp **Clawpatch** để mang lại khả năng rà soát và sửa lỗi chủ động (Proactive) ngay trên môi trường local trước khi commit:
+
+- **Semantic Feature Mapping**: Tự động chia nhỏ và ánh xạ codebase thành các lát cắt tính năng (feature slices) dựa trên cấu trúc thư mục và import graph.
+- **Slice-by-Slice Review**: Gửi từng feature slice qua AI provider (mặc định là Codex) để quét sâu tìm lỗi logic, bảo mật, hoặc code smells.
+- **Local Fix Loop**: Khi phát hiện lỗi (findings), AI có thể chạy một chu trình sửa lỗi (local fix loop) độc lập để tự động tạo bản vá (patch) lưu trong `.clawpatch/patches/`.
+- **An toàn tuyệt đối**: Bản vá được tạo ra không tự động commit/push/merge, Tech Lead có thể tự do review diff trước khi quyết định đưa vào commit bằng các lệnh git tiêu chuẩn.
+
+Lệnh trigger: `/clawpatch` (hoặc chạy trực tiếp `clawpatch review --provider codex --limit 5`).
 
 ---
 
@@ -245,7 +259,8 @@ Skills là "kiến thức nền" mà agents nạp vào khi cần. Tự động k
 | 7   | 💾 **Second Brain**           | Bộ nhớ dài hạn — AI nhớ quyết định kiến trúc qua các phiên        |
 | 8   | 🔄 **Self-Healing Loop**      | test → fail → auto-fix (max 3 lần) → remember lesson              |
 | 9   | 🤖 **Auto-Fix Pipeline**      | CI phát hiện → Codex fix local → PR → auto-close issue            |
-| 10  | 📡 **Teleport Bridge**        | AFK reports qua Telegram — ra lệnh tiếp từ điện thoại             |
+| 10  | 🦀 **Clawpatch Review**       | Quét & vá lỗi chủ động trên local (proactive review)              |
+| 11  | 📡 **Teleport Bridge**        | AFK reports qua Telegram — ra lệnh tiếp từ điện thoại             |
 
 ---
 
@@ -313,6 +328,7 @@ Mở khung chat AI và gõ:
 | `/deploy`         | Deploy staging/production với safety checks      |
 | `/debug`          | Systematic debugging (4-phase root cause)        |
 | `/fix-issues`     | Fetch GitHub Issues → fix local → push PR        |
+| `/clawpatch`      | 🦀 Quét & vá lỗi chủ động trên local (Clawpatch) |
 | `/setup-services` | One-click GitHub + Cloudflare + CI/CD setup      |
 | `/setup-teleport` | Setup Telegram AFK reporting bridge              |
 
@@ -474,6 +490,7 @@ AI Forge tích hợp và xây dựng trên các dự án mã nguồn mở xuất
 | **AWF Framework**       | [TUAN130294/awf](https://github.com/TUAN130294/awf)                                             | Phan Anh Tuấn                                                                             | —          |
 | `vbs-scan-security`     | [tanviet12/vbsec](https://github.com/tanviet12/vbsec)                                           | Bùi Tấn Việt & Phan Quốc Hiên ([SePay](https://sepay.vn) & [123HOST](https://123host.vn)) | MIT        |
 | `open-design-bridge`    | [nexu-io/open-design](https://github.com/nexu-io/open-design)                                   | Nexu Labs                                                                                 | Apache-2.0 |
+| `clawpatch`             | [openclaw/clawpatch](https://github.com/openclaw/clawpatch)                                     | OpenClaw Team                                                                             | MIT        |
 | `teleport-bridge`       | [thith/teleport](https://github.com/thith/teleport)                                             | thith                                                                                     | —          |
 | `ui-ux-pro-max`         | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | nextlevelbuilder                                                                          | —          |
 | `ui-ux-pro-max` (Rico)  | [ricocc/rico-skills](https://github.com/ricocc/rico-skills)                                     | ricocc                                                                                    | —          |

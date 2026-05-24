@@ -17,8 +17,9 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 
 - ✅ 20 AI agents (orchestrator, frontend, backend, security, devops, BA...)
 - ✅ 41 skills (ui-ux-pro-max, teleport-bridge, auto-memory, rico-skills integration...)
-- ✅ 11 project workflows (/code, /deploy, /fix-issues, /setup-teleport...)
+- ✅ 12 project workflows (/code, /deploy, /fix-issues, /setup-teleport, /clawpatch...)
 - ✅ 4 GitHub Actions (AI PR review, Codex auto-fix, post-merge, pr-check)
+- ✅ Clawpatch local proactive review (gitignored local state, `/clawpatch` workflow)
 - ✅ GitNexus MCP (.mcp.json configured)
 - ✅ Second Brain (local fallback at second-brain/, MCP cloud optional)
 - ✅ Teleport Bridge (../teleport/ sibling — run /setup-teleport to configure)
@@ -34,10 +35,10 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 
 ## Last Session
 
-- **Date:** 2026-05-20
-- **What was done:** Integrated Teleport bridge (skill + workflow + AGENTS/GEMINI/CLAUDE), integrated rico-skills into UX pipeline, rewrote README
+- **Date:** 2026-05-24
+- **What was done:** Integrated Clawpatch local proactive code review (CLI integration, local workflow `/clawpatch`, routing configuration, updated README, gitignored `.clawpatch/` local state, updated `.planning/STATE.md`)
 - **Blockers:** None
-- **Next steps:** Clone your project using this template, then run /brainstorm
+- **Next steps:** Run local review using clawpatch via `/clawpatch` command.
 
 ## Active Tasks
 

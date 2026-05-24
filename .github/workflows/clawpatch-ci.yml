@@ -1,0 +1,79 @@
+name: Clawpatch Proactive CI Review
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, ready_for_review, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: clawpatch-ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  clawpatch-ci:
+    if: github.event.pull_request.draft == false
+    runs-on: self-hosted
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Clawpatch needs history to diff against base branch
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Clawpatch CLI
+        run: npm install -g clawpatch
+
+      - name: Run Clawpatch CI Review
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        run: |
+          clawpatch ci --since origin/main --output clawpatch-report.md
+
+      - name: Publish Clawpatch Report to PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'clawpatch-report.md';
+            if (fs.existsSync(path)) {
+              const body = fs.readFileSync(path, 'utf8');
+              const { owner, repo } = context.repo;
+              const issue_number = context.payload.pull_request.number;
+              
+              // Find existing clawpatch comment to avoid spamming
+              const comments = await github.rest.issues.listComments({
+                owner,
+                repo,
+                issue_number
+              });
+              const existingComment = comments.data.find(c => c.body.includes('🦀 **Clawpatch Review Report**') || c.body.includes('Clawpatch Review'));
+              
+              if (existingComment) {
+                await github.rest.issues.updateComment({
+                  owner,
+                  repo,
+                  comment_id: existingComment.id,
+                  body
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number,
+                  body
+                });
+              }
+            }

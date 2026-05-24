@@ -19,4 +19,6 @@
 
 ## Lessons
 
+- [Clawpatch Integration](lessons/20260524-clawpatch-integration.md) — architectural-decision — #clawpatch, #code-review, #awf-template
+
 - [Template initialized](lessons/20260520-template-initialized.md) — lesson — #setup, #template

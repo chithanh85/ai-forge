@@ -38,6 +38,7 @@ description: Extended rules loaded by GEMINI.md
 | `/setup-services` | setup-services.md | GitHub + Cloudflare + CI/CD one-click          |
 | `/setup-teleport` | setup-teleport.md | Telegram AFK reporting bridge setup            |
 | `/audit`          | audit.md          | Security Scan & Code Audit (vbs-scan-security) |
+| `/clawpatch`      | clawpatch.md      | Proactive AI code review & semantic patching   |
 
 ## Self-Healing Loop Config
 
