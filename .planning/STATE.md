@@ -35,10 +35,10 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 
 ## Last Session
 
-- **Date:** 2026-05-24
-- **What was done:** Integrated Clawpatch local proactive code review (CLI integration, local workflow `/clawpatch`, routing configuration, updated README, gitignored `.clawpatch/` local state, updated `.planning/STATE.md`)
+- **Date:** 2026-05-25
+- **What was done:** Integrated simplicity and behavioral rules from `multica-ai/andrej-karpathy-skills` (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) into `AGENTS.md` and renumbered sections. Ran smoke tests (lint, tests, audit checklist) successfully.
 - **Blockers:** None
-- **Next steps:** Run local review using clawpatch via `/clawpatch` command.
+- **Next steps:** Run `.\setup-enterprise.ps1` to configure a new enterprise project using the template.
 
 ## Active Tasks
 

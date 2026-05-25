@@ -15,13 +15,38 @@
 Every task MUST start with:
 `Read-Check: [<files>] | Scope: <scope> | Verify: <cmds> | Recalled: <yes/no>`
 
-## 3. FILE HYGIENE
+## 3. SIMPLICITY & BEHAVIORAL GUIDELINES (Karpathy's Rules)
+
+These guidelines bias toward caution over speed to reduce common LLM coding mistakes:
+
+### Think Before Coding
+
+- **Don't assume or hide confusion**: Explicitly state assumptions. If uncertain or multiple interpretations exist, ask and surface trade-offs.
+- Push back if a simpler approach exists. Stop and name what's confusing before writing code.
+
+### Simplicity First
+
+- **Minimum code that solves the problem**: No speculative features, speculative "flexibility" / "configurability", or abstractions for single-use code.
+- No error handling for impossible scenarios. If a solution can be written in 50 lines instead of 200, rewrite it.
+
+### Surgical Changes
+
+- **Touch only what you must**: Do not "improve" adjacent code, comments, or formatting. Do not refactor unbroken things.
+- Match the existing style exactly, even if you prefer a different approach.
+- Clean up unused imports, variables, or functions created by _your_ changes. Do not remove pre-existing dead code unless asked.
+
+### Goal-Driven Execution
+
+- Define success criteria before implementation and loop until verified.
+- Write tests first to reproduce bugs/validations, then make them pass.
+
+## 4. FILE HYGIENE
 
 - Docs in `docs/`. Scripts in `scripts/<area>/`.
 - No ad-hoc files in root.
 - Secrets, `.env`, credentials must stay untracked.
 
-## 4. DATABASE STANDARDS
+## 5. DATABASE STANDARDS
 
 - UUID/ULID primary keys only (no auto-increment)
 - `created_at` + `updated_at` (TIMESTAMPTZ) on every table
@@ -30,19 +55,19 @@ Every task MUST start with:
 - Prevent N+1 queries (use JOIN / include / DataLoader)
 - Soft deletes with partial indexes when applicable
 
-## 5. TESTING
+## 6. TESTING
 
 - TDD mandatory: Write test first, then code
 - Testing pyramid: Unit > Integration > E2E
 - Bug fix = regression test (lock the bug)
 
-## 6. SECURITY
+## 7. SECURITY
 
 - Red Team reflection before commit
 - No secrets in code (pre-commit scanner enforces)
 - Production DB: READ-ONLY access for AI
 
-## 7. SECOND BRAIN PROTOCOL (AUTO-ENFORCED)
+## 8. SECOND BRAIN PROTOCOL (AUTO-ENFORCED)
 
 > 🔴 **CRITICAL:** This is the project's long-term memory. Non-compliance = knowledge loss.
 
@@ -99,14 +124,14 @@ python .agent/skills/auto-memory/scripts/local_brain.py stats
 - ❌ Making architecture decisions without recalling past decisions
 - ❌ Self-healing loop fixes without logging the lesson
 
-## 8. SELF-HEALING LOOP
+## 9. SELF-HEALING LOOP
 
 - AI writes code → runs tests → auto-fix if fail (max 3 retries)
 - If still fail after 3 retries → escalate to human
 - All auto-fixes get logged as lessons learned via `remember()`
 - **Parallel mode**: If task has 2+ independent subtasks, invoke `@[agents/orchestrator]` — it will auto-load `parallel-agents` skill and coordinate subagents simultaneously
 
-## 9. BROWSER OPS (External Services)
+## 10. BROWSER OPS (External Services)
 
 When task requires GitHub, Cloudflare, or other external services:
 
@@ -118,13 +143,13 @@ When task requires GitHub, Cloudflare, or other external services:
 6. Full protocol: `@[skills/browser-ops]`
 7. One-click setup: `/setup-services` workflow
 
-## 10. VERIFICATION (Before Done)
+## 11. VERIFICATION (Before Done)
 
 - Lint: `pnpm lint`
 - Test: `pnpm test`
 - Audit: `python .agent/scripts/checklist.py .`
 
-## 11. HANDOFF (End of Session)
+## 12. HANDOFF (End of Session)
 
 Every session must end with:
 
@@ -135,7 +160,7 @@ Every session must end with:
 - `remember()` key lessons/decisions from this session
 - Update `.planning/STATE.md`
 
-## 12. TELEGRAM REPORTING (Optional — Teleport Bridge)
+## 13. TELEGRAM REPORTING (Optional — Teleport Bridge)
 
 > 📡 Lets AI agents send progress reports to Telegram while user is AFK.
 
