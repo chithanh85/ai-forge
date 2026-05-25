@@ -36,7 +36,7 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 ## Last Session
 
 - **Date:** 2026-05-25
-- **What was done:** Integrated simplicity and behavioral rules into `AGENTS.md`. Created a comprehensive workspace configuration and integration template for Google Antigravity 2.0 and CLI (`agy`) inside `docs/wiki/antigravity.md` and updated `README.md` and `docs/wiki-index.md`. Committed and pushed changes to remote repository.
+- **What was done:** Integrated simplicity and behavioral rules into `AGENTS.md`. Created a comprehensive workspace configuration and integration template for Google Antigravity 2.0 and CLI (`agy`) inside `docs/wiki/antigravity.md` and updated `README.md` and `docs/wiki-index.md`. Created and registered the `/code-pro` Actor-Critic coding workflow in `.agent/workflows/code-pro.md` and `README.md`. Committed and pushed all changes to remote repository.
 - **Blockers:** None
 - **Next steps:** Run `.\setup-enterprise.ps1` to configure a new enterprise project using the template.
 

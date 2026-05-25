@@ -316,21 +316,22 @@ Mở khung chat AI và gõ:
 
 ### AWF Workflows (Project-level)
 
-| Lệnh              | Mô tả                                            |
-| ----------------- | ------------------------------------------------ |
-| `/brainstorm`     | Bàn ý tưởng, phân tích nghiệp vụ (Socratic Gate) |
-| `/ba-pipeline`    | Full-auto BA: Use Case → User Story → Plan       |
-| `/plan`           | Lên kế hoạch, chia task, estimate                |
-| `/design`         | Thiết kế DB Schema + API + Architecture          |
-| `/code`           | Viết code với TDD + Self-Healing Loop            |
-| `/test`           | Sinh test + chạy + auto-fix failures             |
-| `/audit`          | 🔒 Quét bảo mật (vbsec 21 rules) + code quality  |
-| `/deploy`         | Deploy staging/production với safety checks      |
-| `/debug`          | Systematic debugging (4-phase root cause)        |
-| `/fix-issues`     | Fetch GitHub Issues → fix local → push PR        |
-| `/clawpatch`      | 🦀 Quét & vá lỗi chủ động trên local (Clawpatch) |
-| `/setup-services` | One-click GitHub + Cloudflare + CI/CD setup      |
-| `/setup-teleport` | Setup Telegram AFK reporting bridge              |
+| Lệnh              | Mô tả                                                                 |
+| ----------------- | --------------------------------------------------------------------- |
+| `/brainstorm`     | Bàn ý tưởng, phân tích nghiệp vụ (Socratic Gate)                      |
+| `/ba-pipeline`    | Full-auto BA: Use Case → User Story → Plan                            |
+| `/plan`           | Lên kế hoạch, chia task, estimate                                     |
+| `/design`         | Thiết kế DB Schema + API + Architecture                               |
+| `/code`           | Viết code với TDD + Self-Healing Loop                                 |
+| `/code-pro`       | 🚀 Actor-Critic Coding (Codex Plan + Antigravity Code + Codex Review) |
+| `/test`           | Sinh test + chạy + auto-fix failures                                  |
+| `/audit`          | 🔒 Quét bảo mật (vbsec 21 rules) + code quality                       |
+| `/deploy`         | Deploy staging/production với safety checks                           |
+| `/debug`          | Systematic debugging (4-phase root cause)                             |
+| `/fix-issues`     | Fetch GitHub Issues → fix local → push PR                             |
+| `/clawpatch`      | 🦀 Quét & vá lỗi chủ động trên local (Clawpatch)                      |
+| `/setup-services` | One-click GitHub + Cloudflare + CI/CD setup                           |
+| `/setup-teleport` | Setup Telegram AFK reporting bridge                                   |
 
 ### Global AWF Commands
 
