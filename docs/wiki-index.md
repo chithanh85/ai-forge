@@ -4,12 +4,13 @@
 
 ## Structure
 
-| Page                        | Type       | Description                                        | Updated |
-| --------------------------- | ---------- | -------------------------------------------------- | ------- |
-| [[wiki/conventions/naming]] | convention | Naming conventions for files, functions, variables | -       |
-| [[wiki/conventions/api]]    | convention | API design patterns and response formats           | -       |
-| [[wiki/lessons/]]           | lesson     | Lessons learned from bugs and incidents            | -       |
-| [[wiki/entities/]]          | entity     | Key system components and their behavior           | -       |
+| Page                        | Type        | Description                                        | Updated |
+| --------------------------- | ----------- | -------------------------------------------------- | ------- |
+| [[wiki/conventions/naming]] | convention  | Naming conventions for files, functions, variables | -       |
+| [[wiki/conventions/api]]    | convention  | API design patterns and response formats           | -       |
+| [[wiki/antigravity]]        | integration | Google Antigravity 2.0 & CLI integration guide     | -       |
+| [[wiki/lessons/]]           | lesson      | Lessons learned from bugs and incidents            | -       |
+| [[wiki/entities/]]          | entity      | Key system components and their behavior           | -       |
 
 ## How to Use
 

@@ -36,7 +36,7 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 ## Last Session
 
 - **Date:** 2026-05-25
-- **What was done:** Integrated simplicity and behavioral rules from `multica-ai/andrej-karpathy-skills` (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) into `AGENTS.md` and renumbered sections. Ran smoke tests (lint, tests, audit checklist) successfully.
+- **What was done:** Integrated simplicity and behavioral rules into `AGENTS.md`. Created a comprehensive workspace configuration and integration template for Google Antigravity 2.0 and CLI (`agy`) inside `docs/wiki/antigravity.md` and updated `README.md` and `docs/wiki-index.md`. Committed and pushed changes to remote repository.
 - **Blockers:** None
 - **Next steps:** Run `.\setup-enterprise.ps1` to configure a new enterprise project using the template.
 

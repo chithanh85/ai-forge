@@ -234,11 +234,11 @@ Skills là "kiến thức nền" mà agents nạp vào khi cần. Tự động k
 
 ## 🔌 Hỗ trợ Đa AI Nền Tảng
 
-| AI Tool                     | Tương thích | Config File          | Skill Path                  | Điểm mạnh                                 |
-| --------------------------- | ----------- | -------------------- | --------------------------- | ----------------------------------------- |
-| **Antigravity (Google)**    | 🟢 100%     | `GEMINI.md`          | `.agent/skills/`            | Browser Ops, Auto-skills, AWF workflows   |
-| **Claude Code (Anthropic)** | 🟢 95%      | `CLAUDE.md`          | `.agent/skills/`            | Logic mạnh, MCP GitNexus, Monitor pattern |
-| **Codex CLI (OpenAI)**      | 🟢 95%      | `.codex/config.toml` | `.codex/skills/` (junction) | Sandbox, full-auto fix, CI integration    |
+| AI Tool                     | Tương thích | Config File               | Skill Path                  | Điểm mạnh                                                              |
+| --------------------------- | ----------- | ------------------------- | --------------------------- | ---------------------------------------------------------------------- |
+| **Antigravity 2.0 / CLI**   | 🟢 100%     | `GEMINI.md` + `.mcp.json` | `.agent/skills/`            | Autopilot `/goal`, Cron `/schedule`, Multi-agent parallel coordination |
+| **Claude Code (Anthropic)** | 🟢 95%      | `CLAUDE.md`               | `.agent/skills/`            | Logic mạnh, MCP GitNexus, Monitor pattern                              |
+| **Codex CLI (OpenAI)**      | 🟢 95%      | `.codex/config.toml`      | `.codex/skills/` (junction) | Sandbox, full-auto fix, CI integration                                 |
 
 > **Quy tắc chung** áp dụng cho tất cả agents: `AGENTS.md`
 >
