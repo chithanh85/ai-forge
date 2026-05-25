@@ -15,10 +15,6 @@ sandbox_mode = ":workspace"
 approval_policy = "on-failure"
 
 # Hooks — chạy trước/sau các hành động của Codex
-[[hooks]]
-type = "pre-commit"
-command = "pnpm lint-staged"
-
-[[hooks]]
-type = "pre-push"
-command = "pnpm test"
+[hooks]
+pre-commit = "pnpm lint-staged"
+pre-push = "pnpm test"

@@ -61,3 +61,6 @@ vbsec-reports/
 
 # Clawpatch local state (findings, patches, runs)
 .clawpatch/
+
+# Claude Code CLI state
+.claude/
