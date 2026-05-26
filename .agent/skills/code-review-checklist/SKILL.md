@@ -20,6 +20,11 @@ Before applying this skill, load project context:
 > **RULE:** Never apply skill knowledge without checking what the project already does.
 > **RULE:** Consistency with existing code > theoretical perfection.
 
+## ⚖️ Google Eng Philosophy (Standard of Review)
+
+- **Cải tiến hệ thống > Hoàn hảo:** Không chặn PR vì các lý do sở thích phong cách cá nhân nếu code hiện tại hoạt động đúng, an toàn và sạch sẽ. Đánh giá xem PR có làm codebase tốt lên hay không.
+- **PR Size Guideline:** Khuyến khích chia nhỏ PR dưới 200 dòng. Khi review, nếu phát hiện PR quá lớn, hãy đề xuất chia tách ở mức `🟡 SUGGESTION` thay vì chặn merge.
+
 ## Quick Review Checklist
 
 ### Correctness
