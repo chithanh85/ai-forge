@@ -9,6 +9,8 @@
 [![GitNexus](https://img.shields.io/badge/MCP-GitNexus-green.svg)]()
 [![Open Design](https://img.shields.io/badge/Design-Open_Design_72_Systems-ff69b4.svg)](https://github.com/nexu-io/open-design)
 [![Clawpatch](https://img.shields.io/badge/Review-Clawpatch_Proactive-yellow.svg)](https://github.com/openclaw/clawpatch)
+[![Google Eng Practices](https://img.shields.io/badge/Review-Google_Eng_Practices-red.svg)](docs/wiki/conventions/code-review.md)
+[![Rune Skill Mesh](https://img.shields.io/badge/Mesh-Rune_Skill_Mesh-blueviolet.svg)](https://github.com/rune-kit/rune)
 [![Auto Fix](https://img.shields.io/badge/CI-Auto--Fix_via_Codex-blueviolet.svg)]()
 [![Telegram](https://img.shields.io/badge/AFK-Telegram_Reports-blue.svg)](https://github.com/thith/teleport)
 
@@ -308,6 +310,9 @@ Mở khung chat AI và gõ:
 
 # Telegram AFK reporting
 /setup-teleport
+
+# Cấu hình Rune Skill Mesh (Tùy chọn nâng cao)
+.\scripts\maintenance\setup-rune.ps1
 ```
 
 ---
@@ -492,6 +497,7 @@ AI Forge tích hợp và xây dựng trên các dự án mã nguồn mở xuất
 | `vbs-scan-security`     | [tanviet12/vbsec](https://github.com/tanviet12/vbsec)                                           | Bùi Tấn Việt & Phan Quốc Hiên ([SePay](https://sepay.vn) & [123HOST](https://123host.vn)) | MIT        |
 | `open-design-bridge`    | [nexu-io/open-design](https://github.com/nexu-io/open-design)                                   | Nexu Labs                                                                                 | Apache-2.0 |
 | `clawpatch`             | [openclaw/clawpatch](https://github.com/openclaw/clawpatch)                                     | OpenClaw Team                                                                             | MIT        |
+| **Rune Skill Mesh**     | [rune-kit/rune](https://github.com/rune-kit/rune)                                               | Rune-kit                                                                                  | MIT        |
 | `teleport-bridge`       | [thith/teleport](https://github.com/thith/teleport)                                             | thith                                                                                     | —          |
 | `ui-ux-pro-max`         | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | nextlevelbuilder                                                                          | —          |
 | `ui-ux-pro-max` (Rico)  | [ricocc/rico-skills](https://github.com/ricocc/rico-skills)                                     | ricocc                                                                                    | —          |

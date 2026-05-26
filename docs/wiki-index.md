@@ -10,6 +10,7 @@
 | [[wiki/conventions/api]]         | convention  | API design patterns and response formats           | -       |
 | [[wiki/conventions/code-review]] | convention  | Code review guidelines and comment taxonomy        | -       |
 | [[wiki/antigravity]]             | integration | Google Antigravity 2.0 & CLI integration guide     | -       |
+| [[wiki/integration/rune]]        | integration | Rune Skill Mesh integration and 1-click setup      | -       |
 | [[wiki/lessons/]]                | lesson      | Lessons learned from bugs and incidents            | -       |
 | [[wiki/entities/]]               | entity      | Key system components and their behavior           | -       |
 
