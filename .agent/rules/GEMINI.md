@@ -58,6 +58,8 @@ All non-trivial `/plan`, `/code`, and `/debug` work must use `.agent/artifacts/<
 
 `python .agent/scripts/checklist.py .` auto-discovers `AWF_ARTIFACT_RUN_ID`, `.agent/artifacts/current`, or the latest run directory. It fails closed on missing run directories, missing files, invalid JSON, BLOCK decisions, failed verification/review/adversarial states, or credential-like strings.
 
+Before writing code, fixes, or workflow gates, read `.agent/rules/rationalization-prevention.md` and record `rationalization_checks` in `adversarial-validation.json`. `review-decision.json` must include scored reviewer entries; any reviewer score below 3 or reviewer `BLOCK` blocks the run.
+
 ## Self-Healing Loop Config
 
 - Max auto-fix retries: 3

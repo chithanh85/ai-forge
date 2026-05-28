@@ -40,6 +40,7 @@ Với các yêu cầu phức tạp, DỪNG LẠI và HỎI tối thiểu 3 câu 
 3. **Security**: Tự phản ánh Red Team trước khi commit.
 4. **Knowledge**: `recall()` trước khi code, `remember()` sau khi học được bài học.
 5. **Clean Code**: Tự giải thích, không comment thừa.
+6. **Rationalization Prevention**: Trước khi viết code, đọc `.agent/rules/rationalization-prevention.md` và ghi `rationalization_checks` vào `adversarial-validation.json`.
 
 ## 🧠 Second Brain Protocol (BẮT BUỘC)
 
@@ -137,6 +138,7 @@ node ../teleport/scripts/send-telegram.mjs "🐋 *Claude on <topic>:*
 
 - Backend: `pnpm test`
 - Frontend: `pnpm lint`
+- Wiki links: `python .agent/scripts/wiki_lint.py --strict`
 - Security: `/audit` (runs `vbs-scan-security` — 21 vulnerability rules)
 - Audit đầy đủ: `python .agent/scripts/checklist.py .`
 
@@ -155,7 +157,7 @@ Mỗi session phải kết thúc với:
 
 # GitNexus — Code Intelligence
 
-This project is indexed by GitNexus as **ai-forge** (354 symbols, 384 relationships, 3 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+This project is indexed by GitNexus as **ai-forge** (412 symbols, 448 relationships, 3 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
 
 > If any GitNexus tool warns the index is stale, run `npx gitnexus analyze` in terminal first.
 

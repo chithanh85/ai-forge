@@ -44,6 +44,7 @@ REQUIRED_ARTIFACTS = {
         "run_id",
         "reviewer",
         "decision",
+        "reviewers",
         "findings",
         "required_followups",
     ],
@@ -51,6 +52,7 @@ REQUIRED_ARTIFACTS = {
         "schema",
         "run_id",
         "threats_considered",
+        "rationalization_checks",
         "results",
         "decision",
     ],
@@ -248,11 +250,35 @@ def validate_artifacts(project_root):
         errors.append(f"review-decision decision is {review_decision}")
     elif review_decision not in {"APPROVE", "APPROVED", "PASS"}:
         errors.append("review-decision decision must be APPROVE or PASS")
+    reviewers = review.get("reviewers")
+    if not isinstance(reviewers, list) or not reviewers:
+        errors.append("review-decision.json reviewers must be a non-empty list")
+    else:
+        for index, reviewer in enumerate(reviewers):
+            if not isinstance(reviewer, dict):
+                errors.append(f"review-decision reviewers[{index}] must be an object")
+                continue
+            reviewer_name = str(
+                reviewer.get("name") or reviewer.get("reviewer") or f"reviewers[{index}]"
+            )
+            reviewer_decision = str(reviewer.get("decision", "")).upper()
+            reviewer_score = reviewer.get("score")
+            if reviewer_decision == "BLOCK":
+                errors.append(f"{reviewer_name} decision is BLOCK")
+            if type(reviewer_score) not in {int, float}:
+                errors.append(f"{reviewer_name} score must be numeric")
+            elif reviewer_score < 3:
+                errors.append(f"{reviewer_name} score {reviewer_score:g} is below 3")
 
     adversarial = artifacts["adversarial-validation.json"]
     adversarial_decision = str(adversarial.get("decision", "")).upper()
     if adversarial_decision != "PASS":
         errors.append("adversarial-validation decision must be PASS")
+    rationalization_checks = adversarial.get("rationalization_checks")
+    if not isinstance(rationalization_checks, list) or not rationalization_checks:
+        errors.append(
+            "adversarial-validation.json rationalization_checks must be a non-empty list"
+        )
 
     if errors:
         return "Artifact Gate", False, "\n".join(errors)
@@ -263,12 +289,18 @@ def main():
     project_root = sys.argv[1] if len(sys.argv) > 1 else "."
     os.chdir(project_root)
     project_root = Path.cwd()
+    script_dir = Path(__file__).resolve().parent
+    wiki_lint_script = script_dir / "wiki_lint.py"
 
     checks = [
         ("Lint",      "npm run lint:check 2>&1"),
         ("TypeCheck", "npm run typecheck 2>&1"),
         ("Tests",     "npm run test 2>&1"),
         ("Env Parity","python scripts/maintenance/env_parity_check.py 2>&1"),
+        (
+            "Wiki Lint",
+            f'"{sys.executable}" "{wiki_lint_script}" --strict 2>&1',
+        ),
     ]
 
     print("\n🏥 AWF Enterprise Verification Checklist")

@@ -4,15 +4,13 @@
 
 ## Structure
 
-| Page                             | Type        | Description                                        | Updated |
-| -------------------------------- | ----------- | -------------------------------------------------- | ------- |
-| [[wiki/conventions/naming]]      | convention  | Naming conventions for files, functions, variables | -       |
-| [[wiki/conventions/api]]         | convention  | API design patterns and response formats           | -       |
-| [[wiki/conventions/code-review]] | convention  | Code review guidelines and comment taxonomy        | -       |
-| [[wiki/antigravity]]             | integration | Google Antigravity 2.0 & CLI integration guide     | -       |
-| [[wiki/integration/rune]]        | integration | Rune Skill Mesh integration and 1-click setup      | -       |
-| [[wiki/lessons/]]                | lesson      | Lessons learned from bugs and incidents            | -       |
-| [[wiki/entities/]]               | entity      | Key system components and their behavior           | -       |
+| Page                                                                    | Type        | Description                                    | Updated |
+| ----------------------------------------------------------------------- | ----------- | ---------------------------------------------- | ------- |
+| [Code review](wiki/conventions/code-review.md)                          | convention  | Code review guidelines and comment taxonomy    | -       |
+| [Antigravity](wiki/antigravity.md)                                      | integration | Google Antigravity 2.0 & CLI integration guide | -       |
+| [Rune integration](wiki/integration/rune.md)                            | integration | Rune Skill Mesh integration and 1-click setup  | -       |
+| [Template initialized](wiki/lessons/20260520-template-initialized.md)   | lesson      | Template setup lesson                          | -       |
+| [Clawpatch integration](wiki/lessons/20260524-clawpatch-integration.md) | lesson      | Clawpatch integration lesson                   | -       |
 
 ## How to Use
 
@@ -22,6 +20,6 @@
 
 ## Lessons
 
-- [Clawpatch Integration](lessons/20260524-clawpatch-integration.md) — architectural-decision — #clawpatch, #code-review, #awf-template
+- [Clawpatch Integration](wiki/lessons/20260524-clawpatch-integration.md) — architectural-decision — #clawpatch, #code-review, #awf-template
 
-- [Template initialized](lessons/20260520-template-initialized.md) — lesson — #setup, #template
+- [Template initialized](wiki/lessons/20260520-template-initialized.md) — lesson — #setup, #template

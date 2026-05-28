@@ -9,6 +9,7 @@
 - **AUTO-ORCHESTRATE**: Read `@[agents/orchestrator]` — it auto-analyzes requests, selects best agent(s), and coordinates parallel execution when needed.
 - Use Obsidian graph scan before implementing: `python .agent/scripts/obsidian_graph.py info <concept>`
 - **AUTO-RECALL** from Second Brain: `recall("{task topic}")` (see Second Brain Protocol)
+- Before writing code, read `.agent/rules/rationalization-prevention.md` and record the rationalization check.
 
 ## 2. KICKOFF LINE (Mandatory)
 
@@ -39,6 +40,7 @@ These guidelines bias toward caution over speed to reduce common LLM coding mist
 
 - Define success criteria before implementation and loop until verified.
 - Write tests first to reproduce bugs/validations, then make them pass.
+- Run the rationalization-prevention check before code, plans, fixes, or completion claims. If an excuse from `.agent/rules/rationalization-prevention.md` applies, record the rebuttal and action in `adversarial-validation.json`.
 
 ## 4. FILE HYGIENE
 
@@ -90,6 +92,8 @@ For non-trivial `/plan`, `/code`, and `/debug` work, completion is blocked until
 `/debug` must run Scout & Diagnose before root-cause claims or fix proposals. Scout captures context, conventions, recent commits, and caller/dependent analysis. Diagnose records reproduction status, confirmed cause, unknowns, and `risk-gate.json`.
 
 `checklist.py` auto-discovers `AWF_ARTIFACT_RUN_ID`, `.agent/artifacts/current`, or the latest run directory. Missing runs, missing files, invalid JSON, BLOCK decisions, failed verification/review/adversarial states, or credential-like strings fail closed.
+
+`adversarial-validation.json` must include `rationalization_checks`. `review-decision.json` must include scored reviewer entries; any reviewer score below 3 or reviewer `BLOCK` blocks the run.
 
 ## 9. SECOND BRAIN PROTOCOL (AUTO-ENFORCED)
 
@@ -171,6 +175,7 @@ When task requires GitHub, Cloudflare, or other external services:
 
 - Lint: `pnpm lint`
 - Test: `pnpm test`
+- Wiki links: `python .agent/scripts/wiki_lint.py --strict`
 - Audit: `python .agent/scripts/checklist.py .`
 - Artifact gate: all five JSON artifacts must validate for the selected run
 
@@ -241,7 +246,7 @@ Remind user to enable auto-execution:
 
 # GitNexus — Code Intelligence
 
-This project is indexed by GitNexus as **ai-forge** (354 symbols, 384 relationships, 3 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+This project is indexed by GitNexus as **ai-forge** (412 symbols, 448 relationships, 3 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
 
 > If any GitNexus tool warns the index is stale, run `npx gitnexus analyze` in terminal first.
 

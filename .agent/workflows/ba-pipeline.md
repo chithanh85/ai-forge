@@ -24,7 +24,7 @@ PHASE 2: Use Case (TỰ ĐỘNG — skip confirmation gates)
 PHASE 3: User Story + AC (TỰ ĐỘNG — full generation)
     ↓ output → docs/user-stories/US-*.md
 PHASE 4: Implementation Plan (TỰ ĐỘNG)
-    ↓ output → docs/plans/{feature-slug}.md
+    ↓ output → docs/plans/{feature-slug}/index.md + phase files
 PHASE 5: Summary + Review Gate (DỪNG — user xem lại toàn bộ)
 ```
 
@@ -193,10 +193,19 @@ Mỗi subagent thực hiện:
    - Acceptance criteria (link to story's AC)
    - Test requirements
 4. Identify risks and out-of-scope items
+5. Run the rationalization-prevention check from `.agent/rules/rationalization-prevention.md` before finalizing the plan.
 
 ### 4.3 Save outputs
 
-- Save as `docs/plans/{feature-slug}.md`
+- Save as split folder:
+  - `docs/plans/{feature-slug}/index.md`
+  - `docs/plans/{feature-slug}/phase-XX-{phase-name}.md`
+  - `docs/plans/{feature-slug}/current-phase.txt`
+- Set `current-phase.txt` to the first implementation phase.
+- Verify hydration:
+  ```bash
+  python .agent/scripts/plan_hydrate.py context {feature-slug}
+  ```
 - Update `.planning/STATE.md`
 - Update `.planning/ROADMAP.md`
 - Print: `"✅ Phase 4 done: Plan created with {N} phases, {M} tasks."`
@@ -223,7 +232,8 @@ Mỗi subagent thực hiện:
 
 - `docs/use-cases/UC-*.md` — {list}
 - `docs/user-stories/US-*.md` — {list}
-- `docs/plans/{slug}.md`
+- `docs/plans/{slug}/index.md`
+- `docs/plans/{slug}/phase-XX-*.md`
 - `.planning/REQUIREMENTS.md` (updated)
 - `.planning/STATE.md` (updated)
 

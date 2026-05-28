@@ -1,0 +1,30 @@
+{
+  "schema": "awf.review-decision.v1",
+  "run_id": "20260528-claudekit-advanced-mechanisms",
+  "reviewer": "review-plan",
+  "decision": "APPROVE",
+  "reviewers": [
+    {
+      "name": "architecture-reviewer",
+      "decision": "APPROVE",
+      "score": 4,
+      "findings": [
+        "Hydration CLI keeps /code scoped to the active phase and avoids monolithic plan loading.",
+        "Checklist gate centralizes review score enforcement and strict wiki lint."
+      ],
+      "required_followups": []
+    },
+    {
+      "name": "experience-reviewer",
+      "decision": "APPROVE",
+      "score": 4,
+      "findings": [
+        "Workflow docs explain the active-phase flow and reviewer gate.",
+        "Wiki strict mode gives actionable broken-link output and JSON mode for tooling."
+      ],
+      "required_followups": []
+    }
+  ],
+  "findings": [],
+  "required_followups": []
+}

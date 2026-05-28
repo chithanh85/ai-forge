@@ -36,13 +36,14 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 ## Last Session
 
 - **Date:** 2026-05-28
-- **What was done:** Implemented ClaudeKit guardrails from `docs/plans/claudekit-integration-plan.md`: added Vitest artifact gate coverage, enforced artifact validation in `.agent/scripts/checklist.py`, documented artifact schemas, updated `/debug`, `/plan`, `/code`, aligned AGENTS/GEMINI rules, added orchestrator assignment protocol, and created `.agent/artifacts/20260528-claudekit-integration/` evidence.
+- **What was done:** Implemented advanced ClaudeKit mechanisms: rationalization-prevention rule and schema field, split-plan hydration CLI, parallel plan-review gate with scored reviewers, strict wiki link validation in checklist/pre-commit/PR CI, and regression coverage for each gate. Created `.agent/artifacts/20260528-claudekit-advanced-mechanisms/` evidence.
 - **Blockers:** None
-- **Next steps:** Use the artifact-gated protocol for future non-trivial `/plan`, `/code`, and `/debug` work.
+- **Next steps:** Use split plan folders (`docs/plans/<slug>/`) with `plan_hydrate.py context`, run `/review-plan` before `/code`, and keep `wiki_lint.py --strict` green.
 
 ## Active Tasks
 
 - [x] Implement ClaudeKit guardrails from `docs/plans/claudekit-integration-plan.md`
+- [x] Implement advanced ClaudeKit rationalization, hydration, review, and wiki strict gates
 
 ## Known Issues
 

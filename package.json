@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit",
     "prepare": "husky install",
     "check:env-parity": "python scripts/maintenance/env_parity_check.py",
-    "wiki:lint": "python .agent/scripts/wiki_lint.py",
+    "wiki:lint": "python .agent/scripts/wiki_lint.py --strict",
     "verify": "python .agent/scripts/verify_all.py",
     "audit": "python .agent/scripts/checklist.py ."
   },

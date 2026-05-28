@@ -7,6 +7,13 @@
     "false approval with missing verification",
     "missing run evidence after environment variable omission"
   ],
+  "rationalization_checks": [
+    {
+      "excuse": "This is only an artifact fixture update",
+      "rebuttal": "Artifacts are executable gates and must match current schema.",
+      "outcome": "passed"
+    }
+  ],
   "results": [
     {
       "scenario": "Required artifact file is absent",

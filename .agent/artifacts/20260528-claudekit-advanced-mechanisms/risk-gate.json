@@ -1,0 +1,18 @@
+{
+  "schema": "awf.risk-gate.v1",
+  "run_id": "20260528-claudekit-advanced-mechanisms",
+  "risk": "MEDIUM",
+  "decision": "ALLOW",
+  "blast_radius": {
+    "gitnexus": "Index refreshed with npx gitnexus analyze. GitNexus impact for hidden .agent scripts returned UNKNOWN because hidden .agent files are not indexed as symbols.",
+    "direct_callers": "Checklist, wiki lint, pre-commit hook, PR check workflow, slash workflow documentation, and artifact schema consumers.",
+    "affected_processes": [
+      "local verification checklist",
+      "pre-commit staged wiki validation",
+      "pull request verification",
+      "plan/code/debug workflow execution"
+    ]
+  },
+  "blockers": [],
+  "approval_required": false
+}

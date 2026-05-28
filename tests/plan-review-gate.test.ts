@@ -7,7 +7,7 @@ import { join, resolve } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 
 const checklistPath = resolve(".agent/scripts/checklist.py");
-const runId = "20260528-test-run";
+const runId = "20260528-review-gate-test";
 const artifactFiles = [
   "context-snippets.json",
   "risk-gate.json",
@@ -16,7 +16,6 @@ const artifactFiles = [
   "adversarial-validation.json",
 ] as const;
 type ArtifactFile = (typeof artifactFiles)[number];
-type JsonObject = Record<string, unknown>;
 type ArtifactMap = Record<ArtifactFile, unknown>;
 
 const tempRoots: string[] = [];
@@ -28,7 +27,7 @@ afterEach(() => {
 });
 
 function createProjectRoot() {
-  const root = mkdtempSync(join(tmpdir(), "awf-artifact-gate-"));
+  const root = mkdtempSync(join(tmpdir(), "awf-plan-review-gate-"));
   tempRoots.push(root);
 
   writeFileSync(
@@ -62,13 +61,13 @@ function validArtifacts(): ArtifactMap {
     "context-snippets.json": {
       schema: "awf.context-snippets.v1",
       run_id: runId,
-      task: "Artifact gate test",
+      task: "Plan review gate test",
       sources: [
         {
-          path: ".agent/scripts/checklist.py",
+          path: ".agent/workflows/review-plan.md",
           lines: "1-120",
-          reason: "validator behavior under test",
-          summary: "artifact validation is enforced",
+          reason: "review pipeline behavior under test",
+          summary: "review scores are enforced",
         },
       ],
       redactions: [],
@@ -125,22 +124,18 @@ function validArtifacts(): ArtifactMap {
     "adversarial-validation.json": {
       schema: "awf.adversarial-validation.v1",
       run_id: runId,
-      threats_considered: [
-        "prompt injection through copied snippets",
-        "credential leakage in artifacts",
-        "false approval with missing verification",
-      ],
+      threats_considered: ["false approval with weak review"],
       rationalization_checks: [
         {
-          excuse: "This is just a checklist fixture",
-          rebuttal: "Fixtures must model required artifacts.",
+          excuse: "This review is good enough",
+          rebuttal: "Scores and BLOCK decisions must be explicit.",
           outcome: "passed",
         },
       ],
       results: [
         {
-          scenario: "artifact includes an unredacted credential field",
-          outcome: "blocked_by_redaction_check",
+          scenario: "reviewer score below threshold",
+          outcome: "blocked_by_review_gate",
         },
       ],
       decision: "PASS",
@@ -148,25 +143,13 @@ function validArtifacts(): ArtifactMap {
   };
 }
 
-function writeArtifactRun(
-  root: string,
-  overrides: Partial<ArtifactMap> = {},
-  omitFile?: ArtifactFile,
-) {
+function writeArtifactRun(root: string, overrides: Partial<ArtifactMap> = {}) {
   const runDir = join(root, ".agent", "artifacts", runId);
   mkdirSync(runDir, { recursive: true });
 
   const artifacts = { ...validArtifacts(), ...overrides };
   for (const file of artifactFiles) {
-    if (file === omitFile) {
-      continue;
-    }
-
-    const content = artifacts[file];
-    writeFileSync(
-      join(runDir, file),
-      typeof content === "string" ? content : JSON.stringify(content, null, 2),
-    );
+    writeFileSync(join(runDir, file), JSON.stringify(artifacts[file], null, 2));
   }
 }
 
@@ -180,8 +163,8 @@ function runChecklist(root: string) {
   });
 }
 
-describe("artifact gate checklist hook", () => {
-  test("passes when latest artifact run has all valid pass-state JSON files", () => {
+describe("plan review gate", () => {
+  test("passes when every reviewer approves with score 3 or higher", () => {
     const root = createProjectRoot();
     writeArtifactRun(root);
 
@@ -191,63 +174,53 @@ describe("artifact gate checklist hook", () => {
     expect(result.stdout).toContain("Artifact Gate");
   });
 
-  test("fails when no artifact run directory exists", () => {
-    const root = createProjectRoot();
-    mkdirSync(join(root, ".agent", "artifacts"), { recursive: true });
-
-    const result = runChecklist(root);
-
-    expect(result.status).toBe(1);
-    expect(result.stdout).toContain("No artifact run directories found");
-  });
-
-  test("fails when any required artifact file is missing", () => {
-    const root = createProjectRoot();
-    writeArtifactRun(root, {}, "verification.json");
-
-    const result = runChecklist(root);
-
-    expect(result.status).toBe(1);
-    expect(result.stdout).toContain("Missing artifact: verification.json");
-  });
-
-  test("fails when an artifact contains invalid JSON", () => {
-    const root = createProjectRoot();
-    writeArtifactRun(root, { "context-snippets.json": "{ invalid json" });
-
-    const result = runChecklist(root);
-
-    expect(result.status).toBe(1);
-    expect(result.stdout).toContain("Invalid JSON in context-snippets.json");
-  });
-
-  test("fails when risk-gate blocks the run", () => {
+  test("fails when any reviewer score is below 3", () => {
     const root = createProjectRoot();
     writeArtifactRun(root, {
-      "risk-gate.json": {
-        ...(validArtifacts()["risk-gate.json"] as JsonObject),
-        decision: "BLOCK",
+      "review-decision.json": {
+        ...(validArtifacts()["review-decision.json"] as Record<
+          string,
+          unknown
+        >),
+        reviewers: [
+          {
+            name: "architecture-reviewer",
+            decision: "APPROVE",
+            score: 2,
+            findings: ["missing deployment rollback"],
+          },
+        ],
       },
     });
 
     const result = runChecklist(root);
 
     expect(result.status).toBe(1);
-    expect(result.stdout).toContain("risk-gate decision is BLOCK");
+    expect(result.stdout).toContain("architecture-reviewer score 2 is below 3");
   });
 
-  test("fails when artifacts contain secret-like strings", () => {
+  test("fails when any reviewer blocks the plan", () => {
     const root = createProjectRoot();
     writeArtifactRun(root, {
-      "context-snippets.json": {
-        ...(validArtifacts()["context-snippets.json"] as JsonObject),
-        notes: "api_key=sk-test-value",
+      "review-decision.json": {
+        ...(validArtifacts()["review-decision.json"] as Record<
+          string,
+          unknown
+        >),
+        reviewers: [
+          {
+            name: "experience-reviewer",
+            decision: "BLOCK",
+            score: 4,
+            findings: ["acceptance flow is not testable"],
+          },
+        ],
       },
     });
 
     const result = runChecklist(root);
 
     expect(result.status).toBe(1);
-    expect(result.stdout).toContain("secret-like value");
+    expect(result.stdout).toContain("experience-reviewer decision is BLOCK");
   });
 });

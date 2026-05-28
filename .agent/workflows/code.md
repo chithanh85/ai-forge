@@ -14,30 +14,37 @@ User types `/code`
 ### Phase 1: Preflight + Recall
 
 1. Read `.planning/STATE.md`
-2. Read relevant plan from `docs/plans/`
-3. Load skills: `clean-code`, `testing-patterns`, `database-design`
-4. **AUTO-RECALL:**
+2. List split plans with `python .agent/scripts/plan_hydrate.py list`
+3. Load only the active phase context with `python .agent/scripts/plan_hydrate.py context {feature-slug}`; do not read every plan file.
+4. Read `.agent/rules/rationalization-prevention.md`
+5. Load skills: `clean-code`, `testing-patterns`, `database-design`
+6. **AUTO-RECALL:**
    ```bash
    # MCP available:
    mcp_second-brain_recall(query="{feature name} patterns lessons")
    # Local fallback:
    python .agent/skills/auto-memory/scripts/local_brain.py recall "{feature name}"
    ```
-5. Report recalled context to user (if any relevant lessons found)
+7. Report recalled context to user (if any relevant lessons found)
 
 ### Phase 2: Contract + Risk Gate
 
 1. Validate that a relevant plan exists in `docs/plans/`.
 2. If no plan exists, route to `/plan` first.
-3. Confirm the plan includes:
+3. Confirm the split plan folder includes:
+   - `index.md`
+   - `phase-XX-*.md`
+   - `current-phase.txt`
+4. Confirm the active hydrated context includes:
    - Expected output
    - Acceptance Criteria
    - Scope boundary
    - Non-negotiable constraints
    - Touchpoints
-4. Validate `.agent/artifacts/<run-id>/risk-gate.json` before editing.
-5. `--fast` may validate a compact plan and compact risk gate, but it cannot skip planning, risk review, TDD, or artifact validation.
-6. If the risk gate blocks the run, stop and ask for explicit approval.
+5. Run the rationalization-prevention check before writing implementation code and record the result in `adversarial-validation.json`.
+6. Validate `.agent/artifacts/<run-id>/risk-gate.json` and scored `review-decision.json` before editing.
+7. `--fast` may validate a compact plan and compact risk gate, but it cannot skip planning, risk review, TDD, or artifact validation.
+8. If the risk gate or any plan reviewer blocks the run, stop and ask for explicit approval.
 
 ### Phase 3: TDD Cycle (Red-Green-Refactor)
 

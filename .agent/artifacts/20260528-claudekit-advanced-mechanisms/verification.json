@@ -1,0 +1,59 @@
+{
+  "schema": "awf.verification.v1",
+  "run_id": "20260528-claudekit-advanced-mechanisms",
+  "commands": [
+    {
+      "cmd": "pnpm format",
+      "status": "pass",
+      "summary": "Prettier formatted the touched project files."
+    },
+    {
+      "cmd": "pnpm format:check",
+      "status": "pass",
+      "summary": "All matched files use Prettier code style."
+    },
+    {
+      "cmd": "pnpm lint",
+      "status": "pass",
+      "summary": "ESLint completed without warnings after explicit no-op config."
+    },
+    {
+      "cmd": "pnpm typecheck",
+      "status": "pass",
+      "summary": "TypeScript typecheck passed."
+    },
+    {
+      "cmd": "pnpm test",
+      "status": "pass",
+      "summary": "Full Vitest suite passed: 7 files, 38 tests."
+    },
+    {
+      "cmd": "pnpm vitest run tests/rationalization-table.test.ts tests/plan-hydration.test.ts tests/plan-review-gate.test.ts tests/wiki-lint.test.ts tests/artifact-gate.test.ts",
+      "status": "pass",
+      "summary": "19 focused tests passed after implementation."
+    },
+    {
+      "cmd": "python .agent/scripts/wiki_lint.py --strict",
+      "status": "pass",
+      "summary": "All wiki links valid in strict mode."
+    },
+    {
+      "cmd": "python .agent/scripts/checklist.py .",
+      "status": "pass",
+      "summary": "Checklist passed: lint, typecheck, tests, env parity, wiki lint, and artifact gate."
+    }
+  ],
+  "manual_checks": [
+    {
+      "check": "GitNexus impact",
+      "status": "pass",
+      "summary": "Index refreshed; hidden .agent script symbols returned UNKNOWN, so direct CI/workflow consumers were reviewed manually."
+    },
+    {
+      "check": "GitNexus detect changes",
+      "status": "pass",
+      "summary": "detect_changes(scope=all) reported low risk and no affected execution flows for indexed symbols."
+    }
+  ],
+  "known_failures": []
+}

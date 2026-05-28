@@ -33,6 +33,7 @@ For complex requests, STOP and ASK minimum 3 strategic questions before implemen
 - Concise, self-documenting code
 - Testing mandatory: Unit > Integration > E2E
 - TDD: Red-Green-Refactor cycle
+- Before writing code, read `.agent/rules/rationalization-prevention.md` and record `rationalization_checks` in `adversarial-validation.json`.
 
 ## 🗄️ Database Design (Mandatory)
 
@@ -66,6 +67,8 @@ For `/plan`, `/code`, and `/debug`, use `.agent/artifacts/<run-id>/` and require
 `/debug` must perform Scout & Diagnose before root-cause claims or fix proposals. Scout captures context, conventions, recent commits, and caller/dependent analysis; Diagnose records reproduction, confirmed cause, unknowns, and the risk gate.
 
 `checklist.py` auto-selects `AWF_ARTIFACT_RUN_ID`, `.agent/artifacts/current`, or the latest run directory and fails closed for missing artifacts, invalid JSON, blocking decisions, failed statuses, or credential-like strings.
+
+`adversarial-validation.json` must include rationalization checks. `review-decision.json` must include scored reviewer entries; any reviewer score below 3 or reviewer `BLOCK` blocks the run.
 
 ## 🧠 Second Brain Protocol (MANDATORY — Auto-Enforced)
 
@@ -226,7 +229,8 @@ Task is NOT done until:
 
 1. Tests pass
 2. Lint passes
-3. `python .agent/scripts/checklist.py .` succeeds
-4. The five artifact JSON files validate for the selected run
-5. Lessons learned saved to Second Brain (if applicable)
-6. `.planning/STATE.md` updated
+3. `python .agent/scripts/wiki_lint.py --strict` succeeds
+4. `python .agent/scripts/checklist.py .` succeeds
+5. The five artifact JSON files validate for the selected run
+6. Lessons learned saved to Second Brain (if applicable)
+7. `.planning/STATE.md` updated

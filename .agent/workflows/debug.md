@@ -28,19 +28,21 @@ User types `/debug`
 ### Phase 1A: Scout (Mandatory Before Any Fix Proposal)
 
 1. Read relevant state, plan, rules, and recalled lessons.
-2. Identify likely files/modules without editing.
-3. Search nearby conventions in related files and docs.
-4. Run recent history:
+2. If a split plan is relevant, hydrate only the active phase with `python .agent/scripts/plan_hydrate.py context {feature-slug}`.
+3. Read `.agent/rules/rationalization-prevention.md`.
+4. Identify likely files/modules without editing.
+5. Search nearby conventions in related files and docs.
+6. Run recent history:
    ```bash
    git log -20 -- <suspected-path>
    # If no path is known yet:
    git log -20 --oneline
    ```
-5. Use GitNexus when code symbols or route handlers are involved:
+7. Use GitNexus when code symbols or route handlers are involved:
    - `gitnexus_context({name: "<symbol>"})` for callers/callees and flow context.
    - `gitnexus_impact({target: "<symbol>", direction: "upstream"})` before any symbol edit.
    - `gitnexus_api_impact(...)` before route-handler edits.
-6. Write/update `.agent/artifacts/<run-id>/context-snippets.json` with selected evidence.
+8. Write/update `.agent/artifacts/<run-id>/context-snippets.json` with selected evidence.
 
 ### Phase 1B: Diagnose (Mandatory Gate)
 
@@ -52,7 +54,8 @@ User types `/debug`
    - Unknowns
 3. Write/update `.agent/artifacts/<run-id>/risk-gate.json`.
 4. If GitNexus returns HIGH or CRITICAL impact, or `risk-gate.json` has `decision: BLOCK`, stop and ask for explicit user approval before proposing edits.
-5. Only after `context-snippets.json` and `risk-gate.json` exist may the workflow propose a minimal fix and regression test.
+5. Run the rationalization-prevention check before proposing edits and record it in `adversarial-validation.json`.
+6. Only after `context-snippets.json` and `risk-gate.json` exist may the workflow propose a minimal fix and regression test.
 
 ### Phase 2: Isolate
 
