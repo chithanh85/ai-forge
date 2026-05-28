@@ -194,6 +194,7 @@ Feature ──→ Scope (tuần tự) ──→ UC List
 2. **Subagent tạo dependency lẫn nhau** — phải plan trước
 3. **Subagent truy cập secret/credential** — chỉ parent agent được phép
 4. **Spawn > 5 subagents** cùng lúc — context quá tải, chất lượng giảm
+5. **Chạy các parallel write-agents chung một working directory** — mỗi write-agent phải được phân bổ một isolated Git Worktree qua `worktree_runner.py` để tránh xung đột mã nguồn.
 
 ### ✅ LUÔN LUÔN đảm bảo:
 

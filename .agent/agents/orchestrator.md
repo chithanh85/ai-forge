@@ -151,6 +151,11 @@ Before spawning specialist sub-agents for `/plan`, `/code`, or `/debug`, the orc
 
 The contract may be compact for `--fast`, but it must exist with `.agent/artifacts/<run-id>/risk-gate.json`. If the risk gate blocks the run, do not spawn implementation agents.
 
+And initialize the execution environment:
+
+- Create a checkpoint JSON file `.agent/checkpoints/<run-id>/checkpoint.json` using `python .agent/scripts/session_manager.py checkpoint init`.
+- For write-agents, allocate a Git Worktree at `.tmp/worktrees/<run-id>` using `python .agent/scripts/worktree_runner.py run` to ensure isolation.
+
 ### Required Artifact Ownership
 
 | Phase                  | Owner                                      | Required Output                                         |
@@ -168,6 +173,8 @@ The contract may be compact for `--fast`, but it must exist with `.agent/artifac
 Role: <agent>
 Objective: <one concrete outcome>
 Run ID: <run-id>
+Checkpoint path: <checkpoint-file-path>
+Worktree path: <worktree-path>
 Context files: <files already read or required>
 Allowed files: <explicit write scope>
 Forbidden files: <files/areas not owned by this agent>

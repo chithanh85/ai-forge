@@ -46,6 +46,18 @@ User types `/code`
 7. `--fast` may validate a compact plan and compact risk gate, but it cannot skip planning, risk review, TDD, or artifact validation.
 8. If the risk gate or any plan reviewer blocks the run, stop and ask for explicit approval.
 
+### Phase 2.5: Checkpoint & Worktree Spawning
+
+1. Initialize a checkpoint file:
+   ```bash
+   python .agent/scripts/session_manager.py checkpoint init --run-id {run-id} --task {task-title} --agent-id {agent-id} --agent-role worker --plan-slug {plan-slug}
+   ```
+2. For isolated file writing and testing, spawn execution inside a Git Worktree:
+   ```bash
+   python .agent/scripts/worktree_runner.py run --run-id {run-id} --task {task-title} --agent-id {agent-id} --agent-role worker --cleanup on-success -- <command-to-execute>
+   ```
+   _Note: In worktree mode, TDD cycle (Phase 3) and Self-Healing Loop (Phase 4) execute inside the isolated worktree directory._
+
 ### Phase 3: TDD Cycle (Red-Green-Refactor)
 
 1. **RED**: Write failing test first (unit test for the feature)

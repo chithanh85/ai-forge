@@ -36,14 +36,17 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 ## Last Session
 
 - **Date:** 2026-05-28
-- **What was done:** Implemented advanced ClaudeKit mechanisms: rationalization-prevention rule and schema field, split-plan hydration CLI, parallel plan-review gate with scored reviewers, strict wiki link validation in checklist/pre-commit/PR CI, and regression coverage for each gate. Created `.agent/artifacts/20260528-claudekit-advanced-mechanisms/` evidence.
+- **What was done:** Implemented advanced ClaudeKit mechanisms (rationalization rules, hydration, plan-review, wiki strict validation). Evaluated awesome-agent-harness integration candidates. Created docs/plans/harness-integration-plan.md and fully implemented the Session Checkpoint Manager (session_manager.py) and Git Worktree execution runner (worktree_runner.py), including integration in orchestrator guidelines, parallel skills, code/debug workflows, gitignore, and comprehensive Vitest regression suites. Verified codebase is 100% healthy with 6/6 verify checks passed.
 - **Blockers:** None
-- **Next steps:** Use split plan folders (`docs/plans/<slug>/`) with `plan_hydrate.py context`, run `/review-plan` before `/code`, and keep `wiki_lint.py --strict` green.
+- **Next steps:** Use split plan folders (`docs/plans/<slug>/`) with `plan_hydrate.py context`, run `/review-plan` before `/code`. Leverage checkpoint.json and worktree_runner.py for safe, isolated write operations.
 
 ## Active Tasks
 
 - [x] Implement ClaudeKit guardrails from `docs/plans/claudekit-integration-plan.md`
 - [x] Implement advanced ClaudeKit rationalization, hydration, review, and wiki strict gates
+- [x] Evaluate awesome-agent-harness integration candidates for AWF
+- [x] Create harness integration plan for Session Checkpointing and Git Worktree Runner
+- [x] Implement harness primitives from `docs/plans/harness-integration-plan.md`
 
 ## Known Issues
 

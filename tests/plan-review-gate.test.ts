@@ -154,10 +154,12 @@ function writeArtifactRun(root: string, overrides: Partial<ArtifactMap> = {}) {
 }
 
 function runChecklist(root: string) {
+  const cleanEnv = { ...process.env };
+  delete cleanEnv.AWF_ARTIFACT_RUN_ID;
   return spawnSync("python", [checklistPath, root], {
     encoding: "utf8",
     env: {
-      ...process.env,
+      ...cleanEnv,
       PYTHONIOENCODING: "utf-8",
     },
   });

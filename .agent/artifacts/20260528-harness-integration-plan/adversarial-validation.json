@@ -1,0 +1,28 @@
+{
+  "schema": "awf.adversarial-validation.v1",
+  "run_id": "20260528-harness-integration-plan",
+  "threats_considered": [
+    "Checkpoint captures sensitive runtime data",
+    "Worktree cleanup removes the wrong path",
+    "Agent isolation gives false confidence while file ownership overlaps",
+    "Planning-only work skips verification"
+  ],
+  "rationalization_checks": [
+    {
+      "excuse": "This is just documentation.",
+      "rebuttal": "Workflow documentation controls agent behavior. Review it like executable policy.",
+      "outcome": "Created artifact-gated plan evidence and will run wiki/checklist verification."
+    }
+  ],
+  "results": [
+    {
+      "scenario": "Generated plan accidentally recommends recursive deletion for cleanup",
+      "outcome": "Plan requires git worktree remove and path validation under .tmp/worktrees."
+    },
+    {
+      "scenario": "Checkpoint stores broad environment dumps",
+      "outcome": "Plan allows only explicit AWF runtime variables and forbids raw environment capture."
+    }
+  ],
+  "decision": "PASS"
+}

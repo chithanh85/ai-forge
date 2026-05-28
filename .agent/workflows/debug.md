@@ -72,15 +72,19 @@ User types `/debug`
 
 ### Phase 4: Fix & Verify
 
-1. Write regression test FIRST (lock the bug)
-2. Apply minimal fix
-3. Run full test suite
-4. Verify fix doesn't break other things
-5. Write/update:
+1. For risky or complex fixes, allocate a Git Worktree to write the regression test and execute the fix in isolation:
+   ```bash
+   python .agent/scripts/worktree_runner.py run --run-id {run-id} --task {task-title} --agent-id debugger --agent-role debugger --cleanup on-success -- <command-to-execute>
+   ```
+2. Write regression test FIRST (lock the bug)
+3. Apply minimal fix
+4. Run full test suite
+5. Verify fix doesn't break other things
+6. Write/update:
    - `.agent/artifacts/<run-id>/verification.json`
    - `.agent/artifacts/<run-id>/review-decision.json`
    - `.agent/artifacts/<run-id>/adversarial-validation.json`
-6. Run `python .agent/scripts/checklist.py .`; artifact gate failures block completion.
+7. Run `python .agent/scripts/checklist.py .`; artifact gate failures block completion.
 
 ### Phase 5: Learn (MANDATORY)
 

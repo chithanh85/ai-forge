@@ -51,3 +51,10 @@ Artifacts must never contain unredacted credentials, environment values, cookies
   "approval_required": false
 }
 ```
+
+## Relationship to Runtime Checkpoints
+
+While **Artifacts** are the static, persistent compliance evidence check-ins required to approve commits/PRs, **Checkpoints** (`.agent/checkpoints/<run-id>/checkpoint.json`) are lightweight, ephemeral JSON state trackers used _during_ execution.
+
+- **Checkpoints** capture real-time events, command history, worktree parameters, and active tasks. They are gitignored and remain local.
+- **Artifacts** are written during the lifecycle phases and committed as long-term governance proof.

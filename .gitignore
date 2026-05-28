@@ -64,3 +64,6 @@ vbsec-reports/
 
 # Claude Code CLI state
 .claude/
+
+# AWF checkpoints
+.agent/checkpoints/

@@ -1,0 +1,31 @@
+{
+  "schema": "awf.verification.v1",
+  "run_id": "20260528-harness-integration-plan",
+  "commands": [
+    {
+      "cmd": "PYTHONIOENCODING=utf-8 python .agent/scripts/obsidian_graph.py info \"Session Checkpointing Git Worktree Runner\"",
+      "status": "pass",
+      "summary": "Obsidian graph scan completed and reported no existing docs for this concept."
+    },
+    {
+      "cmd": "pnpm exec prettier --check docs/plans/harness-integration-plan.md",
+      "status": "pass",
+      "summary": "Plan Markdown uses Prettier style."
+    },
+    {
+      "cmd": "python .agent/scripts/wiki_lint.py --strict",
+      "status": "pass",
+      "summary": "Wiki lint checked 6 files and all wiki links are valid."
+    },
+    {
+      "cmd": "python .agent/scripts/checklist.py .",
+      "status": "pass",
+      "summary": "AWF checklist passed lint, typecheck, tests, env parity, wiki lint, and artifact gate."
+    }
+  ],
+  "manual_checks": [
+    "Confirmed Second Brain recall returned prior harness architecture recommendation.",
+    "Confirmed GitNexus ai-forge index is available and current for planning context."
+  ],
+  "known_failures": []
+}

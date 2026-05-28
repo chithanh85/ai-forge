@@ -20,6 +20,8 @@
 
 ## Lessons
 
+- [Implemented Session Checkpointing and Isolated Git Worktree Runner](wiki/lessons/20260528-implemented-session-checkpointing-and-isolated-git-worktree-.md) — lesson — #harness, #checkpointing, #worktree
+
 - [Clawpatch Integration](wiki/lessons/20260524-clawpatch-integration.md) — architectural-decision — #clawpatch, #code-review, #awf-template
 
 - [Template initialized](wiki/lessons/20260520-template-initialized.md) — lesson — #setup, #template

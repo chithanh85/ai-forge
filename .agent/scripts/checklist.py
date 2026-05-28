@@ -90,7 +90,7 @@ def run_check(name, cmd):
     """Run a check and return (name, passed, output)."""
     try:
         result = subprocess.run(
-            cmd, shell=True, capture_output=True, encoding="utf-8", timeout=60
+            cmd, shell=True, capture_output=True, encoding="utf-8", errors="replace", timeout=60
         )
         passed = result.returncode == 0
         output = result.stdout.strip() or result.stderr.strip()
