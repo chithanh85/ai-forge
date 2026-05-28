@@ -40,6 +40,24 @@ description: Extended rules loaded by GEMINI.md
 | `/audit`          | audit.md          | Security Scan & Code Audit (vbs-scan-security) |
 | `/clawpatch`      | clawpatch.md      | Proactive AI code review & semantic patching   |
 
+## Contract + Artifact Gate
+
+All non-trivial `/plan`, `/code`, and `/debug` work must use `.agent/artifacts/<run-id>/` and produce these canonical JSON files:
+
+- `context-snippets.json`
+- `risk-gate.json`
+- `verification.json`
+- `review-decision.json`
+- `adversarial-validation.json`
+
+`/plan` and `/code` require the five-part contract before implementation: Expected output, Acceptance Criteria, Scope boundary, Non-negotiable constraints, and Touchpoints.
+
+`--fast` may shorten the contract and Scout depth, but it cannot skip planning, risk review, TDD, artifact creation, or checklist validation.
+
+`/debug` requires Scout & Diagnose before root-cause claims or fixes. Capture context/conventions/history/touchpoints in `context-snippets.json`, then reproduction/cause/risk in `risk-gate.json`.
+
+`python .agent/scripts/checklist.py .` auto-discovers `AWF_ARTIFACT_RUN_ID`, `.agent/artifacts/current`, or the latest run directory. It fails closed on missing run directories, missing files, invalid JSON, BLOCK decisions, failed verification/review/adversarial states, or credential-like strings.
+
 ## Self-Healing Loop Config
 
 - Max auto-fix retries: 3

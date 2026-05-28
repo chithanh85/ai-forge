@@ -49,6 +49,24 @@ When any task involves database/model:
 Before committing, self-reflect as Red Team:
 "If I were a hacker, how would I attack this code?"
 
+## 🧾 Contract + Artifact Gate
+
+For `/plan`, `/code`, and `/debug`, use `.agent/artifacts/<run-id>/` and require:
+
+- `context-snippets.json`
+- `risk-gate.json`
+- `verification.json`
+- `review-decision.json`
+- `adversarial-validation.json`
+
+`/plan` and `/code` must validate the five-part contract before implementation: Expected output, Acceptance Criteria, Scope boundary, Non-negotiable constraints, and Touchpoints.
+
+`--fast` is compact mode only. It must not skip planning, the risk gate, TDD, artifact creation, or `python .agent/scripts/checklist.py .`.
+
+`/debug` must perform Scout & Diagnose before root-cause claims or fix proposals. Scout captures context, conventions, recent commits, and caller/dependent analysis; Diagnose records reproduction, confirmed cause, unknowns, and the risk gate.
+
+`checklist.py` auto-selects `AWF_ARTIFACT_RUN_ID`, `.agent/artifacts/current`, or the latest run directory and fails closed for missing artifacts, invalid JSON, blocking decisions, failed statuses, or credential-like strings.
+
 ## 🧠 Second Brain Protocol (MANDATORY — Auto-Enforced)
 
 > **This is NOT optional. The AI MUST save and recall knowledge automatically.**
@@ -209,5 +227,6 @@ Task is NOT done until:
 1. Tests pass
 2. Lint passes
 3. `python .agent/scripts/checklist.py .` succeeds
-4. Lessons learned saved to Second Brain (if applicable)
-5. `.planning/STATE.md` updated
+4. The five artifact JSON files validate for the selected run
+5. Lessons learned saved to Second Brain (if applicable)
+6. `.planning/STATE.md` updated

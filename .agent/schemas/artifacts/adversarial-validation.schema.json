@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "awf.adversarial-validation.v1",
+  "title": "AWF Adversarial Validation Artifact",
+  "type": "object",
+  "required": ["schema", "run_id", "threats_considered", "results", "decision"],
+  "properties": {
+    "schema": { "const": "awf.adversarial-validation.v1" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "threats_considered": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["scenario", "outcome"],
+        "properties": {
+          "scenario": { "type": "string", "minLength": 1 },
+          "outcome": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": true
+      }
+    },
+    "decision": { "const": "PASS" }
+  },
+  "additionalProperties": true
+}

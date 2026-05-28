@@ -25,6 +25,35 @@ User types `/debug`
 4. Find minimal reproduction steps
 5. Identify affected code area
 
+### Phase 1A: Scout (Mandatory Before Any Fix Proposal)
+
+1. Read relevant state, plan, rules, and recalled lessons.
+2. Identify likely files/modules without editing.
+3. Search nearby conventions in related files and docs.
+4. Run recent history:
+   ```bash
+   git log -20 -- <suspected-path>
+   # If no path is known yet:
+   git log -20 --oneline
+   ```
+5. Use GitNexus when code symbols or route handlers are involved:
+   - `gitnexus_context({name: "<symbol>"})` for callers/callees and flow context.
+   - `gitnexus_impact({target: "<symbol>", direction: "upstream"})` before any symbol edit.
+   - `gitnexus_api_impact(...)` before route-handler edits.
+6. Write/update `.agent/artifacts/<run-id>/context-snippets.json` with selected evidence.
+
+### Phase 1B: Diagnose (Mandatory Gate)
+
+1. Reproduce the issue, or state exactly why reproduction is blocked.
+2. Separate:
+   - Symptom
+   - Suspected cause
+   - Confirmed cause
+   - Unknowns
+3. Write/update `.agent/artifacts/<run-id>/risk-gate.json`.
+4. If GitNexus returns HIGH or CRITICAL impact, or `risk-gate.json` has `decision: BLOCK`, stop and ask for explicit user approval before proposing edits.
+5. Only after `context-snippets.json` and `risk-gate.json` exist may the workflow propose a minimal fix and regression test.
+
 ### Phase 2: Isolate
 
 1. Narrow down to specific module/function
@@ -44,6 +73,11 @@ User types `/debug`
 2. Apply minimal fix
 3. Run full test suite
 4. Verify fix doesn't break other things
+5. Write/update:
+   - `.agent/artifacts/<run-id>/verification.json`
+   - `.agent/artifacts/<run-id>/review-decision.json`
+   - `.agent/artifacts/<run-id>/adversarial-validation.json`
+6. Run `python .agent/scripts/checklist.py .`; artifact gate failures block completion.
 
 ### Phase 5: Learn (MANDATORY)
 

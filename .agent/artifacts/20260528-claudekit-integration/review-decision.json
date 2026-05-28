@@ -1,0 +1,8 @@
+{
+  "schema": "awf.review-decision.v1",
+  "run_id": "20260528-claudekit-integration",
+  "reviewer": "codex",
+  "decision": "APPROVE",
+  "findings": [],
+  "required_followups": []
+}

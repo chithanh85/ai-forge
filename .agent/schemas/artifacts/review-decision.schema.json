@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "awf.review-decision.v1",
+  "title": "AWF Review Decision Artifact",
+  "type": "object",
+  "required": [
+    "schema",
+    "run_id",
+    "reviewer",
+    "decision",
+    "findings",
+    "required_followups"
+  ],
+  "properties": {
+    "schema": { "const": "awf.review-decision.v1" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "reviewer": { "type": "string", "minLength": 1 },
+    "decision": {
+      "enum": ["APPROVE", "APPROVED", "PASS", "REQUEST_CHANGES", "BLOCK"]
+    },
+    "findings": { "type": "array" },
+    "required_followups": { "type": "array" }
+  },
+  "additionalProperties": true
+}

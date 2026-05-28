@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "awf.risk-gate.v1",
+  "title": "AWF Risk Gate Artifact",
+  "type": "object",
+  "required": [
+    "schema",
+    "run_id",
+    "risk",
+    "decision",
+    "blast_radius",
+    "blockers",
+    "approval_required"
+  ],
+  "properties": {
+    "schema": { "const": "awf.risk-gate.v1" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "risk": { "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
+    "decision": { "enum": ["ALLOW", "APPROVE", "APPROVED", "PASS", "BLOCK"] },
+    "blast_radius": {
+      "type": "object",
+      "required": ["gitnexus", "direct_callers", "affected_processes"],
+      "properties": {
+        "gitnexus": { "type": "string" },
+        "direct_callers": { "type": "integer", "minimum": 0 },
+        "affected_processes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "approval_required": { "type": "boolean" }
+  },
+  "additionalProperties": true
+}

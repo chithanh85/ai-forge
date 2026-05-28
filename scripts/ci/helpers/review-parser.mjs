@@ -10,8 +10,8 @@
  * @returns {string} Sanitized text
  */
 export function sanitizeMarkdown(text) {
-  if (!text || typeof text !== 'string') {
-    return '';
+  if (!text || typeof text !== "string") {
+    return "";
   }
   return text.replace(/```/g, " // (fenced code block marker stripped)");
 }
@@ -24,22 +24,22 @@ export function sanitizeMarkdown(text) {
  * @returns {object} { findings: Array, error: boolean }
  */
 export function parseReviewJSON(rawOutput) {
-  if (!rawOutput || typeof rawOutput !== 'string') {
+  if (!rawOutput || typeof rawOutput !== "string") {
     return { findings: [], error: true };
   }
 
   let cleanText = rawOutput.trim();
 
   // Strip markdown block markers if present
-  if (cleanText.startsWith('```')) {
-    const lines = cleanText.split('\n');
-    if (lines[0].startsWith('```')) {
+  if (cleanText.startsWith("```")) {
+    const lines = cleanText.split("\n");
+    if (lines[0].startsWith("```")) {
       lines.shift();
     }
-    if (lines[lines.length - 1].startsWith('```')) {
+    if (lines[lines.length - 1].startsWith("```")) {
       lines.pop();
     }
-    cleanText = lines.join('\n').trim();
+    cleanText = lines.join("\n").trim();
   }
 
   try {
@@ -48,52 +48,64 @@ export function parseReviewJSON(rawOutput) {
       return { findings: [], error: true };
     }
 
-    const validSeverities = ['BLOCKING', 'SUGGESTION', 'NIT', 'QUESTION'];
-    const validCategories = ['security', 'bug', 'performance', 'style'];
+    const validSeverities = ["BLOCKING", "SUGGESTION", "NIT", "QUESTION"];
+    const validCategories = ["security", "bug", "performance", "style"];
     const validatedFindings = [];
 
     for (const f of parsed.findings) {
-      if (!f || typeof f !== 'object') {
+      if (!f || typeof f !== "object") {
         return { findings: [], error: true };
       }
 
-      const severity = (f.severity || '').toUpperCase();
-      const category = (f.category || '').toLowerCase();
+      const severity = (f.severity || "").toUpperCase();
+      const category = (f.category || "").toLowerCase();
 
       // Strict Validation: Fail-closed on schema deviation
       if (!validSeverities.includes(severity)) {
-        console.error(`⚠️ Strict Validation Failed: Invalid severity "${severity}"`);
+        console.error(
+          `⚠️ Strict Validation Failed: Invalid severity "${severity}"`,
+        );
         return { findings: [], error: true };
       }
       if (!validCategories.includes(category)) {
-        console.error(`⚠️ Strict Validation Failed: Invalid category "${category}"`);
+        console.error(
+          `⚠️ Strict Validation Failed: Invalid category "${category}"`,
+        );
         return { findings: [], error: true };
       }
-      if (typeof f.message !== 'string' || f.message.trim().length === 0) {
-        console.error('⚠️ Strict Validation Failed: message field must be a non-empty string');
+      if (typeof f.message !== "string" || f.message.trim().length === 0) {
+        console.error(
+          "⚠️ Strict Validation Failed: message field must be a non-empty string",
+        );
         return { findings: [], error: true };
       }
-      if (f.line !== undefined && f.line !== null && (typeof f.line !== 'number' || isNaN(f.line))) {
-        console.error(`⚠️ Strict Validation Failed: Invalid line field value: ${f.line}`);
+      if (
+        f.line !== undefined &&
+        f.line !== null &&
+        (typeof f.line !== "number" || isNaN(f.line))
+      ) {
+        console.error(
+          `⚠️ Strict Validation Failed: Invalid line field value: ${f.line}`,
+        );
         return { findings: [], error: true };
       }
 
       // Enforce safety limits on string fields
       const rawMessage = f.message.trim();
-      const rawFix = typeof f.suggestedFix === 'string' ? f.suggestedFix : '';
+      const rawFix = typeof f.suggestedFix === "string" ? f.suggestedFix : "";
 
       validatedFindings.push({
         severity,
         category,
         line: f.line || null,
         message: sanitizeMarkdown(rawMessage.slice(0, 1000)),
-        suggestedFix: sanitizeMarkdown(rawFix.slice(0, 2000))
+        suggestedFix: sanitizeMarkdown(rawFix.slice(0, 2000)),
       });
     }
 
     return { findings: validatedFindings, error: false };
   } catch (err) {
-    console.error('⚠️ Failed to parse LLM JSON output:', err.message);
+    console.error("⚠️ Failed to parse LLM JSON output:", err.message);
     return { findings: [], error: true };
   }
 }
@@ -105,21 +117,21 @@ export function parseReviewJSON(rawOutput) {
  * @returns {string|null} Downstream severity ('security'|'critical'|'bug'|null)
  */
 export function mapToDownstreamSeverity(finding) {
-  if (!finding || finding.severity !== 'BLOCKING') {
+  if (!finding || finding.severity !== "BLOCKING") {
     return null;
   }
 
-  const category = (finding.category || '').toLowerCase();
-  
-  if (category === 'security') {
-    return 'security';
-  }
-  
-  if (category === 'bug') {
-    return 'critical';
+  const category = (finding.category || "").toLowerCase();
+
+  if (category === "security") {
+    return "security";
   }
 
-  return 'bug';
+  if (category === "bug") {
+    return "critical";
+  }
+
+  return "bug";
 }
 
 /**
@@ -132,19 +144,30 @@ export function mapToDownstreamSeverity(finding) {
  * @param {string} trustedActors
  * @returns {boolean}
  */
-export function shouldCreateIssue(finding, isFork, createIssuesEnabled, actor, trustedActors) {
+export function shouldCreateIssue(
+  finding,
+  isFork,
+  createIssuesEnabled,
+  actor,
+  trustedActors,
+) {
   if (!createIssuesEnabled || isFork) {
     return false;
   }
 
   // Whitelist actor trust gate
-  if (trustedActors && typeof trustedActors === 'string') {
-    const whitelist = trustedActors.split(',').map(a => a.trim()).filter(Boolean);
+  if (trustedActors && typeof trustedActors === "string") {
+    const whitelist = trustedActors
+      .split(",")
+      .map((a) => a.trim())
+      .filter(Boolean);
     if (whitelist.length > 0 && (!actor || !whitelist.includes(actor))) {
-      console.log(`   🔒 Security Gate: Actor "${actor}" is not in the whitelist. Skipping auto-fix issue creation.`);
+      console.log(
+        `   🔒 Security Gate: Actor "${actor}" is not in the whitelist. Skipping auto-fix issue creation.`,
+      );
       return false;
     }
   }
 
-  return finding && finding.severity === 'BLOCKING';
+  return finding && finding.severity === "BLOCKING";
 }

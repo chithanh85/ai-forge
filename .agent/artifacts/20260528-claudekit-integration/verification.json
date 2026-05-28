@@ -1,0 +1,36 @@
+{
+  "schema": "awf.verification.v1",
+  "run_id": "20260528-claudekit-integration",
+  "commands": [
+    {
+      "cmd": "pnpm test -- tests/artifact-gate.test.ts",
+      "status": "pass",
+      "summary": "Artifact gate validator tests passed after checklist hook implementation."
+    },
+    {
+      "cmd": "pnpm typecheck",
+      "status": "pass",
+      "summary": "TypeScript checks passed after typing the artifact fixture map."
+    },
+    {
+      "cmd": "pnpm lint",
+      "status": "pass",
+      "summary": "ESLint completed successfully; project config is intentionally empty and emitted its existing warning."
+    },
+    {
+      "cmd": "pnpm test",
+      "status": "pass",
+      "summary": "Full Vitest suite passed: 3 files, 25 tests."
+    },
+    {
+      "cmd": "python .agent/scripts/checklist.py .",
+      "status": "pass",
+      "summary": "Checklist passed lint, typecheck, tests, env parity, and artifact gate."
+    }
+  ],
+  "manual_checks": [
+    "Second Brain recall returned the prior ClaudeKit artifact-gate plan memory.",
+    "Obsidian graph scan returned no docs for claudekit-artifact-gate after UTF-8 retry."
+  ],
+  "known_failures": []
+}

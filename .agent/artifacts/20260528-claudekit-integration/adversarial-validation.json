@@ -1,0 +1,25 @@
+{
+  "schema": "awf.adversarial-validation.v1",
+  "run_id": "20260528-claudekit-integration",
+  "threats_considered": [
+    "prompt injection through copied snippets",
+    "credential leakage in artifacts",
+    "false approval with missing verification",
+    "missing run evidence after environment variable omission"
+  ],
+  "results": [
+    {
+      "scenario": "Required artifact file is absent",
+      "outcome": "blocked_by_missing_artifact_check"
+    },
+    {
+      "scenario": "Risk gate records a blocking decision",
+      "outcome": "blocked_by_risk_gate_check"
+    },
+    {
+      "scenario": "Artifact includes an unredacted credential-like string",
+      "outcome": "blocked_by_redaction_check"
+    }
+  ],
+  "decision": "PASS"
+}

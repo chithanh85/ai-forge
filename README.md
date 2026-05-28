@@ -139,6 +139,40 @@ Lệnh trigger: `/clawpatch` (hoặc chạy trực tiếp `clawpatch review --pr
 
 ---
 
+## 🛡️ ClaudeKit Guardrails & Harness Engineering (Bảo vệ Vòng Đời Tự Trị)
+
+AI Forge tích hợp các bộ rào cản kỹ thuật nghiêm ngặt lấy cảm hứng từ đợt nâng cấp lớn của **ClaudeKit**, ép buộc hành vi của AI theo khung tiêu chuẩn chất lượng cao nhằm loại bỏ triệt để lỗi "quá tự tin" (overconfidence) và "context tưởng tượng" (hallucination):
+
+### 1. Scout & Diagnose trước khi Sửa lỗi (`/debug`)
+
+- **Chống đoán bừa**: Agent không được đề xuất hay sửa code trước khi hoàn thành pha trinh sát (Scout). Pha Scout yêu cầu quét lịch sử thay đổi (20 commits gần nhất), phân tích caller/dependent trực tiếp (qua GitNexus), và đối chiếu coding convention trong repo.
+- **Tự động ngắt khi bế tắc**: Giới hạn tối đa 3 lần thử tự động sửa (Self-Healing). Nếu fail cả 3, Agent phải tự động báo cáo nguyên nhân và trả quyền quyết định cho Tech Lead, cấm đập vá vô tội vạ.
+- **Xác minh 6 yếu tố**: Mỗi bản vá hoàn thành phải giải trình rõ: (1) triệu chứng, (2) cách tái hiện, (3) kỳ vọng vs thực tế, (4) nguyên nhân gốc cụ thể, (5) lý do xuất hiện lúc này (Why now), và (6) vùng ảnh hưởng (Blast radius).
+
+### 2. Thiết lập Hợp đồng Phác thảo (`/plan` & `/code`)
+
+- **Plan Contract**: Mọi kế hoạch lập trình phải khai báo rõ 5 thành phần cốt lõi:
+  1. _Expected Output_: Định dạng file, UI, hay tài liệu cần đạt.
+  2. _Acceptance Criteria (AC)_: Tiêu chí nghiệm thu viết dưới dạng Given-When-Then.
+  3. _Scope Boundary_: Giới hạn rõ rệt phần việc KHÔNG đụng đến.
+  4. _Non-negotiable Constraints_: Công nghệ, quy tắc đặt tên, đường dẫn bắt buộc.
+  5. _Touchpoints_: Các symbols/tables chịu tác động trực tiếp.
+- **Chế độ `--fast`**: Cho phép viết kế hoạch ngắn gọn hơn, nhưng **cấm bỏ qua Plan Contract**.
+
+### 3. Artifact-Gated Approval (Kiểm soát chất lượng bằng bằng chứng)
+
+Trước khi merge hoặc ship, hệ thống tự động quét và kiểm thử 5 JSON artifacts minh chứng chất lượng lưu tại `.agent/artifacts/<run-id>/`:
+
+1. `context-snippets.json` — Lưu context, touchpoints và blast radius đã trinh sát.
+2. `risk-gate.json` — Nhận diện rủi ro (High/Critical) và bắt buộc phải có human approval mới cho đi tiếp.
+3. `verification.json` — Kết quả và bằng chứng chạy các lệnh kiểm thử.
+4. `review-decision.json` — Kết quả rà soát chéo giữa các sub-agents, cấm tự viết tự duyệt.
+5. `adversarial-validation.json` — Kết quả giả định tấn công/Red Team thử nghiệm.
+
+- **Checklist Hook & Test Suite**: Bộ kiểm định `checklist.py` được tích hợp thẳng vào chuỗi pre-commit/CI audit, tự động quét thư mục `.agent/artifacts/` để kiểm tra 5 artifacts này. Nếu thiếu file, JSON lỗi, hoặc phát hiện chuỗi giống secrets, commit sẽ bị chặn lập tức. Quy trình này được bảo đảm bằng bộ test Vitest (`tests/artifact-gate.test.ts`).
+
+---
+
 ## 🔄 AI Review & Auto-Fix Pipeline (Tự động hoàn toàn)
 
 Luồng CI/CD khép kín — từ phát hiện bug đến fix bug, không cần con người can thiệp:

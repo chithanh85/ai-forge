@@ -139,6 +139,53 @@ User: "Create a secure login system with dark mode UI"
 4. **BOUNDARY CHECK** → Đảm bảo mỗi agent giữ đúng phạm vi
 5. **SYNTHESIS** → Tổng hợp, conflict check, báo cáo thống nhất
 
+## ClaudeKit Artifact Assignment Protocol
+
+Before spawning specialist sub-agents for `/plan`, `/code`, or `/debug`, the orchestrator must confirm a run contract exists:
+
+1. Expected output
+2. Acceptance Criteria
+3. Scope boundary
+4. Non-negotiable constraints
+5. Touchpoints
+
+The contract may be compact for `--fast`, but it must exist with `.agent/artifacts/<run-id>/risk-gate.json`. If the risk gate blocks the run, do not spawn implementation agents.
+
+### Required Artifact Ownership
+
+| Phase                  | Owner                                      | Required Output                                         |
+| ---------------------- | ------------------------------------------ | ------------------------------------------------------- |
+| Scout                  | `explorer-agent` or `code-archaeologist`   | `.agent/artifacts/<run-id>/context-snippets.json`       |
+| Risk gate              | `security-auditor` plus GitNexus           | `.agent/artifacts/<run-id>/risk-gate.json`              |
+| Implementation         | Domain specialist                          | Code/docs changes within allowed files only             |
+| Verification           | `test-engineer` or domain specialist       | `.agent/artifacts/<run-id>/verification.json`           |
+| Review                 | `code-archaeologist` or reviewer           | `.agent/artifacts/<run-id>/review-decision.json`        |
+| Adversarial validation | `security-auditor` or `penetration-tester` | `.agent/artifacts/<run-id>/adversarial-validation.json` |
+
+### Sub-Agent Prompt Template
+
+```markdown
+Role: <agent>
+Objective: <one concrete outcome>
+Run ID: <run-id>
+Context files: <files already read or required>
+Allowed files: <explicit write scope>
+Forbidden files: <files/areas not owned by this agent>
+Artifact output: <required JSON/Markdown file>
+Timeout: <time budget>
+Constraints: TDD where applicable, no credentials in artifacts, do not revert unrelated work.
+Return: changed files, verification performed, blockers, artifact path written.
+```
+
+### Parent Synthesis Gate
+
+Before final handoff, the orchestrator must:
+
+1. Check sub-agent outputs do not overlap forbidden files.
+2. Ensure all five artifact JSON files share the same `run_id`.
+3. Run `python .agent/scripts/checklist.py .`.
+4. Treat checklist artifact failures as blockers.
+
 ---
 
 ## Edge Cases

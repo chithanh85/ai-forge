@@ -35,14 +35,14 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 
 ## Last Session
 
-- **Date:** 2026-05-25
-- **What was done:** Integrated simplicity and behavioral rules into `AGENTS.md`. Created a comprehensive workspace configuration and integration template for Google Antigravity 2.0 and CLI (`agy`) inside `docs/wiki/antigravity.md` and updated `README.md` and `docs/wiki-index.md`. Created and registered the `/code-pro` Actor-Critic coding workflow. Successfully ran a parallel multi-agent smoke test (Codex CLI + GitNexus), corrected Codex configuration syntax for hooks in `.codex/config.toml`, updated `.gitignore` for `.claude/` state files, and pushed all updates to the remote repository.
+- **Date:** 2026-05-28
+- **What was done:** Implemented ClaudeKit guardrails from `docs/plans/claudekit-integration-plan.md`: added Vitest artifact gate coverage, enforced artifact validation in `.agent/scripts/checklist.py`, documented artifact schemas, updated `/debug`, `/plan`, `/code`, aligned AGENTS/GEMINI rules, added orchestrator assignment protocol, and created `.agent/artifacts/20260528-claudekit-integration/` evidence.
 - **Blockers:** None
-- **Next steps:** Run `.\setup-enterprise.ps1` to configure a new enterprise project using the template.
+- **Next steps:** Use the artifact-gated protocol for future non-trivial `/plan`, `/code`, and `/debug` work.
 
 ## Active Tasks
 
-_No active tasks — this is a fresh template._
+- [x] Implement ClaudeKit guardrails from `docs/plans/claudekit-integration-plan.md`
 
 ## Known Issues
 

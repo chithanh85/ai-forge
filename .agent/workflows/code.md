@@ -25,13 +25,27 @@ User types `/code`
    ```
 5. Report recalled context to user (if any relevant lessons found)
 
-### Phase 2: TDD Cycle (Red-Green-Refactor)
+### Phase 2: Contract + Risk Gate
+
+1. Validate that a relevant plan exists in `docs/plans/`.
+2. If no plan exists, route to `/plan` first.
+3. Confirm the plan includes:
+   - Expected output
+   - Acceptance Criteria
+   - Scope boundary
+   - Non-negotiable constraints
+   - Touchpoints
+4. Validate `.agent/artifacts/<run-id>/risk-gate.json` before editing.
+5. `--fast` may validate a compact plan and compact risk gate, but it cannot skip planning, risk review, TDD, or artifact validation.
+6. If the risk gate blocks the run, stop and ask for explicit approval.
+
+### Phase 3: TDD Cycle (Red-Green-Refactor)
 
 1. **RED**: Write failing test first (unit test for the feature)
 2. **GREEN**: Write minimum code to make test pass
 3. **REFACTOR**: Clean up code while keeping tests green
 
-### Phase 3: Self-Healing Loop
+### Phase 4: Self-Healing Loop
 
 ```
 Code written → Run tests
@@ -41,12 +55,16 @@ Code written → Run tests
        └── 3 failures → Escalate to human + remember("Escalated: {reason}")
 ```
 
-### Phase 4: Post-Implementation
+### Phase 5: Post-Implementation
 
 1. Run `pnpm lint`
 2. Run `pnpm test`
-3. Update `.planning/STATE.md`
-4. **AUTO-REMEMBER:**
+3. Write/update `.agent/artifacts/<run-id>/verification.json`
+4. Write/update `.agent/artifacts/<run-id>/review-decision.json`
+5. Write/update `.agent/artifacts/<run-id>/adversarial-validation.json`
+6. Run `python .agent/scripts/checklist.py .`; artifact gate failures block completion.
+7. Update `.planning/STATE.md`
+8. **AUTO-REMEMBER:**
    ```bash
    # MCP available:
    mcp_second-brain_remember(
@@ -60,9 +78,9 @@ Code written → Run tests
      "{patterns used, gotchas encountered}" \
      --tags module implementation --type lesson
    ```
-5. Commit with conventional commit message
+9. Commit with conventional commit message
 
-### Phase 5: Next Steps
+### Phase 6: Next Steps
 
 - `/test` → Run full test suite
 - `/code` → Continue with next task

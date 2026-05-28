@@ -8,7 +8,7 @@
 - Read `docs/wiki-index.md` for knowledge wiki navigation.
 - **AUTO-ORCHESTRATE**: Read `@[agents/orchestrator]` — it auto-analyzes requests, selects best agent(s), and coordinates parallel execution when needed.
 - Use Obsidian graph scan before implementing: `python .agent/scripts/obsidian_graph.py info <concept>`
-- **AUTO-RECALL** from Second Brain: `recall("{task topic}")` (see Rule 7)
+- **AUTO-RECALL** from Second Brain: `recall("{task topic}")` (see Second Brain Protocol)
 
 ## 2. KICKOFF LINE (Mandatory)
 
@@ -67,7 +67,31 @@ These guidelines bias toward caution over speed to reduce common LLM coding mist
 - No secrets in code (pre-commit scanner enforces)
 - Production DB: READ-ONLY access for AI
 
-## 8. SECOND BRAIN PROTOCOL (AUTO-ENFORCED)
+## 8. CONTRACT-DRIVEN EXECUTION & ARTIFACT GATE
+
+For non-trivial `/plan`, `/code`, and `/debug` work, completion is blocked until the run has the five artifact files under `.agent/artifacts/<run-id>/`:
+
+- `context-snippets.json`
+- `risk-gate.json`
+- `verification.json`
+- `review-decision.json`
+- `adversarial-validation.json`
+
+`/plan` and `/code` must produce or validate this contract before implementation:
+
+- Expected output
+- Acceptance Criteria with Given-When-Then checks
+- Scope boundary
+- Non-negotiable constraints
+- Touchpoints, including callers, dependents, routes, scripts, docs, external services, and GitNexus findings when applicable
+
+`--fast` means compact, not planless: it may reduce detail, but it must not bypass the contract, risk gate, TDD, or `python .agent/scripts/checklist.py .`.
+
+`/debug` must run Scout & Diagnose before root-cause claims or fix proposals. Scout captures context, conventions, recent commits, and caller/dependent analysis. Diagnose records reproduction status, confirmed cause, unknowns, and `risk-gate.json`.
+
+`checklist.py` auto-discovers `AWF_ARTIFACT_RUN_ID`, `.agent/artifacts/current`, or the latest run directory. Missing runs, missing files, invalid JSON, BLOCK decisions, failed verification/review/adversarial states, or credential-like strings fail closed.
+
+## 9. SECOND BRAIN PROTOCOL (AUTO-ENFORCED)
 
 > 🔴 **CRITICAL:** This is the project's long-term memory. Non-compliance = knowledge loss.
 
@@ -124,14 +148,14 @@ python .agent/skills/auto-memory/scripts/local_brain.py stats
 - ❌ Making architecture decisions without recalling past decisions
 - ❌ Self-healing loop fixes without logging the lesson
 
-## 9. SELF-HEALING LOOP
+## 10. SELF-HEALING LOOP
 
 - AI writes code → runs tests → auto-fix if fail (max 3 retries)
 - If still fail after 3 retries → escalate to human
 - All auto-fixes get logged as lessons learned via `remember()`
 - **Parallel mode**: If task has 2+ independent subtasks, invoke `@[agents/orchestrator]` — it will auto-load `parallel-agents` skill and coordinate subagents simultaneously
 
-## 10. BROWSER OPS (External Services)
+## 11. BROWSER OPS (External Services)
 
 When task requires GitHub, Cloudflare, or other external services:
 
@@ -143,13 +167,14 @@ When task requires GitHub, Cloudflare, or other external services:
 6. Full protocol: `@[skills/browser-ops]`
 7. One-click setup: `/setup-services` workflow
 
-## 11. VERIFICATION (Before Done)
+## 12. VERIFICATION (Before Done)
 
 - Lint: `pnpm lint`
 - Test: `pnpm test`
 - Audit: `python .agent/scripts/checklist.py .`
+- Artifact gate: all five JSON artifacts must validate for the selected run
 
-## 12. HANDOFF (End of Session)
+## 13. HANDOFF (End of Session)
 
 Every session must end with:
 
@@ -160,7 +185,7 @@ Every session must end with:
 - `remember()` key lessons/decisions from this session
 - Update `.planning/STATE.md`
 
-## 13. TELEGRAM REPORTING (Optional — Teleport Bridge)
+## 14. TELEGRAM REPORTING (Optional — Teleport Bridge)
 
 > 📡 Lets AI agents send progress reports to Telegram while user is AFK.
 
@@ -216,7 +241,7 @@ Remind user to enable auto-execution:
 
 # GitNexus — Code Intelligence
 
-This project is indexed by GitNexus as **ai-forge** (283 symbols, 297 relationships, 2 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+This project is indexed by GitNexus as **ai-forge** (354 symbols, 384 relationships, 3 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
 
 > If any GitNexus tool warns the index is stale, run `npx gitnexus analyze` in terminal first.
 

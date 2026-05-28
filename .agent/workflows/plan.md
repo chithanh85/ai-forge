@@ -24,7 +24,26 @@ User types `/plan`
    ```
 4. Report: similar past implementations, lessons, effort estimates
 
-### Phase 2: Plan Creation
+### Phase 2: Contract Gate (Required, Including `--fast`)
+
+Before task breakdown, produce or validate the 5-part plan contract:
+
+| Prerequisite               | Required Content                                                                      |
+| -------------------------- | ------------------------------------------------------------------------------------- |
+| Expected output            | Concrete files, behavior, docs, or artifacts to produce.                              |
+| Acceptance Criteria        | Given-When-Then bullets with measurable pass/fail outcomes.                           |
+| Scope boundary             | Files/areas allowed and explicitly forbidden.                                         |
+| Non-negotiable constraints | Security, TDD, style, migration, compatibility, and no-credential rules.              |
+| Touchpoints                | Callers, dependents, routes, scripts, docs, external services, and GitNexus findings. |
+
+Rules:
+
+1. If any prerequisite is missing, ask the user or record an explicit assumption before planning.
+2. `--fast` may use a compact contract table, but it cannot skip the contract, risk gate, or checklist.
+3. Create or update `.agent/artifacts/<run-id>/context-snippets.json` and `.agent/artifacts/<run-id>/risk-gate.json`.
+4. If `risk-gate.json` blocks the run, stop before task breakdown.
+
+### Phase 3: Plan Creation
 
 1. Break feature into tasks (max 5-8 per plan)
 2. Define dependencies between tasks
@@ -32,8 +51,9 @@ User types `/plan`
 4. Define acceptance criteria per task
 5. Define test requirements per task
 6. Create `docs/plans/{feature-slug}.md`
+7. Include the 5-part contract in the plan output.
 
-### Phase 3: Update Tracking
+### Phase 4: Update Tracking
 
 1. Update `.planning/ROADMAP.md`
 2. Update `.planning/MILESTONES.md`
@@ -52,7 +72,7 @@ User types `/plan`
      --tags plan feature --type decision
    ```
 
-### Phase 4: Next Steps
+### Phase 5: Next Steps
 
 - `/design` → Design database & architecture
 - `/code` → Start implementing

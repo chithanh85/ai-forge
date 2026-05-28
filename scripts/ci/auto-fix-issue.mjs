@@ -14,17 +14,13 @@
  *   ISSUE_NUMBER, ISSUE_BODY, ISSUE_TITLE
  */
 
-import { execSync, spawnSync } from 'child_process';
-import fs from 'fs';
+import { execSync, spawnSync } from "child_process";
+import fs from "fs";
 
-const {
-  ISSUE_NUMBER,
-  ISSUE_TITLE = '',
-  ISSUE_BODY = '',
-} = process.env;
+const { ISSUE_NUMBER, ISSUE_TITLE = "", ISSUE_BODY = "" } = process.env;
 
 function parseIssueBody(body) {
-  const result = { file: null, severity: null, finding: '', diffContext: '' };
+  const result = { file: null, severity: null, finding: "", diffContext: "" };
 
   const yamlMatch = body.match(/```yaml\n([\s\S]*?)```/);
   if (yamlMatch) {
@@ -50,23 +46,34 @@ async function main() {
 
   // Step 1: Verify codex is installed
   try {
-    const ver = spawnSync('codex', ['--version'], { encoding: 'utf8', timeout: 5000 });
-    if (ver.status !== 0) throw new Error('not found');
+    const ver = spawnSync("codex", ["--version"], {
+      encoding: "utf8",
+      timeout: 5000,
+    });
+    if (ver.status !== 0) throw new Error("not found");
     console.log(`   ✅ Codex CLI: ${ver.stdout.trim()}`);
   } catch {
-    console.log('   ❌ Codex CLI not found. Install: npm install -g @openai/codex');
-    fs.appendFileSync(process.env.GITHUB_OUTPUT || '/dev/null', 'fixed=false\n');
+    console.log(
+      "   ❌ Codex CLI not found. Install: npm install -g @openai/codex",
+    );
+    fs.appendFileSync(
+      process.env.GITHUB_OUTPUT || "/dev/null",
+      "fixed=false\n",
+    );
     return;
   }
 
   // Step 2: Parse issue metadata
   const issue = parseIssueBody(ISSUE_BODY);
-  console.log(`   File: ${issue.file || '(not specified)'}`);
-  console.log(`   Severity: ${issue.severity || 'unknown'}`);
+  console.log(`   File: ${issue.file || "(not specified)"}`);
+  console.log(`   Severity: ${issue.severity || "unknown"}`);
 
   if (!issue.file || !issue.finding) {
-    console.log('   ❌ Could not extract file/finding from issue. Skipping.');
-    fs.appendFileSync(process.env.GITHUB_OUTPUT || '/dev/null', 'fixed=false\n');
+    console.log("   ❌ Could not extract file/finding from issue. Skipping.");
+    fs.appendFileSync(
+      process.env.GITHUB_OUTPUT || "/dev/null",
+      "fixed=false\n",
+    );
     return;
   }
 
@@ -81,7 +88,7 @@ async function main() {
     `Problem:`,
     issue.finding,
     ``,
-    issue.diffContext ? `Diff context:\n${issue.diffContext}` : '',
+    issue.diffContext ? `Diff context:\n${issue.diffContext}` : "",
     ``,
     `Instructions:`,
     `1. Read the file "${issue.file}" first to understand full context`,
@@ -89,22 +96,24 @@ async function main() {
     `3. Run "npm run lint" after fixing (if available)`,
     `4. Run "npm test" after fixing (if available)`,
     `5. If tests fail, read the error output and fix again`,
-  ].filter(Boolean).join('\n');
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   // Step 4: Run Codex in full-auto mode, inside the repo root
   console.log(`   🤖 Running Codex CLI (full-auto, in repo root)...`);
   console.log(`   📂 CWD: ${process.cwd()}`);
 
-  const result = spawnSync('codex', [
-    '--approval-mode', 'full-auto',
-    '--quiet',
-    prompt,
-  ], {
-    encoding: 'utf8',
-    timeout: 300_000,    // 5 min max
-    stdio: ['pipe', 'pipe', 'pipe'],
-    cwd: process.cwd(),  // repo root (checked out by actions/checkout)
-  });
+  const result = spawnSync(
+    "codex",
+    ["--approval-mode", "full-auto", "--quiet", prompt],
+    {
+      encoding: "utf8",
+      timeout: 300_000, // 5 min max
+      stdio: ["pipe", "pipe", "pipe"],
+      cwd: process.cwd(), // repo root (checked out by actions/checkout)
+    },
+  );
 
   if (result.stdout) {
     console.log(`   📝 Codex output:\n${result.stdout.slice(0, 3000)}`);
@@ -116,19 +125,22 @@ async function main() {
   // Step 5: Check if Codex actually changed any files
   let hasChanges = false;
   try {
-    const diff = execSync('git diff --name-only', { encoding: 'utf8' }).trim();
+    const diff = execSync("git diff --name-only", { encoding: "utf8" }).trim();
     if (diff) {
       hasChanges = true;
       console.log(`   📄 Changed files:\n${diff}`);
     } else {
-      console.log('   ⚠️ Codex ran but no files were changed.');
+      console.log("   ⚠️ Codex ran but no files were changed.");
     }
   } catch {
-    console.log('   ⚠️ Could not check git diff.');
+    console.log("   ⚠️ Could not check git diff.");
   }
 
   // Step 6: Signal result to workflow
-  fs.appendFileSync(process.env.GITHUB_OUTPUT || '/dev/null', `fixed=${hasChanges}\n`);
+  fs.appendFileSync(
+    process.env.GITHUB_OUTPUT || "/dev/null",
+    `fixed=${hasChanges}\n`,
+  );
 
   if (hasChanges) {
     console.log(`   🎉 Fix applied for issue #${ISSUE_NUMBER}`);
@@ -137,8 +149,8 @@ async function main() {
   }
 }
 
-main().catch(err => {
-  console.error('❌ Auto-fix failed:', err.message);
-  fs.appendFileSync(process.env.GITHUB_OUTPUT || '/dev/null', 'fixed=false\n');
+main().catch((err) => {
+  console.error("❌ Auto-fix failed:", err.message);
+  fs.appendFileSync(process.env.GITHUB_OUTPUT || "/dev/null", "fixed=false\n");
   process.exit(1);
 });
