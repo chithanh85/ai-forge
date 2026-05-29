@@ -25,6 +25,7 @@ function createPlanFixture() {
   const root = mkdtempSync(join(tmpdir(), "awf-plan-hydrate-"));
   tempRoots.push(root);
 
+  // Flat (legacy) plan
   const planDir = join(root, "docs", "plans", "checkout-flow");
   mkdirSync(planDir, { recursive: true });
   writeFileSync(join(planDir, "index.md"), "# Checkout Flow\n\nShared plan.");
@@ -41,9 +42,36 @@ function createPlanFixture() {
     "phase-02-implementation.md\n",
   );
 
+  // Active plan
+  const activeDir = join(root, "docs", "plans", "active", "active-feature");
+  mkdirSync(activeDir, { recursive: true });
+  writeFileSync(
+    join(activeDir, "index.md"),
+    "# Active Feature\n\nActive plan context.",
+  );
+  writeFileSync(
+    join(activeDir, "phase-01-init.md"),
+    "# Phase 01\n\nInit work.",
+  );
+  writeFileSync(join(activeDir, "current-phase.txt"), "phase-01-init.md\n");
+
+  // Completed plan
+  const completedDir = join(
+    root,
+    "docs",
+    "plans",
+    "completed",
+    "completed-feature",
+  );
+  mkdirSync(completedDir, { recursive: true });
+  writeFileSync(
+    join(completedDir, "index.md"),
+    "# Completed Feature\n\nCompleted plan.",
+  );
+
   writeFileSync(join(root, "docs", "plans", "legacy-plan.md"), "# Legacy\n");
 
-  return { root, planDir };
+  return { root, planDir, activeDir };
 }
 
 function runHydrate(root: string, args: string[]) {
@@ -65,6 +93,8 @@ describe("plan hydration CLI", () => {
 
     expect(result.status).toBe(0);
     expect(result.stdout).toContain("checkout-flow");
+    expect(result.stdout).toContain("active/active-feature");
+    expect(result.stdout).toContain("completed/completed-feature");
     expect(result.stdout).not.toContain("legacy-plan");
   });
 
@@ -77,6 +107,21 @@ describe("plan hydration CLI", () => {
     expect(result.stdout).toContain("Shared plan.");
     expect(result.stdout).toContain("Implementation work.");
     expect(result.stdout).not.toContain("Contract work.");
+  });
+
+  test("hydrates plans located in nested subdirectories", () => {
+    const { root } = createPlanFixture();
+
+    // Context resolution via explicit prefix path
+    const result1 = runHydrate(root, ["context", "active/active-feature"]);
+    expect(result1.status).toBe(0);
+    expect(result1.stdout).toContain("Active plan context.");
+    expect(result1.stdout).toContain("Init work.");
+
+    // Context resolution via search (slug-only)
+    const result2 = runHydrate(root, ["context", "active-feature"]);
+    expect(result2.status).toBe(0);
+    expect(result2.stdout).toContain("Active plan context.");
   });
 
   test("sets and reports the active phase", () => {

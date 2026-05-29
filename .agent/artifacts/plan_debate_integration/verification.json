@@ -1,0 +1,22 @@
+{
+  "schema": "awf.verification.v1",
+  "run_id": "plan_debate_integration",
+  "commands": [
+    {
+      "cmd": "npx vitest run tests/plan-hydration.test.ts",
+      "status": "pass"
+    },
+    {
+      "cmd": "npm run lint:check",
+      "status": "pass"
+    },
+    {
+      "cmd": "npm run typecheck",
+      "status": "pass"
+    }
+  ],
+  "manual_checks": [
+    "Manually created active and completed plan folders and verified hydration CLI parses them successfully"
+  ],
+  "known_failures": []
+}

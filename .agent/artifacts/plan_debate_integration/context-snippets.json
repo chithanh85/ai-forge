@@ -1,0 +1,17 @@
+{
+  "schema": "awf.context-snippets.v1",
+  "run_id": "plan_debate_integration",
+  "task": "Upgrade docs/plans/ layout and integrate 5-persona debate protocol",
+  "sources": [
+    {
+      "file": ".agent/scripts/plan_hydrate.py",
+      "purpose": "Modify resolution logic to support subdirectories"
+    },
+    {
+      "file": ".agent/skills/brainstorming/SKILL.md",
+      "purpose": "Add 5-persona debate protocol instructions"
+    }
+  ],
+  "redactions": [],
+  "created_at": "2026-05-29T23:00:00Z"
+}

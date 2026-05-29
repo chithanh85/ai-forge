@@ -27,6 +27,13 @@ Trước khi phân tích request:
 > 💡 **Với GitNexus**: Orchestrator chọn agent dựa trên **cấu trúc code thực tế** (file nào gọi file nào, blast radius).
 > **Không có GitNexus**: Orchestrator vẫn hoạt động — dùng keyword matching và domain detection.
 
+## 🔴 Architectural Decisions & 5-Persona Debate Routing
+
+Khi phát hiện request liên quan tới **thiết kế kiến trúc hệ thống, cấu trúc database, API design diện rộng hoặc quyết định công nghệ quan trọng (High-impact decisions)**:
+
+1. Orchestrator **PHẢI** yêu cầu agent thực thi (như `project-planner`, `database-architect`, `backend-specialist`) kích hoạt **5-Persona Debate Protocol** (Tech Lead, Security, UX, QA, PO) từ skill `brainstorming`.
+2. Sub-agent prompt phải ghi rõ yêu cầu: _"Run a simulated 5-persona debate to stress-test your design options and record the debate highlights/trade-offs."_
+
 ## Bước 1: Phân tích Request (Tự động, im lặng)
 
 Trước khi trả lời BẤT KỲ request nào, thực hiện phân tích tự động:

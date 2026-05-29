@@ -52,9 +52,9 @@ Rules:
 3. Estimate complexity (S/M/L/XL) — use past lessons for calibration
 4. Define acceptance criteria per task
 5. Define test requirements per task
-6. Create `docs/plans/{feature-slug}/index.md`
-7. Create one file per phase: `docs/plans/{feature-slug}/phase-XX-{phase-name}.md`
-8. Write the active phase filename to `docs/plans/{feature-slug}/current-phase.txt`
+6. Create `docs/plans/active/{feature-slug}/index.md`
+7. Create one file per phase: `docs/plans/active/{feature-slug}/phase-XX-{phase-name}.md`
+8. Write the active phase filename to `docs/plans/active/{feature-slug}/current-phase.txt`
 9. Include the 5-part contract in `index.md` and phase-specific acceptance criteria in each phase file.
 10. Run `python .agent/scripts/plan_hydrate.py context {feature-slug}` to verify the active phase hydrates.
 11. Run `/review-plan {feature-slug}` before `/code`; review scores are written to `review-decision.json`.

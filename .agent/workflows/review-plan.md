@@ -11,8 +11,8 @@ User types `/review-plan <slug>` or a workflow reaches the plan review gate.
 
 ## Required Inputs
 
-- Split plan folder: `docs/plans/<slug>/`
-- Active phase marker: `docs/plans/<slug>/current-phase.txt`
+- Split plan folder: `docs/plans/active/<slug>/` (or `completed/<slug>/`)
+- Active phase marker: `docs/plans/active/<slug>/current-phase.txt` (or `completed/<slug>/current-phase.txt`)
 - Run artifacts directory: `.agent/artifacts/<run-id>/`
 - Risk gate: `.agent/artifacts/<run-id>/risk-gate.json`
 

@@ -35,10 +35,10 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 
 ## Last Session
 
-- **Date:** 2026-05-28
-- **What was done:** Implemented advanced ClaudeKit mechanisms (rationalization rules, hydration, plan-review, wiki strict validation). Evaluated awesome-agent-harness integration candidates. Created docs/plans/harness-integration-plan.md and fully implemented the Session Checkpoint Manager (session_manager.py) and Git Worktree execution runner (worktree_runner.py), including integration in orchestrator guidelines, parallel skills, code/debug workflows, gitignore, and comprehensive Vitest regression suites. Verified codebase is 100% healthy with 6/6 verify checks passed.
+- **Date:** 2026-05-29
+- **What was done:** Upgraded `docs/plans/` directory to modular layout (`active/`, `completed/`, `backlog/`, `references/`) with backward compatibility in the plan hydration CLI. Integrated 5-persona debate protocol in `orchestrator` and `brainstorming` instructions. Added Vitest tests for subfolder plan resolution.
 - **Blockers:** None
-- **Next steps:** Use split plan folders (`docs/plans/<slug>/`) with `plan_hydrate.py context`, run `/review-plan` before `/code`. Leverage checkpoint.json and worktree_runner.py for safe, isolated write operations.
+- **Next steps:** Create plans under `docs/plans/active/{feature-slug}/` and archive them to `docs/plans/completed/{feature-slug}/` upon implementation and verification completion.
 
 ## Active Tasks
 

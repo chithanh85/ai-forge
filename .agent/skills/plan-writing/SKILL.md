@@ -26,7 +26,7 @@ version: 2.0
 1. Read .planning/STATE.md — current progress, blockers
 2. Read .planning/ROADMAP.md — where does this feature fit?
 3. Read .planning/REQUIREMENTS.md — what's already defined?
-4. Check docs/plans/ — any existing plans for this area?
+4. Check docs/plans/active/ or docs/plans/completed/ — any existing plans for this area?
 5. recall() related lessons from past implementations
 ```
 
@@ -34,7 +34,7 @@ version: 2.0
 
 ## Plan Template
 
-Create as `docs/plans/{feature-slug}.md`:
+Create in `docs/plans/active/{feature-slug}/`:
 
 ```markdown
 # Plan: {Feature Name}

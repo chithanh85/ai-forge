@@ -26,14 +26,19 @@ def resolve_plans_dir(raw_path):
 
 
 def get_plan_dir(plans_dir, slug):
-    plan_dir = (plans_dir / slug).resolve()
-    if plans_dir not in plan_dir.parents and plan_dir != plans_dir:
-        raise HydrationError("Plan slug resolves outside docs/plans")
-    if not plan_dir.is_dir():
-        raise HydrationError(f"Plan not found: {slug}")
-    if not (plan_dir / "index.md").is_file():
-        raise HydrationError(f"Plan is missing index.md: {slug}")
-    return plan_dir
+    paths_to_check = [
+        plans_dir / slug,
+        plans_dir / "active" / slug,
+        plans_dir / "completed" / slug,
+        plans_dir / "backlog" / slug,
+    ]
+    for path in paths_to_check:
+        plan_dir = path.resolve()
+        if plans_dir not in plan_dir.parents and plan_dir != plans_dir:
+            continue
+        if plan_dir.is_dir() and (plan_dir / "index.md").is_file():
+            return plan_dir
+    raise HydrationError(f"Plan not found or missing index.md: {slug}")
 
 
 def phase_files(plan_dir):
@@ -60,11 +65,19 @@ def read_active_phase(plan_dir):
 def list_plans(plans_dir):
     if not plans_dir.exists():
         return []
-    return sorted(
-        path.name
-        for path in plans_dir.iterdir()
-        if path.is_dir() and (path / "index.md").is_file()
-    )
+    plans = []
+    # Check immediate subdirectories (backward compatibility)
+    for path in plans_dir.iterdir():
+        if path.is_dir() and (path / "index.md").is_file():
+            plans.append(path.name)
+    # Check subdirectories inside active, completed, backlog
+    for sub in ["active", "completed", "backlog"]:
+        subdir = plans_dir / sub
+        if subdir.is_dir():
+            for path in subdir.iterdir():
+                if path.is_dir() and (path / "index.md").is_file():
+                    plans.append(f"{sub}/{path.name}")
+    return sorted(plans)
 
 
 def cmd_list(args):

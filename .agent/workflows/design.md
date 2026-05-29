@@ -13,7 +13,7 @@ User types `/design`
 
 ### Phase 1: Context + Recall
 
-1. Read plan from `docs/plans/`
+1. Read plan from `docs/plans/active/`
 2. Activate agent: `database-architect` + `backend-specialist`
 3. Load skill: `database-design`, `api-patterns`, `system-design`
 4. **AUTO-RECALL past architecture decisions:**

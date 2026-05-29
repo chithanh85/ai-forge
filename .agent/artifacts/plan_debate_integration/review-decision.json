@@ -1,0 +1,24 @@
+{
+  "schema": "awf.review-decision.v1",
+  "run_id": "plan_debate_integration",
+  "reviewer": "review-plan",
+  "decision": "APPROVE",
+  "reviewers": [
+    {
+      "name": "architecture-reviewer",
+      "decision": "APPROVE",
+      "score": 5,
+      "findings": [],
+      "required_followups": []
+    },
+    {
+      "name": "experience-reviewer",
+      "decision": "APPROVE",
+      "score": 5,
+      "findings": [],
+      "required_followups": []
+    }
+  ],
+  "findings": [],
+  "required_followups": []
+}

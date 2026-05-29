@@ -29,7 +29,7 @@ User types `/code`
 
 ### Phase 2: Contract + Risk Gate
 
-1. Validate that a relevant plan exists in `docs/plans/`.
+1. Validate that a relevant plan exists in `docs/plans/active/` (or `completed/` if reviewing past work).
 2. If no plan exists, route to `/plan` first.
 3. Confirm the split plan folder includes:
    - `index.md`
@@ -98,6 +98,7 @@ Code written → Run tests
      --tags module implementation --type lesson
    ```
 9. Commit with conventional commit message
+10. **Plan Archiving**: Once all phases of the feature plan are fully executed, verified, and ready to ship, move the plan folder from `docs/plans/active/{feature-slug}` to `docs/plans/completed/{feature-slug}` and update its status to completed in `.planning/STATE.md`.
 
 ### Phase 6: Next Steps
 

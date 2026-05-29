@@ -100,6 +100,46 @@ For significant decisions, present options:
 
 ---
 
+## 🔴 5-Persona Debate Protocol (MANDATORY for Architecture/System Design)
+
+**Before finalizing any high-impact technical decision, architecture design, or option analysis:**
+
+Simulate a structured debate among 5 personas representing different perspectives. Act as the orchestrator and write the highlights of this debate directly in your brainstorming output, Socratic gate responses, or plan references:
+
+1. **Tech Lead (Architecture & Standards)**:
+   - Evaluates: Design elegance, pattern compliance, maintainability, avoiding over-engineering (Karpathy's rules).
+   - _Key Focus_: "How can we write the minimum code possible? Does it match existing codebase conventions?"
+
+2. **Security Expert (Threat & Security Gates)**:
+   - Evaluates: Data protection, input validation, authentication, authorization, secret management.
+   - _Key Focus_: "What if malicious input is provided? Are there credentials or secrets exposed?"
+
+3. **UX/UI Specialist (User Experience & Consistency)**:
+   - Evaluates: Visual hierarchy, accessibility, design tokens compliance (Tailwind v4 / Vanilla CSS), layout usability.
+   - _Key Focus_: "Does this follow the 6-pillar visual audit rules? Is the user interface clean, elegant, and responsive?"
+
+4. **QA Automation Engineer (Verification & Testability)**:
+   - Evaluates: Test pyramid coverage, unit test capability, TDD viability, edge cases.
+   - _Key Focus_: "How will we test this? What are the Happy, Sad, and Edge paths?"
+
+5. **Product Owner (Value, Scope & Constraints)**:
+   - Evaluates: MVP constraints, business requirements, estimated effort, and out-of-scope boundaries.
+   - _Key Focus_: "Does this directly solve the user request? Is this within the scope boundary?"
+
+### How to Document the Debate:
+
+Outline the debate trade-offs inside your brainstorming options analysis or in `docs/plans/active/{slug}/references/architecture_debate.md`. Example:
+
+> **5-Persona Debate Highlights**:
+>
+> - **Tech Lead**: "Option A is too complex; let's write a simple 30-line helper instead."
+> - **Security**: "Agree, but we must make sure helper inputs are sanitized."
+> - **UX**: "Ensure warning alerts follow our design system theme."
+> - **QA**: "Write unit tests targeting the validation limits."
+> - **Product Owner**: "Keep features out of scope that are not in the primary user request."
+
+---
+
 ## 🔗 Cross-References
 
 | After brainstorming             | Next Skill                  |

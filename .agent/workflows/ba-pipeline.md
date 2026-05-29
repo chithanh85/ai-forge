@@ -24,7 +24,7 @@ PHASE 2: Use Case (TỰ ĐỘNG — skip confirmation gates)
 PHASE 3: User Story + AC (TỰ ĐỘNG — full generation)
     ↓ output → docs/user-stories/US-*.md
 PHASE 4: Implementation Plan (TỰ ĐỘNG)
-    ↓ output → docs/plans/{feature-slug}/index.md + phase files
+    ↓ output → docs/plans/active/{feature-slug}/index.md + phase files
 PHASE 5: Summary + Review Gate (DỪNG — user xem lại toàn bộ)
 ```
 
@@ -198,9 +198,9 @@ Mỗi subagent thực hiện:
 ### 4.3 Save outputs
 
 - Save as split folder:
-  - `docs/plans/{feature-slug}/index.md`
-  - `docs/plans/{feature-slug}/phase-XX-{phase-name}.md`
-  - `docs/plans/{feature-slug}/current-phase.txt`
+  - `docs/plans/active/{feature-slug}/index.md`
+  - `docs/plans/active/{feature-slug}/phase-XX-{phase-name}.md`
+  - `docs/plans/active/{feature-slug}/current-phase.txt`
 - Set `current-phase.txt` to the first implementation phase.
 - Verify hydration:
   ```bash
@@ -221,19 +221,19 @@ Mỗi subagent thực hiện:
 
 ### 📊 Statistics
 
-| Artifact            | Count     | Location               |
-| ------------------- | --------- | ---------------------- |
-| Use Cases           | {N}       | `docs/use-cases/`      |
-| User Stories        | {M}       | `docs/user-stories/`   |
-| Acceptance Criteria | {K} total | (embedded in stories)  |
-| Plan Tasks          | {T}       | `docs/plans/{slug}.md` |
+| Artifact            | Count     | Location                            |
+| ------------------- | --------- | ----------------------------------- |
+| Use Cases           | {N}       | `docs/use-cases/`                   |
+| User Stories        | {M}       | `docs/user-stories/`                |
+| Acceptance Criteria | {K} total | (embedded in stories)               |
+| Plan Tasks          | {T}       | `docs/plans/active/{slug}/index.md` |
 
 ### 📁 Files Generated
 
 - `docs/use-cases/UC-*.md` — {list}
 - `docs/user-stories/US-*.md` — {list}
-- `docs/plans/{slug}/index.md`
-- `docs/plans/{slug}/phase-XX-*.md`
+- `docs/plans/active/{slug}/index.md`
+- `docs/plans/active/{slug}/phase-XX-*.md`
 - `.planning/REQUIREMENTS.md` (updated)
 - `.planning/STATE.md` (updated)
 

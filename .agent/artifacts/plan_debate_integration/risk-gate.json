@@ -1,0 +1,9 @@
+{
+  "schema": "awf.risk-gate.v1",
+  "run_id": "plan_debate_integration",
+  "risk": "LOW",
+  "decision": "ALLOW",
+  "blast_radius": "Only affects plan hydration script and documentation/prompt guidelines. Low risk of runtime impact.",
+  "blockers": [],
+  "approval_required": false
+}
