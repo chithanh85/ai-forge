@@ -35,10 +35,10 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 
 ## Last Session
 
-- **Date:** 2026-05-29
-- **What was done:** Upgraded `docs/plans/` directory to modular layout (`active/`, `completed/`, `backlog/`, `references/`) with backward compatibility in the plan hydration CLI. Integrated 5-persona debate protocol in `orchestrator` and `brainstorming` instructions. Added Vitest tests for subfolder plan resolution.
+- **Date:** 2026-05-30
+- **What was done:** Completed modularization of `docs/plans/` layout (`active/`, `completed/`, `backlog/`) with backward-compatible hydration CLI. Integrated 5-persona debate protocol in `orchestrator` and `brainstorming` instructions. Resolved Codex audit security findings (added path traversal validation `validateFilePath` and prompt injection shielding `escapeXmlDelimiters` to the auto-fix issue pipeline, added TypeScript devDependencies, and split lint scripts).
 - **Blockers:** None
-- **Next steps:** Create plans under `docs/plans/active/{feature-slug}/` and archive them to `docs/plans/completed/{feature-slug}/` upon implementation and verification completion.
+- **Next steps:** Ready to create new projects from template.
 
 ## Active Tasks
 
@@ -47,6 +47,7 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 - [x] Evaluate awesome-agent-harness integration candidates for AWF
 - [x] Create harness integration plan for Session Checkpointing and Git Worktree Runner
 - [x] Implement harness primitives from `docs/plans/harness-integration-plan.md`
+- [x] Fix Codex review findings (auto-fix path validation, prompt injection guards, and linting separation)
 
 ## Known Issues
 
