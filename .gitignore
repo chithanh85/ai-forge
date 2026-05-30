@@ -67,3 +67,8 @@ vbsec-reports/
 
 # AWF checkpoints
 .agent/checkpoints/
+
+# Python compile cache
+**/__pycache__/
+*.pyc
+

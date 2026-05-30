@@ -42,11 +42,11 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 
 ## Active Tasks
 
-- [x] Implement ClaudeKit guardrails from `docs/plans/claudekit-integration-plan.md`
+- [x] Implement ClaudeKit guardrails from `docs/plans/completed/claudekit-integration-plan.md`
 - [x] Implement advanced ClaudeKit rationalization, hydration, review, and wiki strict gates
 - [x] Evaluate awesome-agent-harness integration candidates for AWF
 - [x] Create harness integration plan for Session Checkpointing and Git Worktree Runner
-- [x] Implement harness primitives from `docs/plans/harness-integration-plan.md`
+- [x] Implement harness primitives from `docs/plans/completed/harness-integration-plan.md`
 - [x] Fix Codex review findings (auto-fix path validation, prompt injection guards, and linting separation)
 
 ## Known Issues
