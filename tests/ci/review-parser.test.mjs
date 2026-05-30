@@ -6,6 +6,7 @@ import {
   shouldCreateIssue,
   parseIssueBody,
   validateFilePath,
+  escapeXmlDelimiters,
 } from "../../scripts/ci/helpers/review-parser.mjs";
 
 describe("review-parser.mjs", () => {
@@ -271,6 +272,18 @@ Run parameterization.
     it("should reject control characters", () => {
       expect(validateFilePath("src/auth.js\0", mockCwd)).toBe(false);
       expect(validateFilePath("src/auth.js\n", mockCwd)).toBe(false);
+    });
+  });
+
+  describe("escapeXmlDelimiters", () => {
+    it("should escape closing tags of finding_data and diff_data", () => {
+      const input = "some text with </finding_data> and </diff_data> tags.";
+      expect(escapeXmlDelimiters(input)).toBe("some text with &lt;/finding_data&gt; and &lt;/diff_data&gt; tags.");
+    });
+
+    it("should return empty string for non-string inputs", () => {
+      expect(escapeXmlDelimiters(null)).toBe("");
+      expect(escapeXmlDelimiters(undefined)).toBe("");
     });
   });
 });

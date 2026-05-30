@@ -248,3 +248,17 @@ export function parseIssueBody(body) {
 
   return result;
 }
+
+/**
+ * Escapes XML-like prompt boundaries in untrusted text to prevent prompt injection breakouts.
+ * @param {string} text
+ * @returns {string} Escaped text
+ */
+export function escapeXmlDelimiters(text) {
+  if (typeof text !== "string") {
+    return "";
+  }
+  return text
+    .replace(/<\/finding_data>/g, "&lt;/finding_data&gt;")
+    .replace(/<\/diff_data>/g, "&lt;/diff_data&gt;");
+}

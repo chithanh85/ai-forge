@@ -334,7 +334,8 @@ If the code is good and has no issues, return:
       const maxIssues = parseInt(AI_PR_REVIEW_MAX_ISSUES_PER_RUN);
       let issuesCreated = 0;
 
-      for (const f of limitedFindings) {
+      const blockingFindings = allFindings.filter((f) => f.severity === "BLOCKING");
+      for (const f of blockingFindings) {
         if (issuesCreated >= maxIssues) break;
 
         // Apply strict unit-tested issue policy helper (fork and trusted actor whitelists)
