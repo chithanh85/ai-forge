@@ -4,6 +4,8 @@ import {
   mapToDownstreamSeverity,
   sanitizeMarkdown,
   shouldCreateIssue,
+  parseIssueBody,
+  validateFilePath,
 } from "../../scripts/ci/helpers/review-parser.mjs";
 
 describe("review-parser.mjs", () => {
@@ -204,6 +206,71 @@ describe("review-parser.mjs", () => {
       expect(
         shouldCreateIssue(blockingFinding, false, true, "hacker1", trusted),
       ).toBe(false);
+    });
+  });
+
+  describe("parseIssueBody", () => {
+    it("should parse file, severity, finding and diff from issue body markdown", () => {
+      const body = `
+Some issue header details.
+\`\`\`yaml
+file: src/auth.js
+severity: BLOCKING
+\`\`\`
+
+### Finding
+This is a security risk of SQL injection.
+
+### Proposed Fix
+Run parameterization.
+
+\`\`\`diff
+- old_code();
++ new_code();
+\`\`\`
+`;
+      const result = parseIssueBody(body);
+      expect(result.file).toBe("src/auth.js");
+      expect(result.severity).toBe("BLOCKING");
+      expect(result.finding).toBe("This is a security risk of SQL injection.");
+      expect(result.diffContext).toBe("- old_code();\n+ new_code();");
+    });
+
+    it("should return empty fields for empty/null inputs", () => {
+      const result = parseIssueBody(null);
+      expect(result.file).toBeNull();
+      expect(result.finding).toBe("");
+    });
+  });
+
+  describe("validateFilePath", () => {
+    const mockCwd = "D:/Project/awf-enterprise-template";
+
+    it("should allow safe relative paths under cwd", () => {
+      expect(validateFilePath("src/auth.js", mockCwd)).toBe(true);
+      expect(validateFilePath("package.json", mockCwd)).toBe(true);
+      expect(validateFilePath("tests/plan.test.ts", mockCwd)).toBe(true);
+    });
+
+    it("should reject absolute paths", () => {
+      expect(validateFilePath("/etc/passwd", mockCwd)).toBe(false);
+      expect(validateFilePath("C:/Windows/System32", mockCwd)).toBe(false);
+      expect(validateFilePath("\\\\server\\share", mockCwd)).toBe(false);
+    });
+
+    it("should reject directory traversal attempts", () => {
+      expect(validateFilePath("src/../../etc/passwd", mockCwd)).toBe(false);
+      expect(validateFilePath("../unrelated-folder", mockCwd)).toBe(false);
+      expect(validateFilePath("..", mockCwd)).toBe(false);
+    });
+
+    it("should reject path resolving outside CWD", () => {
+      expect(validateFilePath("src/../../F2FSimple/package.json", mockCwd)).toBe(false);
+    });
+
+    it("should reject control characters", () => {
+      expect(validateFilePath("src/auth.js\0", mockCwd)).toBe(false);
+      expect(validateFilePath("src/auth.js\n", mockCwd)).toBe(false);
     });
   });
 });

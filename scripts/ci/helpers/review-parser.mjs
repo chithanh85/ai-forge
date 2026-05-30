@@ -1,3 +1,5 @@
+import path from "path";
+
 /**
  * review-parser.mjs
  * Pure functions to parse Gemini JSON output, sanitize input/output, and map severity levels.
@@ -170,4 +172,79 @@ export function shouldCreateIssue(
   }
 
   return finding && finding.severity === "BLOCKING";
+}
+
+/**
+ * Validates a file path to prevent absolute path access, path traversal, or accessing files outside CWD.
+ * @param {string} file
+ * @param {string} cwd Current working directory (defaults to process.cwd())
+ * @returns {boolean} True if path is safe, false otherwise
+ */
+export function validateFilePath(file, cwd = process.cwd()) {
+  if (typeof file !== "string" || !file.trim()) {
+    return false;
+  }
+
+  // 1. Block control characters or null bytes (before trimming)
+  if (/[\x00-\x1f\x7f]/.test(file)) {
+    return false;
+  }
+
+  const trimmed = file.trim();
+
+  // 2. Block absolute paths (starts with / or \ or C:)
+  if (path.isAbsolute(trimmed) || trimmed.startsWith("/") || trimmed.startsWith("\\") || /^[A-Za-z]:/.test(trimmed)) {
+    return false;
+  }
+
+  // 3. Block directory traversal syntactically
+  const normalized = path.normalize(trimmed);
+  if (normalized.startsWith("..") || normalized.includes("..") || path.isAbsolute(normalized)) {
+    return false;
+  }
+
+  // 4. Resolve relative to cwd and ensure it remains strictly inside cwd
+  const resolvedPath = path.resolve(cwd, normalized);
+  const resolvedCwd = path.resolve(cwd);
+
+  if (resolvedPath === resolvedCwd) {
+    return false; // CWD itself cannot be modified
+  }
+  
+  // Ensure the resolvedPath starts with resolvedCwd + separator
+  const separator = resolvedCwd.endsWith(path.sep) ? "" : path.sep;
+  if (!resolvedPath.startsWith(resolvedCwd + separator)) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Parses structured issue bodies to extract file, severity, finding description, and diff context.
+ * @param {string} body
+ * @returns {object} { file, severity, finding, diffContext }
+ */
+export function parseIssueBody(body) {
+  const result = { file: null, severity: null, finding: "", diffContext: "" };
+  if (typeof body !== "string") {
+    return result;
+  }
+
+  const yamlMatch = body.match(/```yaml\n([\s\S]*?)```/);
+  if (yamlMatch) {
+    const yaml = yamlMatch[1];
+    const fileMatch = yaml.match(/file:\s*(.+)/);
+    const severityMatch = yaml.match(/severity:\s*(.+)/);
+    if (fileMatch) result.file = fileMatch[1].trim();
+    if (severityMatch) result.severity = severityMatch[1].trim();
+  }
+
+  const findingMatch = body.match(/### Finding\n([\s\S]*?)(?=### |---|$)/);
+  if (findingMatch) result.finding = findingMatch[1].trim();
+
+  const diffMatch = body.match(/```diff\n([\s\S]*?)```/);
+  if (diffMatch) result.diffContext = diffMatch[1].trim();
+
+  return result;
 }
