@@ -13,6 +13,7 @@
 [![Rune Skill Mesh](https://img.shields.io/badge/Mesh-Rune_Skill_Mesh-blueviolet.svg)](https://github.com/rune-kit/rune)
 [![Auto Fix](https://img.shields.io/badge/CI-Auto--Fix_via_Codex-blueviolet.svg)]()
 [![Telegram](https://img.shields.io/badge/AFK-Telegram_Reports-blue.svg)](https://github.com/thith/teleport)
+[![Git Ratchet](https://img.shields.io/badge/Optimizer-Git_Ratchet-green.svg)]()
 
 **AI Forge** không phải là một bộ prompt tĩnh. Đây là một **Enterprise AI Development Ecosystem** — nơi các AI agents đảm nhiệm vai trò chuyên biệt (BA, Architect, Frontend, Backend, QA, DevOps, Security) và cộng tác với nhau để xây dựng phần mềm.
 
@@ -38,19 +39,19 @@ Mỗi bước trong chuỗi là một workflow có cấu trúc, được trang b
 
 Gõ `/ba-pipeline`. AI (vai trò BA) phỏng vấn bạn vài câu, sau đó tự động viết **Use Cases** chuẩn IIBA → bẻ nhỏ thành **User Stories** chuẩn INVEST → sinh **Kế hoạch thực thi (Plan)** chi tiết. 100% tự động.
 
-### 2. Thiết kế UI/UX (5-Stage Design Pipeline)
+### 2. Thiết kế UI/UX (5-Stage Design Pipeline với tích hợp taste-skill)
 
-Khi yêu cầu làm giao diện, hệ thống kích hoạt chuỗi 5 bước:
+Khi yêu cầu làm giao diện, hệ thống kích hoạt chuỗi 5 bước, tự động áp dụng các quy chuẩn chống thiết kế "công thức/rập khuôn" (anti-slop) từ **`taste-skill`**:
 
-| Bước                | Skill                   | Làm gì                                                               |
-| ------------------- | ----------------------- | -------------------------------------------------------------------- |
-| 1. **THINK**        | `frontend-design`       | UX psychology, constraint analysis, ask-before-assume                |
-| 2a. **GENERATE**    | `ui-ux-pro-max`         | Sinh Design System từ 161 quy tắc ngành (67 styles, 57 fonts)        |
-| 2b. **REFERENCE**   | `rico-ui-ux-themes`     | Clone style từ 20 themes (Linear, Stripe, Notion...) hoặc bất kỳ URL |
-| 3a. **EXTRACT**     | `rico-design-md`        | Scrape thiết kế từ website → DESIGN.md + tokens.json + Tailwind      |
-| 3b. **STANDARDIZE** | `design-tokens`         | Lint, WCAG contrast check, export CSS/Tailwind/DTCG                  |
-| 4. **CODE**         | Agent implement         | Viết code dựa trên design system đã thống nhất                       |
-| 5. **AUDIT**        | `web-design-guidelines` | Quét accessibility, performance sau khi code xong                    |
+| Bước                | Skill                   | Vai trò & Chống thiết kế rập khuôn (taste-skill)                                                                                                                                                                                                                                                               |
+| ------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. **THINK**        | `frontend-design`       | Đọc vị brief (**Brief Inference**) → xuất ra dòng **Design Read** bắt buộc và thiết lập bộ 3 tham số (**Three Dials**): Variance, Motion, Density trước khi code.                                                                                                                                              |
+| 2a. **GENERATE**    | `ui-ux-pro-max`         | Sinh Design System từ 161 quy tắc ngành (67 styles, 57 fonts). Tránh mặc định dùng font display serif (`Fraunces`, `Instrument_Serif`) hay màu beige/brass cho các brand cao cấp (**Serif/Palette Discipline**). Chặn gradient tím mặc định (**Lila Rule**).                                                   |
+| 2b. **REFERENCE**   | `rico-ui-ux-themes`     | Clone style từ 20 themes (Linear, Stripe, Notion...) hoặc bất kỳ URL.                                                                                                                                                                                                                                          |
+| 3a. **EXTRACT**     | `rico-design-md`        | Scrape thiết kế từ website → DESIGN.md + tokens.json + Tailwind.                                                                                                                                                                                                                                               |
+| 3b. **STANDARDIZE** | `design-tokens`         | Lint, WCAG contrast check, export CSS/Tailwind/DTCG.                                                                                                                                                                                                                                                           |
+| 4. **CODE**         | Agent implement         | Viết code dựa trên design system đã thống nhất. Áp dụng kỷ luật thiết kế: bento grid khít ô (**Bento Cell Rule**), hạn chế nhãn phụ (**Eyebrow Restraint** - max 1 eyebrow/3 sections), tránh đổi hướng liên tục (**Zigzag Alternation Cap** - max 2), không trùng lặp ý đồ CTA (**No Duplicate CTA Intent**). |
+| 5. **AUDIT**        | `web-design-guidelines` | Quét accessibility, performance, và chạy **Pre-Delivery Checklist** (kiểm tra contrast WCAG AA, tactile feedback khi active, testimonial tối đa 3 dòng, cấm div screenshot).                                                                                                                                   |
 
 ### 3. Thực thi Song song
 
@@ -75,7 +76,18 @@ Tiết kiệm đến **72% thời gian** so với xử lý tuần tự.
 
 Code chạy test bị lỗi? AI tự đọc log → tự hiểu → tự fix → chạy lại test. Tối đa 3 vòng. Nếu fail → escalate + lưu bài học vào Second Brain.
 
-### 5. Quét Bảo mật (vbsec — Powered by SePay)
+### 5. Tối ưu hóa định lượng (Git Ratchet - /optimize)
+
+Khi muốn cải thiện hiệu năng (API latency, Bundle Size), vá lỗi bảo mật sau khi quét, hoặc tinh chỉnh prompts của AI, gõ `/optimize`. AI sẽ kích hoạt cơ chế **Git Ratchet**:
+
+1. **Khởi tạo**: Tạo một nhánh git tạm thời cách ly (`optimize/opt-<timestamp>`) từ HEAD hiện tại và đo baseline metric.
+2. **Đề xuất & Thử nghiệm**: AI chỉnh sửa code dựa trên giả thuyết tối ưu hóa.
+3. **Đánh giá tự động**: Chạy benchmark và các cổng kiểm định an toàn (linting, tests):
+   - Nếu metric tốt hơn và vượt qua toàn bộ tests: Tự động `git commit`.
+   - Nếu kết quả thụt lùi (regression) hoặc lỗi: Tự động `git reset --hard` để rollback.
+4. **Hợp nhất**: Khi hoàn tất, tự động merge các commit cải tiến vào nhánh chính và xóa nhánh tạm.
+
+### 6. Quét Bảo mật (vbsec — Powered by SePay)
 
 Gõ `/audit`. AI kích hoạt **[vbs-scan-security](https://github.com/tanviet12/vbsec)** — bộ quét bảo mật reasoning-first, phát hiện **21 loại lỗ hổng** phổ biến trong code do AI sinh ra:
 
@@ -99,11 +111,11 @@ Gõ `/audit`. AI kích hoạt **[vbs-scan-security](https://github.com/tanviet12
 
 Report được lưu tự động vào `vbsec-reports/scan-<timestamp>.md`.
 
-### 6. Second Brain (Bộ nhớ Vĩnh cửu)
+### 7. Second Brain (Bộ nhớ Vĩnh cửu)
 
 Sau mỗi phiên, AI tự rút bài học và lưu vào Second Brain (MCP Cloud hoặc local fallback). Phiên sau nó tự nhớ quyết định kiến trúc, bug patterns, deploy issues — không cần nhắc lại.
 
-### 7. AFK Mode — Làm việc khi rời bàn
+### 8. AFK Mode — Làm việc khi rời bàn
 
 Gõ **"tele me"** hoặc **"gửi tele khi xong"** — agent sẽ gửi báo cáo ngắn qua Telegram khi task hoàn tất và chờ lệnh tiếp theo từ điện thoại của bạn.
 
@@ -115,7 +127,7 @@ Gõ **"tele me"** hoặc **"gửi tele khi xong"** — agent sẽ gửi báo cá
 ⬜ Smoke test pending your review
 ```
 
-### 8. Triết lý Kỹ thuật (TDD, Clean Code & System Design)
+### 9. Triết lý Kỹ thuật (TDD, Clean Code & System Design)
 
 Hệ thống không phụ thuộc vào "cảm hứng" viết code của AI, mà ép buộc chất lượng bằng các rào cản kỹ thuật:
 
@@ -170,6 +182,13 @@ Trước khi merge hoặc ship, hệ thống tự động quét và kiểm thử
 5. `adversarial-validation.json` — Kết quả giả định tấn công/Red Team thử nghiệm.
 
 - **Checklist Hook & Test Suite**: Bộ kiểm định `checklist.py` được tích hợp thẳng vào chuỗi pre-commit/CI audit, tự động quét thư mục `.agent/artifacts/` để kiểm tra 5 artifacts này. Nếu thiếu file, JSON lỗi, hoặc phát hiện chuỗi giống secrets, commit sẽ bị chặn lập tức. Quy trình này được bảo đảm bằng bộ test Vitest (`tests/artifact-gate.test.ts`).
+
+### 4. Cô lập môi trường bằng Git Worktree & Session Checkpointing
+
+Để đảm bảo an toàn tuyệt đối khi chạy nhiều agents song song hoặc khi thực hiện các tác vụ sửa code:
+
+- **Git Worktree Isolation**: Mọi tác vụ ghi code (qua `/code` hoặc subagents song song) sẽ tự động chạy trong một Git Worktree độc lập nằm tại `.tmp/worktrees/<run-id>/` trên một nhánh tạm thời (`awf/<run-id>`). Toàn bộ thay đổi và quá trình chạy thử nghiệm đều được cách ly, không gây ảnh hưởng đến nhánh làm việc chính của bạn. Khi chạy thành công, worktree sẽ tự động được dọn dẹp bằng `git worktree remove`.
+- **Session Checkpointing**: Nhật ký thực thi, trạng thái các bước và lịch sử câu lệnh được ghi nhận tự động vào file cấu trúc `.agent/checkpoints/<run-id>/checkpoint.json`, cho phép kiểm toán (audit) hoặc khôi phục (resume/handoff) phiên làm việc dễ dàng.
 
 ---
 
@@ -235,7 +254,7 @@ Orchestrator định tuyến request đến agent phù hợp nhất:
 
 ---
 
-## 🛠️ 43 Skills Chuyên sâu
+## 🛠️ 44 Skills Chuyên sâu
 
 Skills là "kiến thức nền" mà agents nạp vào khi cần. Tự động kích hoạt, không cần gọi tay:
 
@@ -264,7 +283,7 @@ Skills là "kiến thức nền" mà agents nạp vào khi cần. Tự động k
 `use-case-writer` · `user-story-ac-writer` · `documentation-templates`
 
 **Specialized:**
-`teleport-bridge` · `browser-ops` · `game-development` · `geo-fundamentals` · `seo-fundamentals` · `i18n-localization` · `performance-profiling` · `clean-code`
+`teleport-bridge` · `browser-ops` · `game-development` · `geo-fundamentals` · `seo-fundamentals` · `i18n-localization` · `performance-profiling` · `clean-code` · `optimize`
 
 ---
 
@@ -278,25 +297,27 @@ Skills là "kiến thức nền" mà agents nạp vào khi cần. Tự động k
 
 > **Quy tắc chung** áp dụng cho tất cả agents: `AGENTS.md`
 >
-> **Codex compatibility**: `.codex/skills/vbs-scan-security` là junction link trỏ về `.agent/skills/vbs-scan-security` — cùng source, không duplicate.
+> **Codex compatibility**: `.codex/skills/vbs-scan-security` và `.codex/skills/optimize` là các junction link trỏ về `.agent/skills/` — cùng source, không duplicate.
 
 ---
 
 ## ✨ Các Trụ cột Công nghệ
 
-| #   | Công nghệ                     | Vai trò                                                           |
-| --- | ----------------------------- | ----------------------------------------------------------------- |
-| 1   | 🧠 **Orchestrator**           | Single entry point — phân tích, routing, spawn agents song song   |
-| 2   | 🎨 **Open Design (MCP)**      | 31 skills + 72 design systems — prototype, deck, marketing, docs  |
-| 3   | 🚀 **BA Pipeline**            | `/ba-pipeline` → Use Case → User Story → Plan (tự động hoàn toàn) |
-| 4   | 🔒 **vbsec Security Scanner** | `/audit` → 21 vulnerability rules, reasoning-first, bilingual     |
-| 5   | 🧬 **GitNexus (MCP)**         | Knowledge Graph codebase — biết blast radius khi refactor         |
-| 6   | 📓 **Obsidian Vault**         | `docs/` là mạng lưới tri thức — AI quét `[[concept]]` links       |
-| 7   | 💾 **Second Brain**           | Bộ nhớ dài hạn — AI nhớ quyết định kiến trúc qua các phiên        |
-| 8   | 🔄 **Self-Healing Loop**      | test → fail → auto-fix (max 3 lần) → remember lesson              |
-| 9   | 🤖 **Auto-Fix Pipeline**      | CI phát hiện → Codex fix local → PR → auto-close issue            |
-| 10  | 🦀 **Clawpatch Review**       | Quét & vá lỗi chủ động trên local (proactive review)              |
-| 11  | 📡 **Teleport Bridge**        | AFK reports qua Telegram — ra lệnh tiếp từ điện thoại             |
+| #   | Công nghệ                     | Vai trò                                                                                         |
+| --- | ----------------------------- | ----------------------------------------------------------------------------------------------- |
+| 1   | 🧠 **Orchestrator**           | Single entry point — phân tích, routing, spawn agents song song                                 |
+| 2   | 🎨 **Open Design (MCP)**      | 31 skills + 72 design systems — prototype, deck, marketing, docs                                |
+| 3   | 🚀 **BA Pipeline**            | `/ba-pipeline` → Use Case → User Story → Plan (tự động hoàn toàn)                               |
+| 4   | 🔒 **vbsec Security Scanner** | `/audit` → 21 vulnerability rules, reasoning-first, bilingual                                   |
+| 5   | 🧬 **GitNexus (MCP)**         | Knowledge Graph codebase — biết blast radius khi refactor                                       |
+| 6   | 📓 **Obsidian Vault**         | `docs/` là mạng lưới tri thức — AI quét `[[concept]]` links                                     |
+| 7   | 💾 **Second Brain**           | Bộ nhớ dài hạn — AI nhớ quyết định kiến trúc qua các phiên                                      |
+| 8   | 🔄 **Self-Healing Loop**      | test → fail → auto-fix (max 3 lần) → remember lesson                                            |
+| 9   | 🤖 **Auto-Fix Pipeline**      | CI phát hiện → Codex fix local → PR → auto-close issue                                          |
+| 10  | 🦀 **Clawpatch Review**       | Quét & vá lỗi chủ động trên local (proactive review)                                            |
+| 11  | 📡 **Teleport Bridge**        | AFK reports qua Telegram — ra lệnh tiếp từ điện thoại                                           |
+| 12  | 🧬 **Git Ratchet Optimizer**  | `/optimize` → Tối ưu hóa mã nguồn định lượng (Performance, Security, Prompts) an toàn           |
+| 13  | 🌳 **Git Worktree Runner**    | Tạo git worktrees cô lập dưới `.tmp/worktrees/` cho các write-agents sửa code song song an toàn |
 
 ---
 
@@ -355,22 +376,23 @@ Mở khung chat AI và gõ:
 
 ### AWF Workflows (Project-level)
 
-| Lệnh              | Mô tả                                                                 |
-| ----------------- | --------------------------------------------------------------------- |
-| `/brainstorm`     | Bàn ý tưởng, phân tích nghiệp vụ (Socratic Gate)                      |
-| `/ba-pipeline`    | Full-auto BA: Use Case → User Story → Plan                            |
-| `/plan`           | Lên kế hoạch, chia task, estimate                                     |
-| `/design`         | Thiết kế DB Schema + API + Architecture                               |
-| `/code`           | Viết code với TDD + Self-Healing Loop                                 |
-| `/code-pro`       | 🚀 Actor-Critic Coding (Codex Plan + Antigravity Code + Codex Review) |
-| `/test`           | Sinh test + chạy + auto-fix failures                                  |
-| `/audit`          | 🔒 Quét bảo mật (vbsec 21 rules) + code quality                       |
-| `/deploy`         | Deploy staging/production với safety checks                           |
-| `/debug`          | Systematic debugging (4-phase root cause)                             |
-| `/fix-issues`     | Fetch GitHub Issues → fix local → push PR                             |
-| `/clawpatch`      | 🦀 Quét & vá lỗi chủ động trên local (Clawpatch)                      |
-| `/setup-services` | One-click GitHub + Cloudflare + CI/CD setup                           |
-| `/setup-teleport` | Setup Telegram AFK reporting bridge                                   |
+| Lệnh              | Mô tả                                                                             |
+| ----------------- | --------------------------------------------------------------------------------- |
+| `/brainstorm`     | Bàn ý tưởng, phân tích nghiệp vụ (Socratic Gate)                                  |
+| `/ba-pipeline`    | Full-auto BA: Use Case → User Story → Plan                                        |
+| `/plan`           | Lên kế hoạch, chia task, estimate                                                 |
+| `/design`         | Thiết kế DB Schema + API + Architecture                                           |
+| `/code`           | Viết code với TDD + Self-Healing Loop                                             |
+| `/code-pro`       | 🚀 Actor-Critic Coding (Codex Plan + Antigravity Code + Codex Review)             |
+| `/test`           | Sinh test + chạy + auto-fix failures                                              |
+| `/audit`          | 🔒 Quét bảo mật (vbsec 21 rules) + code quality                                   |
+| `/deploy`         | Deploy staging/production với safety checks                                       |
+| `/debug`          | Systematic debugging (4-phase root cause)                                         |
+| `/fix-issues`     | Fetch GitHub Issues → fix local → push PR                                         |
+| `/clawpatch`      | 🦀 Quét & vá lỗi chủ động trên local (Clawpatch)                                  |
+| `/optimize`       | 🧬 Tối ưu hóa mã nguồn định lượng (Performance/Security/Prompts) bằng Git Ratchet |
+| `/setup-services` | One-click GitHub + Cloudflare + CI/CD setup                                       |
+| `/setup-teleport` | Setup Telegram AFK reporting bridge                                               |
 
 ### Global AWF Commands
 
@@ -468,13 +490,14 @@ ai-forge/
 ├── .codex/
 │   ├── config.toml              # Config riêng cho Codex CLI
 │   └── skills/
-│       └── vbs-scan-security/   # Junction → .agent/skills/vbs-scan-security
+│       ├── vbs-scan-security/   # Junction → .agent/skills/vbs-scan-security
+│       └── optimize/            # Junction → .agent/skills/optimize
 ├── .mcp.json                    # MCP servers (GitNexus + Open Design)
 │
 ├── .agent/
 │   ├── agents/                  # 20 agent definitions (orchestrator, frontend, backend...)
-│   ├── skills/                  # 43 skills (open-design-bridge, vbs-scan-security, ui-ux-pro-max...)
-│   ├── workflows/               # 12 project-level workflows (/code, /audit, /deploy...)
+│   ├── skills/                  # 44 skills (open-design-bridge, vbs-scan-security, ui-ux-pro-max...)
+│   ├── workflows/               # 13 project-level workflows (/code, /audit, /deploy...)
 │   ├── scripts/                 # Python helper scripts (checklist, wiki_lint, verify_all)
 │   └── rules/                   # Additional AI rules
 │
@@ -499,7 +522,7 @@ ai-forge/
 ├── scripts/                     # Operational scripts
 │   ├── ci/                      # CI/CD helpers
 │   ├── deploy/                  # Deployment scripts
-│   ├── maintenance/             # Maintenance scripts
+│   ├── maintenance/             # Maintenance scripts (env parity, optimize.mjs)
 │   ├── qa_tools/                # QA automation tools
 │   └── setup/                   # Project setup scripts
 │
@@ -525,21 +548,22 @@ ai-forge/
 
 AI Forge tích hợp và xây dựng trên các dự án mã nguồn mở xuất sắc:
 
-| Skill / Component       | Source                                                                                          | Author                                                                                    | License    |
-| ----------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ---------- |
-| **AWF Framework**       | [TUAN130294/awf](https://github.com/TUAN130294/awf)                                             | Phan Anh Tuấn                                                                             | —          |
-| `vbs-scan-security`     | [tanviet12/vbsec](https://github.com/tanviet12/vbsec)                                           | Bùi Tấn Việt & Phan Quốc Hiên ([SePay](https://sepay.vn) & [123HOST](https://123host.vn)) | MIT        |
-| `open-design-bridge`    | [nexu-io/open-design](https://github.com/nexu-io/open-design)                                   | Nexu Labs                                                                                 | Apache-2.0 |
-| `clawpatch`             | [openclaw/clawpatch](https://github.com/openclaw/clawpatch)                                     | OpenClaw Team                                                                             | MIT        |
-| **Rune Skill Mesh**     | [rune-kit/rune](https://github.com/rune-kit/rune)                                               | Rune-kit                                                                                  | MIT        |
-| `teleport-bridge`       | [thith/teleport](https://github.com/thith/teleport)                                             | thith                                                                                     | —          |
-| `ui-ux-pro-max`         | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | nextlevelbuilder                                                                          | —          |
-| `ui-ux-pro-max` (Rico)  | [ricocc/rico-skills](https://github.com/ricocc/rico-skills)                                     | ricocc                                                                                    | —          |
-| `design-tokens`         | [google-labs-code/design.md](https://github.com/google-labs-code/design.md)                     | Google Labs                                                                               | Apache-2.0 |
-| `system-design`         | [karanpratapsingh/system-design](https://github.com/karanpratapsingh/system-design)             | Karan Pratap Singh                                                                        | —          |
-| `web-design-guidelines` | [vercel-labs/web-interface-guidelines](https://github.com/vercel-labs/web-interface-guidelines) | Vercel                                                                                    | —          |
-| `use-case-writer`       | [ba-zone](https://github.com/ba-zone)                                                           | Phúc NT @ BA Zone                                                                         | —          |
-| `user-story-ac-writer`  | [ba-zone](https://github.com/ba-zone)                                                           | Phúc NT @ BA Zone                                                                         | —          |
+| Skill / Component             | Source                                                                                          | Author                                                                                    | License    |
+| ----------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ---------- |
+| **AWF Framework**             | [TUAN130294/awf](https://github.com/TUAN130294/awf)                                             | Phan Anh Tuấn                                                                             | —          |
+| `vbs-scan-security`           | [tanviet12/vbsec](https://github.com/tanviet12/vbsec)                                           | Bùi Tấn Việt & Phan Quốc Hiên ([SePay](https://sepay.vn) & [123HOST](https://123host.vn)) | MIT        |
+| `open-design-bridge`          | [nexu-io/open-design](https://github.com/nexu-io/open-design)                                   | Nexu Labs                                                                                 | Apache-2.0 |
+| `clawpatch`                   | [openclaw/clawpatch](https://github.com/openclaw/clawpatch)                                     | OpenClaw Team                                                                             | MIT        |
+| **Rune Skill Mesh**           | [rune-kit/rune](https://github.com/rune-kit/rune)                                               | Rune-kit                                                                                  | MIT        |
+| `teleport-bridge`             | [thith/teleport](https://github.com/thith/teleport)                                             | thith                                                                                     | —          |
+| `ui-ux-pro-max`               | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | nextlevelbuilder                                                                          | —          |
+| `ui-ux-pro-max` (Rico)        | [ricocc/rico-skills](https://github.com/ricocc/rico-skills)                                     | ricocc                                                                                    | —          |
+| `ui-ux-pro-max` (taste-skill) | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill)                                 | Leonxlnx                                                                                  | MIT        |
+| `design-tokens`               | [google-labs-code/design.md](https://github.com/google-labs-code/design.md)                     | Google Labs                                                                               | Apache-2.0 |
+| `system-design`               | [karanpratapsingh/system-design](https://github.com/karanpratapsingh/system-design)             | Karan Pratap Singh                                                                        | —          |
+| `web-design-guidelines`       | [vercel-labs/web-interface-guidelines](https://github.com/vercel-labs/web-interface-guidelines) | Vercel                                                                                    | —          |
+| `use-case-writer`             | [ba-zone](https://github.com/ba-zone)                                                           | Phúc NT @ BA Zone                                                                         | —          |
+| `user-story-ac-writer`        | [ba-zone](https://github.com/ba-zone)                                                           | Phúc NT @ BA Zone                                                                         | —          |
 
 ---
 

@@ -193,13 +193,22 @@ export function validateFilePath(file, cwd = process.cwd()) {
   const trimmed = file.trim();
 
   // 2. Block absolute paths (starts with / or \ or C:)
-  if (path.isAbsolute(trimmed) || trimmed.startsWith("/") || trimmed.startsWith("\\") || /^[A-Za-z]:/.test(trimmed)) {
+  if (
+    path.isAbsolute(trimmed) ||
+    trimmed.startsWith("/") ||
+    trimmed.startsWith("\\") ||
+    /^[A-Za-z]:/.test(trimmed)
+  ) {
     return false;
   }
 
   // 3. Block directory traversal syntactically
   const normalized = path.normalize(trimmed);
-  if (normalized.startsWith("..") || normalized.includes("..") || path.isAbsolute(normalized)) {
+  if (
+    normalized.startsWith("..") ||
+    normalized.includes("..") ||
+    path.isAbsolute(normalized)
+  ) {
     return false;
   }
 
@@ -210,7 +219,7 @@ export function validateFilePath(file, cwd = process.cwd()) {
   if (resolvedPath === resolvedCwd) {
     return false; // CWD itself cannot be modified
   }
-  
+
   // Ensure the resolvedPath starts with resolvedCwd + separator
   const separator = resolvedCwd.endsWith(path.sep) ? "" : path.sep;
   if (!resolvedPath.startsWith(resolvedCwd + separator)) {

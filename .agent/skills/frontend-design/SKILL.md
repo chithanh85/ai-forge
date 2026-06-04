@@ -88,6 +88,45 @@ Before applying this skill, load project context:
 
 ---
 
+## 0. Brief Inference & Aesthetic Calibration (Dials)
+
+Before touching code or layout, **infer what the user actually wants** to avoid defaulting to a generic aesthetic.
+
+### 0.A Read these signals first:
+
+1. **Page kind** - landing (SaaS/consumer/agency), portfolio, editorial/blog, corporate.
+2. **Vibe keywords** - "minimalist", "calm", "Linear-style", "brutalist", "premium consumer", "Apple-y", "playful".
+3. **Reference signals** - URLs, screenshots, or competitor brands.
+4. **Audience** - B2B technical vs. design-conscious consumer vs. recruiter.
+5. **Quiet constraints** - accessibility, regulated industries, or trust-first ecommerce.
+
+### 0.B Output a one-line "Design Read" (MANDATORY)
+
+Before generating any UI code, you MUST output a single line stating:
+`"Reading this as: <page kind> for <audience>, with a <vibe> language, leaning toward <design system or aesthetic family>."`
+
+_Example:_ _"Reading this as: B2B SaaS landing for technical buyers, with a Linear-style minimalist language, leaning toward Tailwind utilities + Geist + restrained motion."_
+
+### 0.C Dial Calibration (The Three Dials)
+
+Based on the design read, configure the three style dials (scale of 1-10) to guide code structure:
+
+- **`DESIGN_VARIANCE`** (1 = Perfect Symmetry, 10 = Artsy Chaos)
+- **`MOTION_INTENSITY`** (1 = Static, 10 = Cinematic/Physics)
+- **`VISUAL_DENSITY`** (1 = Art Gallery/Airy, 10 = Cockpit/Packed Data)
+
+| Use Case Preset               | DESIGN_VARIANCE | MOTION_INTENSITY | VISUAL_DENSITY |
+| ----------------------------- | --------------- | ---------------- | -------------- |
+| Landing (SaaS, mainstream)    | 7               | 6                | 4              |
+| Landing (Agency / creative)   | 9               | 8                | 3              |
+| Landing (Premium consumer)    | 7               | 6                | 3              |
+| Portfolio (Designer / studio) | 8               | 7                | 3              |
+| Portfolio (Developer)         | 6               | 5                | 4              |
+| Editorial / Blog              | 6               | 4                | 3              |
+| Public-sector / Gov service   | 3               | 2                | 5              |
+
+---
+
 ## 1. Constraint Analysis (ALWAYS FIRST)
 
 Before any design work, ANSWER THESE or ASK USER:
@@ -176,6 +215,20 @@ All spacing and sizing in multiples of 8:
 | **Cards**         | Consistent padding, breathable       |
 | **Reading width** | 45-75 characters optimal             |
 
+### 3.B Layout & Section Discipline (Anti-Slop)
+
+- **Hero MUST fit in initial viewport:** Headline max 2 lines on desktop. Subtext max **20 words** and max 3-4 lines. Primary/secondary CTAs must be visible without scroll.
+- **Hero Stack Discipline (Max 4 text elements):** Eyebrow OR brand strip (0 or 1) + Headline + Subtext + CTAs. Banned in hero: taglines below CTAs, pricing teasers, trust logo walls. All of these go in sections below.
+- **Hero Top Padding Cap:** Hero top padding max `pt-24` (~6rem) at desktop to prevent hero content floating too low.
+- **Used by Logo Wall:** Trust logos belong below the hero, never inside it.
+- **Bento Grid Cell Count:** Grid has exactly as many cells as content (e.g., 3 items = 3 cells). No blank/empty slots. At least 2-3 cells must have visual variety (image, brand-appropriate pattern, tinted background).
+- **Section Layout Repetition Ban:** A page with 8 sections must use at least 4 different layout families. Never repeat the exact same layout (e.g. 3-card columns) sequentially.
+- **Zigzag Alternation Cap:** Maximum 2 sections in a row with alternating image+text-split patterns. Break the pattern in the 3rd section.
+- **Eyebrow Restraint:** Maximum 1 eyebrow (uppercase tracking mono label) per 3 sections. Do not put an eyebrow above every section header.
+- **Split-Header Ban:** Do not use "left big H2 + right small body paragraph" as a section header unless the right column contains an actual visual or interactive element. Stack them vertically instead.
+- **Navigation Height & Line Cap:** Navigation must render on a single line on desktop. Max height: 80px (default 64-72px).
+- **Mobile Collapse:** For every multi-column layout, declare the `< 768px` fallback explicitly in the same component.
+
 ---
 
 ## 4. Color Principles
@@ -204,6 +257,13 @@ All spacing and sizing in multiples of 8:
 2. **What's the emotion?** (picks primary)
 3. **Light or dark mode?** (sets foundation)
 4. **ASK USER** if not specified
+
+### 4.B Visual Color Rules (Anti-Slop)
+
+- **The Lila Rule (Anti-Purple Mesh Ban):** Avoid default AI-purple button glows, mesh/aurora backgrounds, or neon gradients unless the brief explicitly demands them. Use neutral bases (Zinc, Slate, Stone) with high-contrast singular accents (Emerald, Deep Rose, Burnt Orange).
+- **Color Consistency Lock:** Once an accent color is selected, it must be locked and used consistently across the entire page (e.g., do not mix teals, blues, and roses as CTAs on the same page).
+- **Premium-Consumer Palette Ban:** Banned as default background/text palettes for luxury/artisanal/DTC home goods brands: warm beige/cream background (`#f5f1ea`, `#f7f5f1`, etc.) + brass/oxblood accents (`#b08947`, `#9a2436`, etc.) + espresso text.
+  - _Alternatives:_ Cold Luxury (silver-grey + chrome + smoke), Forest (deep green + bone + amber), Monochrome + singular saturated pop (off-white + off-black + electric blue/hot pink).
 
 For detailed color theory: [color-system.md](color-system.md)
 
@@ -235,6 +295,12 @@ Contrast + Harmony:
 - **Line height**: 1.4-1.6 for body text
 - **Contrast**: Check WCAG requirements
 - **Size**: 16px+ for body on web
+
+### 5.B Typography Discipline (Anti-Slop)
+
+- **Serif Discipline:** Serif font usage is **highly discouraged** as a default. Only use a serif display font if the brand guidelines explicitly name one, or the vibe is genuinely editorial/heritage. Banned display serifs as defaults: `Fraunces`, `Instrument_Serif`.
+- **Italic Descender Clearance:** When display type uses italic words with descender letters (`y, g, j, p, q`), use `leading-[1.1]` minimum and add padding at the bottom (`pb-1`) to prevent clipping.
+- **Emphasis Consistency:** Emphasize words in headlines using italic or bold of the _same_ font family. Never mix sans and serif families within a single H1.
 
 For detailed typography: [typography-system.md](typography-system.md)
 
@@ -356,6 +422,22 @@ For animation patterns: [animation-guide.md](animation-guide.md), for advanced: 
 - **Mesh Gradients & Glow Effects**
 - **Same layout structure / Vercel clone**
 - **Not asking user preferences**
+
+### 🖼️ Image & Visual Asset Strategy (Anti-Slop)
+
+- **Image Generation First:** If any image-generation tool is available, you MUST use it to generate custom assets (hero photos, product shots, texture backgrounds) matching the design read.
+- **Real Web Images Second:** Use descriptive seed URLs like `https://picsum.photos/seed/{desc}/{w}/{h}` or Unsplash when generation is unavailable.
+- **No Div-based Fake Screenshots:** Banned. Use actual component previews, mock screenshots, or real placeholder images.
+- **Logo Wall (Simple Icons):** Use CDNs (`https://cdn.simpleicons.org/{slug}/ffffff`) or SVGs for real brand logos. Do not use plain text wordmarks or add category labels under logos.
+
+### 📋 Interactive UI & Content Density (Anti-Slop)
+
+- **Tactile Feedback:** On `:active`, use `-translate-y-[1px]` or `scale-[0.98]` to simulate a physical push.
+- **CTA button wrap ban:** Button text must fit on one line on desktop. Shorten labels or widen the button.
+- **No duplicate CTA intent:** Two CTAs with the same intent on one page is banned (e.g. "Get in touch" and "Let's talk"). Use one label per intent.
+- **Form/Button Contrast check:** Every input, placeholder, focus ring, and CTA button must pass WCAG AA contrast (4.5:1 min) against the section background.
+- **Copy Self-Audit:** Review all generated text for grammatical errors, weird AI metaphors, or robotic copy. Replace with simple human sentences if unsure.
+- **Quotes/Testimonials:** Testimonial quote body must be a maximum of 3 lines. Slice or edit the text if it is longer to keep it clean.
 
 ### ❌ Dark Patterns (Unethical)
 

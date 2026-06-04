@@ -266,7 +266,9 @@ Run parameterization.
     });
 
     it("should reject path resolving outside CWD", () => {
-      expect(validateFilePath("src/../../F2FSimple/package.json", mockCwd)).toBe(false);
+      expect(
+        validateFilePath("src/../../F2FSimple/package.json", mockCwd),
+      ).toBe(false);
     });
 
     it("should reject control characters", () => {
@@ -278,7 +280,9 @@ Run parameterization.
   describe("escapeXmlDelimiters", () => {
     it("should escape closing tags of finding_data and diff_data", () => {
       const input = "some text with </finding_data> and </diff_data> tags.";
-      expect(escapeXmlDelimiters(input)).toBe("some text with &lt;/finding_data&gt; and &lt;/diff_data&gt; tags.");
+      expect(escapeXmlDelimiters(input)).toBe(
+        "some text with &lt;/finding_data&gt; and &lt;/diff_data&gt; tags.",
+      );
     });
 
     it("should return empty string for non-string inputs", () => {

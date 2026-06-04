@@ -16,7 +16,11 @@
 
 import { execSync, spawnSync } from "child_process";
 import fs from "fs";
-import { parseIssueBody, validateFilePath, escapeXmlDelimiters } from "./helpers/review-parser.mjs";
+import {
+  parseIssueBody,
+  validateFilePath,
+  escapeXmlDelimiters,
+} from "./helpers/review-parser.mjs";
 
 const { ISSUE_NUMBER, ISSUE_TITLE = "", ISSUE_BODY = "" } = process.env;
 
@@ -78,7 +82,10 @@ async function main() {
   }
 
   const sanitizedTitle = ISSUE_TITLE.replace(/[\r\n\x00-\x1f]/g, "").trim();
-  const sanitizedSeverity = (issue.severity || "unknown").replace(/[^A-Za-z0-9_]/g, "");
+  const sanitizedSeverity = (issue.severity || "unknown").replace(
+    /[^A-Za-z0-9_]/g,
+    "",
+  );
 
   const escapedFinding = escapeXmlDelimiters(issue.finding);
   const escapedDiff = escapeXmlDelimiters(issue.diffContext);
@@ -132,14 +139,18 @@ async function main() {
 
   const codexSuccess = result.status === 0 && !result.error && !result.signal;
   if (!codexSuccess) {
-    console.log(`   ❌ Codex failed with status: ${result.status}, error: ${result.error || "none"}, signal: ${result.signal || "none"}`);
+    console.log(
+      `   ❌ Codex failed with status: ${result.status}, error: ${result.error || "none"}, signal: ${result.signal || "none"}`,
+    );
   }
 
   // Step 5: Check if Codex actually changed any files
   let hasChanges = false;
   if (codexSuccess) {
     try {
-      const diff = execSync("git diff --name-only", { encoding: "utf8" }).trim();
+      const diff = execSync("git diff --name-only", {
+        encoding: "utf8",
+      }).trim();
       if (diff) {
         hasChanges = true;
         console.log(`   📄 Changed files:\n${diff}`);

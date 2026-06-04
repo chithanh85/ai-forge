@@ -419,38 +419,47 @@ These are frequently overlooked issues that make UI look unprofessional:
 
 Before delivering UI code, verify these items:
 
-### Visual Quality
+### Visual Quality & Aesthetics (Anti-Slop)
 
 - [ ] No emojis used as icons (use SVG instead)
-- [ ] All icons from consistent icon set (Heroicons/Lucide)
-- [ ] Brand logos are correct (verified from Simple Icons)
+- [ ] All icons from consistent icon set (Phosphor/Radix/Tabler)
+- [ ] Brand logos are correct (verified from Simple Icons CDN)
 - [ ] Hover states don't cause layout shift
-- [ ] Use theme colors directly (bg-primary) not var() wrapper
+- [ ] Serif Discipline respected (Fraunces/Instrument_Serif display avoided unless explicitly approved)
+- [ ] Premium-consumer beige/brass default palettes avoided unless explicitly approved
+- [ ] No default AI-purple mesh gradients or neon glows (Lila Rule)
 
-### Interaction
+### Interaction & States
 
 - [ ] All clickable elements have `cursor-pointer`
 - [ ] Hover states provide clear visual feedback
+- [ ] Active states have tactile feedback (`-translate-y-[1px]` or `scale-[0.98]`)
 - [ ] Transitions are smooth (150-300ms)
 - [ ] Focus states visible for keyboard navigation
+- [ ] Button CTA wrap ban respected (no wrapped text)
+- [ ] No duplicate CTA intent (exactly 1 label per unique intent)
+- [ ] Text contrast on forms and buttons passes WCAG AA (4.5:1 minimum)
 
-### Light/Dark Mode
+### Layout & Composition
 
-- [ ] Light mode text has sufficient contrast (4.5:1 minimum)
-- [ ] Glass/transparent elements visible in light mode
-- [ ] Borders visible in both modes
-- [ ] Test both modes before delivery
-
-### Layout
-
+- [ ] Hero section fits within initial viewport (Headline max 2 lines, subtext max 20 words, CTAs visible without scroll)
+- [ ] Hero top padding max `pt-24` at desktop
+- [ ] Eyebrow Restraint: Maximum 1 eyebrow (uppercase tracking mono label) per 3 sections
+- [ ] Zigzag Alternation Cap: Maximum 2 consecutive sections with alternating image+text-split patterns
+- [ ] Bento Grid Cell Count: No empty cells, 2-3 cells have visual variety (images, patterns, tint)
+- [ ] Split-Header Ban: Vertical stacked H2 + body used instead of left-big H2 + right-small explainer (unless right has visual asset)
+- [ ] Section Layout Repetition Ban: A page with 8 sections must use at least 4 different layout families
 - [ ] Floating elements have proper spacing from edges
 - [ ] No content hidden behind fixed navbars
 - [ ] Responsive at 375px, 768px, 1024px, 1440px
 - [ ] No horizontal scroll on mobile
 
-### Accessibility
+### Content & Copywriting
 
+- [ ] Quotes & Testimonials: Max 3 lines of quote body (cut if longer)
+- [ ] Copy Self-Audit: Re-read all text to ensure no robotic/AI metaphors or passive-aggressive humility
+- [ ] No fake-precise numbers (e.g., 92%, 4.1x) unless backed by real data or labeled mock
 - [ ] All images have alt text
-- [ ] Form inputs have labels
+- [ ] Form inputs have labels above input
 - [ ] Color is not the only indicator
 - [ ] `prefers-reduced-motion` respected

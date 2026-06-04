@@ -35,10 +35,10 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 
 ## Last Session
 
-- **Date:** 2026-05-30
-- **What was done:** Completed modularization of `docs/plans/` layout (`active/`, `completed/`, `backlog/`) with backward-compatible hydration CLI. Integrated 5-persona debate protocol in `orchestrator` and `brainstorming` instructions. Resolved Codex audit security findings (added path traversal validation `validateFilePath` and prompt injection shielding `escapeXmlDelimiters` to the auto-fix issue pipeline, added TypeScript devDependencies, and split lint scripts).
+- **Date:** 2026-06-04
+- **What was done:** Integrated Leonxlnx/taste-skill anti-slop rules into core design skills (frontend-design and ui-ux-pro-max). Documented the Git Worktree Runner, Session Checkpointing, and taste-skill integrations in README.md. Verified 6/6 checklist audits passed.
 - **Blockers:** None
-- **Next steps:** Ready to create new projects from template.
+- **Next steps:** Ready to build premium frontends using the new aesthetic dials and checklist rules.
 
 ## Active Tasks
 
@@ -48,6 +48,7 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 - [x] Create harness integration plan for Session Checkpointing and Git Worktree Runner
 - [x] Implement harness primitives from `docs/plans/completed/harness-integration-plan.md`
 - [x] Fix Codex review findings (auto-fix path validation, prompt injection guards, and linting separation)
+- [x] Implement Git-based Code Optimizer workflow and skill ("optimize")
 
 ## Known Issues
 
