@@ -49,7 +49,7 @@ Khi yêu cầu làm giao diện, hệ thống kích hoạt chuỗi 5 bước, t�
 | 2a. **GENERATE**    | `ui-ux-pro-max`         | Sinh Design System từ 161 quy tắc ngành (67 styles, 57 fonts). Tránh mặc định dùng font display serif (`Fraunces`, `Instrument_Serif`) hay màu beige/brass cho các brand cao cấp (**Serif/Palette Discipline**). Chặn gradient tím mặc định (**Lila Rule**).                                                   |
 | 2b. **REFERENCE**   | `rico-ui-ux-themes`     | Clone style từ 20 themes (Linear, Stripe, Notion...) hoặc bất kỳ URL.                                                                                                                                                                                                                                          |
 | 3a. **EXTRACT**     | `rico-design-md`        | Scrape thiết kế từ website → DESIGN.md + tokens.json + Tailwind.                                                                                                                                                                                                                                               |
-| 3b. **STANDARDIZE** | `design-tokens`         | Lint, WCAG contrast check, export CSS/Tailwind/DTCG.                                                                                                                                                                                                                                                           |
+| 3b. **STANDARDIZE** | `design-tokens`         | Lint, WCAG contrast check, export CSS/Tailwind/DTCG. Tích hợp sẵn 6 theme mẫu chuẩn hóa từ `awesome-design-md` (Stripe, Linear, Vercel, Tailwind, Fintech, Gamify) giúp AI code UI chuẩn thiết kế thương hiệu ngay lập tức.                                                                                    |
 | 4. **CODE**         | Agent implement         | Viết code dựa trên design system đã thống nhất. Áp dụng kỷ luật thiết kế: bento grid khít ô (**Bento Cell Rule**), hạn chế nhãn phụ (**Eyebrow Restraint** - max 1 eyebrow/3 sections), tránh đổi hướng liên tục (**Zigzag Alternation Cap** - max 2), không trùng lặp ý đồ CTA (**No Duplicate CTA Intent**). |
 | 5. **AUDIT**        | `web-design-guidelines` | Quét accessibility, performance, và chạy **Pre-Delivery Checklist** (kiểm tra contrast WCAG AA, tactile feedback khi active, testimonial tối đa 3 dòng, cấm div screenshot).                                                                                                                                   |
 
@@ -303,21 +303,21 @@ Skills là "kiến thức nền" mà agents nạp vào khi cần. Tự động k
 
 ## ✨ Các Trụ cột Công nghệ
 
-| #   | Công nghệ                     | Vai trò                                                                                         |
-| --- | ----------------------------- | ----------------------------------------------------------------------------------------------- |
-| 1   | 🧠 **Orchestrator**           | Single entry point — phân tích, routing, spawn agents song song                                 |
-| 2   | 🎨 **Open Design (MCP)**      | 31 skills + 72 design systems — prototype, deck, marketing, docs                                |
-| 3   | 🚀 **BA Pipeline**            | `/ba-pipeline` → Use Case → User Story → Plan (tự động hoàn toàn)                               |
-| 4   | 🔒 **vbsec Security Scanner** | `/audit` → 21 vulnerability rules, reasoning-first, bilingual                                   |
-| 5   | 🧬 **GitNexus (MCP)**         | Knowledge Graph codebase — biết blast radius khi refactor                                       |
-| 6   | 📓 **Obsidian Vault**         | `docs/` là mạng lưới tri thức — AI quét `[[concept]]` links                                     |
-| 7   | 💾 **Second Brain**           | Bộ nhớ dài hạn — AI nhớ quyết định kiến trúc qua các phiên                                      |
-| 8   | 🔄 **Self-Healing Loop**      | test → fail → auto-fix (max 3 lần) → remember lesson                                            |
-| 9   | 🤖 **Auto-Fix Pipeline**      | CI phát hiện → Codex fix local → PR → auto-close issue                                          |
-| 10  | 🦀 **Clawpatch Review**       | Quét & vá lỗi chủ động trên local (proactive review)                                            |
-| 11  | 📡 **Teleport Bridge**        | AFK reports qua Telegram — ra lệnh tiếp từ điện thoại                                           |
-| 12  | 🧬 **Git Ratchet Optimizer**  | `/optimize` → Tối ưu hóa mã nguồn định lượng (Performance, Security, Prompts) an toàn           |
-| 13  | 🌳 **Git Worktree Runner**    | Tạo git worktrees cô lập dưới `.tmp/worktrees/` cho các write-agents sửa code song song an toàn |
+| #   | Công nghệ                     | Vai trò                                                                                                                      |
+| --- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 🧠 **Orchestrator**           | Single entry point — phân tích, routing, spawn agents song song                                                              |
+| 2   | 🎨 **Open Design (MCP)**      | 31 skills + 72 design systems + 6 brand templates (Stripe, Linear, Vercel, Tailwind, Fintech, Gamify) từ `awesome-design-md` |
+| 3   | 🚀 **BA Pipeline**            | `/ba-pipeline` → Use Case → User Story → Plan (tự động hoàn toàn)                                                            |
+| 4   | 🔒 **vbsec Security Scanner** | `/audit` → 21 vulnerability rules, reasoning-first, bilingual                                                                |
+| 5   | 🧬 **GitNexus (MCP)**         | Knowledge Graph codebase — biết blast radius khi refactor                                                                    |
+| 6   | 📓 **Obsidian Vault**         | `docs/` là mạng lưới tri thức — AI quét `[[concept]]` links                                                                  |
+| 7   | 💾 **Second Brain**           | Bộ nhớ dài hạn — AI nhớ quyết định kiến trúc qua các phiên                                                                   |
+| 8   | 🔄 **Self-Healing Loop**      | test → fail → auto-fix (max 3 lần) → remember lesson                                                                         |
+| 9   | 🤖 **Auto-Fix Pipeline**      | CI phát hiện → Codex fix local → PR → auto-close issue                                                                       |
+| 10  | 🦀 **Clawpatch Review**       | Quét & vá lỗi chủ động trên local (proactive review)                                                                         |
+| 11  | 📡 **Teleport Bridge**        | AFK reports qua Telegram — ra lệnh tiếp từ điện thoại                                                                        |
+| 12  | 🧬 **Git Ratchet Optimizer**  | `/optimize` → Tối ưu hóa mã nguồn định lượng (Performance, Security, Prompts) an toàn                                        |
+| 13  | 🌳 **Git Worktree Runner**    | Tạo git worktrees cô lập dưới `.tmp/worktrees/` cho các write-agents sửa code song song an toàn                              |
 
 ---
 

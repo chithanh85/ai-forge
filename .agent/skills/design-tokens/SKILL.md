@@ -242,6 +242,12 @@ After running `search.py --design-system`, take the output and structure it:
 ## 📁 Templates
 
 - [DESIGN.md.template](templates/DESIGN.md.template) — Blank starter template
+- [stripe.design.md](templates/stripe.design.md) — Stripe theme: financial electric gradient
+- [linear.design.md](templates/linear.design.md) — Linear theme: sleek dark software craft
+- [vercel.design.md](templates/vercel.design.md) — Vercel theme: minimalist developer portal
+- [tailwind.design.md](templates/tailwind.design.md) — Tailwind theme: modern tech startup utility
+- [fintech.design.md](templates/fintech.design.md) — Fintech split-theme: secure trading/wallet
+- [gamify.design.md](templates/gamify.design.md) — Gamification theme: playful, tactile, reward-based
 - [heritage.design.md](examples/heritage.design.md) — Example: editorial/journalism design
 
 ---
