@@ -35,10 +35,10 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 
 ## Last Session
 
-- **Date:** 2026-06-04
-- **What was done:** Integrated Leonxlnx/taste-skill anti-slop rules into core design skills (frontend-design and ui-ux-pro-max). Documented the Git Worktree Runner, Session Checkpointing, and taste-skill integrations in README.md. Verified 6/6 checklist audits passed.
+- **Date:** 2026-06-12
+- **What was done:** Distilled repository-harness features into AWF templates: Added work intake classification (docs/FEATURE_INTAKE.md), behavior-to-proof test matrix (docs/TEST_MATRIX.md), ADR templates (docs/templates/decision.md), validation reports (docs/templates/validation-report.md), and Section 1.5 Work Intake into AGENTS.md. Verified 6/6 checklist audits.
 - **Blockers:** None
-- **Next steps:** Ready to build premium frontends using the new aesthetic dials and checklist rules.
+- **Next steps:** Ready to use feature intake and test matrices in new enterprise workflows.
 
 ## Active Tasks
 
@@ -49,6 +49,7 @@ This is a **template repo** — the phases above apply to YOUR project built on 
 - [x] Implement harness primitives from `docs/plans/completed/harness-integration-plan.md`
 - [x] Fix Codex review findings (auto-fix path validation, prompt injection guards, and linting separation)
 - [x] Implement Git-based Code Optimizer workflow and skill ("optimize")
+- [x] Distill repository-harness features (intake, test matrix, ADR, and validation templates) into AWF template
 
 ## Known Issues
 
