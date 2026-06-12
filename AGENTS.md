@@ -11,6 +11,20 @@
 - **AUTO-RECALL** from Second Brain: `recall("{task topic}")` (see Second Brain Protocol)
 - Before writing code, read `.agent/rules/rationalization-prevention.md` and record the rationalization check.
 
+## 1.5 WORK INTAKE CLASSIFICATION
+
+Before choosing a workflow, classify every incoming request:
+
+1. Read `docs/FEATURE_INTAKE.md` for the intake protocol.
+2. Determine input type (new feature, change request, bug fix, maintenance, docs, harness improvement).
+3. Run the **Risk Checklist** (7 questions) to compute a risk score.
+4. Select lane:
+   - **Tiny** (0 risk factors): `/code --fast` or direct patch.
+   - **Normal** (1–2 risk factors): `/plan` → `/code`.
+   - **High-Risk** (3+ risk factors): `/plan` → `/design` → `/code` → `/audit`. Requires human approval at `risk-gate.json`.
+5. Announce the lane: `"📋 Intake: [Normal Lane] — 2/7 risk factors detected."`
+6. After implementing new behavior, update `docs/TEST_MATRIX.md` with the behavior-to-proof mapping.
+
 ## 2. KICKOFF LINE (Mandatory)
 
 Every task MUST start with:
