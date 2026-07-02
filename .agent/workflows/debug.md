@@ -57,11 +57,12 @@ User types `/debug`
 5. Run the rationalization-prevention check before proposing edits and record it in `adversarial-validation.json`.
 6. Only after `context-snippets.json` and `risk-gate.json` exist may the workflow propose a minimal fix and regression test.
 
-### Phase 2: Isolate
+### Phase 2: Isolate (Fast Debugging Methodology)
 
-1. Narrow down to specific module/function
-2. Use binary search / git bisect if needed
-3. Check if this matches any recalled past bugs
+1. **Create an MRE (Minimal Reproducible Example):** Isolate the bug into the smallest possible script or data payload. Do NOT debug on the full dataset or full architecture if a smaller one reproduces the issue.
+2. **Atomic Debug Cycles:** Ensure your debug run is a single fast command (e.g., `rm data && ./run.sh`).
+3. **Divide & Conquer (Bisection):** Narrow down to the specific module/function using binary search or `git bisect` if the cause is a recent regression.
+4. Check if this matches any recalled past bugs.
 
 ### Phase 3: Root Cause
 

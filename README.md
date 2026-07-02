@@ -158,6 +158,8 @@ AI Forge tích hợp các bộ rào cản kỹ thuật nghiêm ngặt lấy cả
 ### 1. Scout & Diagnose trước khi Sửa lỗi (`/debug`)
 
 - **Chống đoán bừa**: Agent không được đề xuất hay sửa code trước khi hoàn thành pha trinh sát (Scout). Pha Scout yêu cầu quét lịch sử thay đổi (20 commits gần nhất), phân tích caller/dependent trực tiếp (qua GitNexus), và đối chiếu coding convention trong repo.
+- **Fast Debugging Methodology**: Tích hợp các nguyên lý từ "The Art of Debugging" — ép buộc Agent tạo Minimal Reproducible Example (MRE), áp dụng chu trình debug nguyên tử và chiến thuật chia để trị (Bisection).
+- **Advanced Debugging Tactics**: Trang bị sẵn skill `advanced-debugging-tactics` cho các bug siêu khó (Silent Failures, memory leaks), sử dụng `strace` và môi trường giả lập. (Xem thêm: [Fast Debugging Playbook](docs/wiki/debugging-playbook/fast-debugging.md))
 - **Tự động ngắt khi bế tắc**: Giới hạn tối đa 3 lần thử tự động sửa (Self-Healing). Nếu fail cả 3, Agent phải tự động báo cáo nguyên nhân và trả quyền quyết định cho Tech Lead, cấm đập vá vô tội vạ.
 - **Xác minh 6 yếu tố**: Mỗi bản vá hoàn thành phải giải trình rõ: (1) triệu chứng, (2) cách tái hiện, (3) kỳ vọng vs thực tế, (4) nguyên nhân gốc cụ thể, (5) lý do xuất hiện lúc này (Why now), và (6) vùng ảnh hưởng (Blast radius).
 
