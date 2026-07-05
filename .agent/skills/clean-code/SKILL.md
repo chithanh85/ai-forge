@@ -38,6 +38,22 @@ Before applying this skill, load project context:
 
 ---
 
+## 🔴 The 7-Rung Ladder (Ponytail Pattern - MANDATORY FILTER)
+
+**Before writing any new code, ALWAYS stop and climb this ladder. Stop at the first rung that solves the problem:**
+
+1. **Does this need to exist?** → No: skip it (YAGNI)
+2. **Already in this codebase?** → Reuse it, don't rewrite
+3. **Stdlib does it?** → Use it
+4. **Native platform feature?** (e.g., `<input type="date">`) → Use it
+5. **Installed dependency?** → Use it
+6. **One line?** → Write one line
+7. **Only then:** Write the minimum code that works.
+
+> 🔴 **SECURITY GUARDRAIL:** "Lazy" applies to solutions, NOT safety. You must NEVER skip trust-boundary validation, data-loss handling, security checks, or error handling.
+
+---
+
 ## Naming Rules
 
 | Element       | Convention                                            |

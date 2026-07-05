@@ -133,6 +133,7 @@ Hệ thống không phụ thuộc vào "cảm hứng" viết code của AI, mà 
 
 - **TDD & Quality Gates:** Luôn ưu tiên viết Test trước. Lệnh `/code` luôn đi kèm với việc tự động chạy `.agent/scripts/checklist.py` (Lint, TypeCheck, Test, Parity Check).
 - **Socratic Gate:** Không bao giờ "code mù". Khi yêu cầu phức tạp, AI dừng lại đặt 3 câu hỏi chiến lược về trade-offs, architecture, và security.
+- **The Lazy Senior Dev (Ponytail Pattern):** AI được cấu hình để suy nghĩ qua thang 7 bước, tuyệt đối dùng lại code hoặc native API thay vì tự viết mới, giúp giảm tới 54% lượng code sinh ra.
 - **Security Gate:** Trước khi deploy, `/audit` phải trả về verdict PASS hoặc WARN. Verdict FAIL = chặn deploy.
 - **Kiến trúc Chuẩn mực:** Bắt buộc dùng `UUID/ULID`, chống N+1 query, và yêu cầu các bản ghi Architecture Decision Records (ADR) trước khi thiết kế hệ thống mới.
 
@@ -566,6 +567,7 @@ AI Forge tích hợp và xây dựng trên các dự án mã nguồn mở xuất
 | `web-design-guidelines`          | [vercel-labs/web-interface-guidelines](https://github.com/vercel-labs/web-interface-guidelines) | Vercel                                                                                    | —          |
 | `use-case-writer`                | [ba-zone](https://github.com/ba-zone)                                                           | Phúc NT @ BA Zone                                                                         | —          |
 | `user-story-ac-writer`           | [ba-zone](https://github.com/ba-zone)                                                           | Phúc NT @ BA Zone                                                                         | —          |
+| `ponytail` (Lazy Dev Pattern)    | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)                           | Dietrich Gebert                                                                           | MIT        |
 | `feature-intake` + `test-matrix` | [hoangnb24/repository-harness](https://github.com/hoangnb24/repository-harness)                 | hoangnb24                                                                                 | MIT        |
 
 ---
