@@ -268,6 +268,25 @@ Remind user to enable auto-execution:
 - **Codex**: Auto-Review mode
 - Keep machine awake (no sleep)
 
+<!-- codebase-memory-mcp:start -->
+
+## 15. CODEBASE-MEMORY MCP (Exploration)
+
+This project uses **Codebase-Memory MCP** for high-speed semantic search and architectural exploration.
+
+### Always Do
+
+- **Use `semantic_query`** when you need to find code by concept but don't know the exact class or function name.
+- **Use `get_architecture`** to understand the high-level boundaries, layers, and routes of the project.
+- **Use `trace_path`** to find inbound/outbound call chains across the entire codebase quickly.
+
+### Never Do
+
+- **NEVER use `manage_adr` tool** from Codebase-Memory MCP. Architecture decisions MUST be saved to the **Second Brain** (using `remember` or local fallback) as defined in the Second Brain Protocol.
+- **NEVER replace GitNexus impact analysis** with Codebase-Memory MCP. Before modifying a symbol, you MUST still run `gitnexus_impact`. Codebase-Memory MCP is for _exploration_, GitNexus is for _safety and refactoring_.
+
+<!-- codebase-memory-mcp:end -->
+
 <!-- gitnexus:start -->
 
 # GitNexus — Code Intelligence

@@ -7,6 +7,7 @@
 [![Multi-Agent](https://img.shields.io/badge/Architecture-Multi--Agent-orange.svg)]()
 [![vbsec](https://img.shields.io/badge/Security-vbsec_21_rules-critical.svg)]()
 [![GitNexus](https://img.shields.io/badge/MCP-GitNexus-green.svg)]()
+[![Codebase Memory](https://img.shields.io/badge/MCP-Codebase_Memory-blue.svg)]()
 [![Open Design](https://img.shields.io/badge/Design-Open_Design_72_Systems-ff69b4.svg)](https://github.com/nexu-io/open-design)
 [![Clawpatch](https://img.shields.io/badge/Review-Clawpatch_Proactive-yellow.svg)](https://github.com/openclaw/clawpatch)
 [![Google Eng Practices](https://img.shields.io/badge/Review-Google_Eng_Practices-red.svg)](docs/wiki/conventions/code-review.md)
@@ -111,11 +112,18 @@ Gõ `/audit`. AI kích hoạt **[vbs-scan-security](https://github.com/tanviet12
 
 Report được lưu tự động vào `vbsec-reports/scan-<timestamp>.md`.
 
-### 7. Second Brain (Bộ nhớ Vĩnh cửu)
+### 7. Codebase Intelligence (Khám phá & Bản đồ Mã nguồn)
+
+AI Forge tích hợp đồng thời 2 công cụ MCP mạnh mẽ để phân tích codebase:
+
+- **GitNexus**: Dùng để phân tích rủi ro (Impact Analysis) và luồng thực thi, đảm bảo refactor an toàn trước khi sửa code.
+- **Codebase-Memory MCP**: Dùng để search semantic siêu tốc và trích xuất kiến trúc (layers, routes, call graphs) toàn dự án. AI (như Antigravity và Codex) tự động sử dụng công cụ này khi cần tra cứu các hàm, module mà không cần người dùng chỉ định.
+
+### 8. Second Brain (Bộ nhớ Vĩnh cửu)
 
 Sau mỗi phiên, AI tự rút bài học và lưu vào Second Brain (MCP Cloud hoặc local fallback). Phiên sau nó tự nhớ quyết định kiến trúc, bug patterns, deploy issues — không cần nhắc lại.
 
-### 8. AFK Mode — Làm việc khi rời bàn
+### 9. AFK Mode — Làm việc khi rời bàn
 
 Gõ **"tele me"** hoặc **"gửi tele khi xong"** — agent sẽ gửi báo cáo ngắn qua Telegram khi task hoàn tất và chờ lệnh tiếp theo từ điện thoại của bạn.
 
@@ -127,7 +135,7 @@ Gõ **"tele me"** hoặc **"gửi tele khi xong"** — agent sẽ gửi báo cá
 ⬜ Smoke test pending your review
 ```
 
-### 9. Triết lý Kỹ thuật (TDD, Clean Code & System Design)
+### 10. Triết lý Kỹ thuật (TDD, Clean Code & System Design)
 
 Hệ thống không phụ thuộc vào "cảm hứng" viết code của AI, mà ép buộc chất lượng bằng các rào cản kỹ thuật:
 

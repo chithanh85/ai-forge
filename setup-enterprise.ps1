@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env pwsh
+#!/usr/bin/env pwsh
 # ============================================================
 # 🏗️ AI Forge Template — Setup Script
 # ============================================================
@@ -11,6 +11,7 @@ param(
     [switch]$SkipDeps,
     [switch]$SkipBrain,
     [switch]$SkipGitNexus,
+    [switch]$SkipCodebaseMemory,
     [switch]$NonInteractive
 )
 
@@ -300,6 +301,39 @@ args = ["-y", "gitnexus@latest", "mcp"]
     }
 } else {
     Write-Warn "Skipping GitNexus setup (--SkipGitNexus)"
+}
+
+# ── STEP 9.5: Codebase-Memory MCP ──────────────────────────
+Write-Step "Codebase-Memory MCP (Exploration Engine)"
+
+if (-not $SkipCodebaseMemory) {
+    Write-Host ""
+    Write-Host "  🔍 Codebase-Memory MCP giúp AI search semantic siêu tốc và trích xuất kiến trúc." -ForegroundColor White
+    Write-Host "     Hoàn toàn MIỄN PHÍ, chạy local, tự động config cho các Editor/AI CLI." -ForegroundColor White
+    Write-Host ""
+
+    if (-not $NonInteractive) {
+        $installCBM = Read-Host "  📦 Cài đặt Codebase-Memory MCP? (Y/n)"
+    } else {
+        $installCBM = "y"
+    }
+
+    if ($installCBM -ne "n") {
+        Write-Host "  ⏳ Đang tải và cài đặt codebase-memory-mcp..." -ForegroundColor Gray
+        try {
+            Invoke-WebRequest -Uri https://raw.githubusercontent.com/DeusData/codebase-memory-mcp/main/install.ps1 -OutFile install-cbm.ps1
+            Unblock-File .\install-cbm.ps1
+            .\install-cbm.ps1 | Out-Null
+            Remove-Item .\install-cbm.ps1
+            Write-OK "Codebase-Memory MCP installed and auto-configured"
+        } catch {
+            Write-Err "Failed to install codebase-memory-mcp. $_"
+        }
+    } else {
+        Write-Warn "Skipped codebase-memory-mcp installation"
+    }
+} else {
+    Write-Warn "Skipping Codebase-Memory MCP (--SkipCodebaseMemory)"
 }
 
 # ── STEP 10: Validate ────────────────────────────────────
