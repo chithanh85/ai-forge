@@ -19,6 +19,15 @@ def main():
     if result.returncode != 0:
         sys.exit(result.returncode)
         
+    # Run the AI Agent Evals suite
+    eval_script = os.path.join(os.path.dirname(__file__), "..", "evals", "run_evals.py")
+    if os.path.exists(eval_script):
+        print("\n🚀 Running AI Agent Evals Suite...")
+        eval_res = subprocess.run([sys.executable, eval_script], capture_output=False)
+        if eval_res.returncode != 0:
+            print("❌ AI Agent Evals failed!")
+            sys.exit(eval_res.returncode)
+
     print("\n✅ Verification complete! Codebase is healthy.")
 
 if __name__ == "__main__":

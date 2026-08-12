@@ -1,0 +1,32 @@
+[
+  {
+    "id": "eval_code_quality_standards_01",
+    "task": "Kiểm tra chuẩn viết code và phong cách dự án",
+    "criteria": {
+      "must_contain_tokens": ["def ", "class ", "return "],
+      "forbidden_tokens": ["eval(", "exec(", "TODO_REMOVE"],
+      "check_clean_code": true
+    }
+  },
+  {
+    "id": "eval_python_data_pipeline_02",
+    "task": "Viết script xử lý dữ liệu chuẩn hóa có error handling",
+    "criteria": {
+      "must_contain_tokens": ["try:", "except ", "logging"],
+      "forbidden_tokens": ["except: pass"]
+    }
+  },
+  {
+    "id": "eval_artifact_contract_03",
+    "task": "Tạo kế hoạch và thực thi task code với hợp đồng 5 artifact JSON files",
+    "criteria": {
+      "must_generate_artifacts": [
+        "context-snippets.json",
+        "risk-gate.json",
+        "verification.json",
+        "review-decision.json",
+        "adversarial-validation.json"
+      ]
+    }
+  }
+]
