@@ -2,7 +2,7 @@
 
 > **Từ một ý tưởng thô sơ đến hệ thống phần mềm hoàn chỉnh, được hiện thực hóa bởi một "dàn nhạc" AI tự trị.**
 
-[![Version](https://img.shields.io/badge/version-4.0.2-blue.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-4.0.3-blue.svg)](package.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Multi-Agent](https://img.shields.io/badge/Architecture-Multi--Agent-orange.svg)]()
 [![vbsec](https://img.shields.io/badge/Security-vbsec_21_rules-critical.svg)]()
