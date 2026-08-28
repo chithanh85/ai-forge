@@ -149,9 +149,16 @@ Mỗi session phải kết thúc với:
 - Những gì đã thay đổi (files)
 - Lý do thay đổi (mục tiêu/rủi ro)
 - Đã kiểm tra gì (commands + pass/fail)
+- Chạy quét nợ kỹ thuật: `python scripts/maintenance/debt_scanner.py --strict`
 - Các tác vụ còn lại
 - `remember()` bài học / quyết định quan trọng
 - Cập nhật `.planning/STATE.md`
+
+## 📊 Context Telemetry & Handoff (Token Management)
+
+- **60% Context**: Cảnh báo bắt đầu đầy context. Thu hẹp phạm vi tìm kiếm, trả lời súc tích.
+- **75% Context**: Điểm Checkpoint bắt buộc. Lưu trạng thái vào `.planning/STATE.md` hoặc Second Brain; handoff phần việc còn lại cho subagent.
+- **85% Context**: Ngưỡng tới hạn (Critical). Hoàn tất bước kiểm chứng hiện tại và kết thúc lượt phản hồi ngay.
 
 <!-- gitnexus:start -->
 

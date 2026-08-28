@@ -223,14 +223,21 @@ node ../teleport/scripts/send-telegram.mjs "🦊 *Gemini on <topic>:*
 - Docs in `docs/`
 - No ad-hoc files in root
 
+## 📊 Context Telemetry & Handoff Thresholds
+
+- **60% Context**: Warning threshold. Stop broad searches, keep responses concise.
+- **75% Context**: Auto-save state to `.planning/STATE.md` or Second Brain. Handoff remaining subtasks.
+- **85% Context**: Critical threshold. Record verification proof and yield immediately.
+
 ## ✅ Task Completion
 
 Task is NOT done until:
 
 1. Tests pass
 2. Lint passes
-3. `python .agent/scripts/wiki_lint.py --strict` succeeds
-4. `python .agent/scripts/checklist.py .` succeeds
-5. The five artifact JSON files validate for the selected run
-6. Lessons learned saved to Second Brain (if applicable)
-7. `.planning/STATE.md` updated
+3. `python scripts/maintenance/debt_scanner.py --strict` passes (no unassigned HIGH debt)
+4. `python .agent/scripts/wiki_lint.py --strict` succeeds
+5. `python .agent/scripts/checklist.py .` succeeds
+6. The five artifact JSON files validate for the selected run
+7. Lessons learned saved to Second Brain (if applicable)
+8. `.planning/STATE.md` updated

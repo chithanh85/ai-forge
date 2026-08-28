@@ -268,6 +268,23 @@ Remind user to enable auto-execution:
 - **Codex**: Auto-Review mode
 - Keep machine awake (no sleep)
 
+## 14.5 CONTEXT TELEMETRY & PROGRESSIVE DISCLOSURE GATES
+
+To prevent memory degradation, context truncation, and hallucination on long tasks, all agents must respect the following context thresholds:
+
+- **60% Context (Warning Gate)**: Stop speculative file exploration. Switch to targeted searches and concise summaries.
+- **75% Context (Handoff & Checkpoint Gate)**: MUST auto-save current state to `.planning/STATE.md` or Second Brain. If a multi-step task remains, delegate remaining steps to a fresh subagent or prompt user for turn continuation.
+- **85% Context (Critical Barrier)**: Do not initiate new multi-file modifications. Finish the immediate verification, record the evidence, and yield control to avoid context truncation.
+
+## 14.6 TECHNICAL DEBT GOVERNANCE & LEDGER
+
+- Code markers (`TODO:`, `FIXME:`, `HACK:`, `TEMP_BYPASS:`, `MOCK:`) must include an owner (e.g. `// FIXME: (@lead) message`).
+- Run the debt scanner periodically during `/audit` and pre-release checks:
+  ```bash
+  python scripts/maintenance/debt_scanner.py --strict
+  ```
+- The active debt ledger is automatically tracked in `docs/DEBT_LEDGER.md`.
+
 <!-- codebase-memory-mcp:start -->
 
 ## 15. CODEBASE-MEMORY MCP (Exploration)
