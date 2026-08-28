@@ -1,6 +1,6 @@
 {
   "name": "ai-forge",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "private": true,
   "description": "Autonomous Multi-Agent Template",
   "scripts": {

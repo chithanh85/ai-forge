@@ -13,24 +13,20 @@ concurrency:
 
 jobs:
   lint-test:
-    # Default: self-hosted runner (FREE). Change to ubuntu-latest if no server.
-    runs-on: self-hosted
+    # Portable default. Override with self-hosted if desired.
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "pnpm"
+          cache: "npm"
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm lint:check
-      - run: pnpm typecheck
+      - run: npm ci
+      - run: npm run lint:check
+      - run: npm run typecheck
       - run: python .agent/scripts/wiki_lint.py --strict
-      - run: pnpm test
+      - run: npm test

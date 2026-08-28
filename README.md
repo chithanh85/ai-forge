@@ -2,7 +2,7 @@
 
 > **Từ một ý tưởng thô sơ đến hệ thống phần mềm hoàn chỉnh, được hiện thực hóa bởi một "dàn nhạc" AI tự trị.**
 
-[![Version](https://img.shields.io/badge/version-4.0.3-blue.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-4.0.4-blue.svg)](package.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Multi-Agent](https://img.shields.io/badge/Architecture-Multi--Agent-orange.svg)]()
 [![vbsec](https://img.shields.io/badge/Security-vbsec_21_rules-critical.svg)]()
@@ -203,7 +203,7 @@ AI Forge tích hợp các bộ rào cản kỹ thuật nghiêm ngặt lấy cả
 ### Yêu cầu tiên quyết
 
 - **Node.js**: v18+ (khuyến nghị v20 LTS)
-- **Package Manager**: `pnpm` (khuyến nghị) hoặc `npm`
+- **Package Manager**: `npm` (canonical; uses committed `package-lock.json`)
 - **Python**: 3.10+ (cho các scripts phụ trợ)
 - **Git**: 2.30+
 
@@ -215,10 +215,10 @@ git clone https://github.com/tanviet12/awf-enterprise-template.git my-project
 cd my-project
 
 # Chạy script thiết lập tự động (Windows PowerShell)
-.\setup-enterprise.ps1
+.\setup-enterprise.ps1 -ProjectName "my-project"
 
 # Hoặc trên Linux/macOS
-./setup-enterprise.sh
+bash ./setup-enterprise.sh --project-name my-project
 ```
 
 Script sẽ tự động:
@@ -233,35 +233,35 @@ Script sẽ tự động:
 
 ## 🛠️ Danh mục Workflows & Lệnh Điều Khiển
 
-| Lệnh / Workflow        | Tác dụng chính                                                            |
-| ---------------------- | ------------------------------------------------------------------------- |
-| `/ba-pipeline`         | Khảo sát nghiệp vụ, sinh Use Cases & User Stories INVEST                  |
-| `/brainstorm`          | Thảo luận ý tưởng, phân tích trade-offs và kiến trúc                      |
-| `/plan`                | Lập kế hoạch chi tiết, định tuyến Risk Lane và tạo Contract               |
-| `/design`              | Thiết kế hệ thống: DB Schema, API Contracts, System Architecture          |
-| `/code`                | Viết code theo TDD, tuân thủ Clean Code và kích hoạt Orchestrator         |
-| `/debug`               | Sửa lỗi với quy trình Scout & Diagnose 6 bước, chống phỏng đoán           |
-| `/test`                | Chạy kiểm thử tự động (Unit, Integration, E2E)                            |
-| `/audit`               | Quét bảo mật toàn diện với `vbsec` (21 rules)                             |
-| `/optimize`            | Tối ưu hóa hiệu năng/bảo mật định lượng theo cơ chế Git Ratchet          |
-| `/clawpatch`           | Rà soát và tạo bản vá lỗi chủ động theo feature slices                    |
-| `/setup-services`      | Tự động cấu hình GitHub repo, Cloudflare Workers và CI/CD                 |
-| `/setup-teleport`      | Thiết lập cầu nối báo cáo tiến độ qua Telegram khi AFK                    |
+| Lệnh / Workflow   | Tác dụng chính                                                    |
+| ----------------- | ----------------------------------------------------------------- |
+| `/ba-pipeline`    | Khảo sát nghiệp vụ, sinh Use Cases & User Stories INVEST          |
+| `/brainstorm`     | Thảo luận ý tưởng, phân tích trade-offs và kiến trúc              |
+| `/plan`           | Lập kế hoạch chi tiết, định tuyến Risk Lane và tạo Contract       |
+| `/design`         | Thiết kế hệ thống: DB Schema, API Contracts, System Architecture  |
+| `/code`           | Viết code theo TDD, tuân thủ Clean Code và kích hoạt Orchestrator |
+| `/debug`          | Sửa lỗi với quy trình Scout & Diagnose 6 bước, chống phỏng đoán   |
+| `/test`           | Chạy kiểm thử tự động (Unit, Integration, E2E)                    |
+| `/audit`          | Quét bảo mật toàn diện với `vbsec` (21 rules)                     |
+| `/optimize`       | Tối ưu hóa hiệu năng/bảo mật định lượng theo cơ chế Git Ratchet   |
+| `/clawpatch`      | Rà soát và tạo bản vá lỗi chủ động theo feature slices            |
+| `/setup-services` | Tự động cấu hình GitHub repo, Cloudflare Workers và CI/CD         |
+| `/setup-teleport` | Thiết lập cầu nối báo cáo tiến độ qua Telegram khi AFK            |
 
 ---
 
 ## 👥 Vai trò Đội ngũ AI Agents
 
-| Agent                  | Vai trò chuyên biệt                                                       |
-| ---------------------- | ------------------------------------------------------------------------- |
-| `orchestrator`         | Tổng công trình sư: Phân tích, lập dependency graph, điều phối song song  |
-| `business-analyst`     | Phân tích nghiệp vụ, chuẩn hóa yêu cầu theo IIBA & INVEST                 |
-| `system-architect`     | Thiết kế kiến trúc tổng thể, mô hình dữ liệu và API Contracts             |
-| `frontend-specialist`  | Xây dựng UI/UX với 5-Stage Pipeline, chống thiết kế rập khuôn             |
-| `backend-specialist`   | Phát triển API, xử lý nghiệp vụ backend, tối ưu hóa truy vấn CSDL          |
-| `security-auditor`     | Quét lỗ hổng bảo mật với `vbsec`, đóng vai Red Team rà soát mã nguồn      |
-| `qa-engineer`          | Thiết kế kịch bản kiểm thử, đảm bảo độ bao phủ test theo TDD             |
-| `devops-engineer`      | Quản lý hạ tầng, CI/CD pipelines, Docker và deployment scripts            |
+| Agent                 | Vai trò chuyên biệt                                                      |
+| --------------------- | ------------------------------------------------------------------------ |
+| `orchestrator`        | Tổng công trình sư: Phân tích, lập dependency graph, điều phối song song |
+| `business-analyst`    | Phân tích nghiệp vụ, chuẩn hóa yêu cầu theo IIBA & INVEST                |
+| `system-architect`    | Thiết kế kiến trúc tổng thể, mô hình dữ liệu và API Contracts            |
+| `frontend-specialist` | Xây dựng UI/UX với 5-Stage Pipeline, chống thiết kế rập khuôn            |
+| `backend-specialist`  | Phát triển API, xử lý nghiệp vụ backend, tối ưu hóa truy vấn CSDL        |
+| `security-auditor`    | Quét lỗ hổng bảo mật với `vbsec`, đóng vai Red Team rà soát mã nguồn     |
+| `qa-engineer`         | Thiết kế kịch bản kiểm thử, đảm bảo độ bao phủ test theo TDD             |
+| `devops-engineer`     | Quản lý hạ tầng, CI/CD pipelines, Docker và deployment scripts           |
 
 ---
 

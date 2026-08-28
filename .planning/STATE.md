@@ -2,14 +2,14 @@
 
 ## Current Phase
 
-- [x] Template Setup — AI Forge v4.0.2 ready to use
+- [x] Template Setup — AI Forge v4.0.4 ready to use
 - [ ] Planning — gõ `/brainstorm` hoặc `/ba-pipeline` để bắt đầu
 - [ ] Design
 - [ ] Implementation
 - [ ] Testing
 - [ ] Deployment
 
-## Template Status (AI Forge v4.0.2)
+## Template Status (AI Forge v4.0.4)
 
 This is a **template repo** — the phases above apply to YOUR project built on top of this template.
 
