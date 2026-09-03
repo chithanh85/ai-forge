@@ -1,6 +1,6 @@
 {
-  "name": "ai-forge",
-  "version": "4.0.4",
+  "name": "awf-enterprise-template",
+  "version": "4.1.0",
   "private": true,
   "description": "Autonomous Multi-Agent Template",
   "scripts": {
@@ -15,22 +15,26 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "prepare": "husky install",
+    "prepare": "husky",
     "check:env-parity": "python scripts/maintenance/env_parity_check.py",
     "wiki:lint": "python .agent/scripts/wiki_lint.py --strict",
     "verify": "python .agent/scripts/verify_all.py",
+    "awf:init": "node scripts/awf/init.mjs",
+    "awf:sync": "node scripts/awf/sync.mjs",
+    "awf:doctor": "node scripts/awf/doctor.mjs",
+    "awf:configure": "node scripts/awf/configure.mjs",
     "audit": "python .agent/scripts/checklist.py ."
   },
   "devDependencies": {
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
-    "@types/node": "^20.12.7",
-    "eslint": "^9.0.0",
+    "@types/node": "^20.19.43",
+    "eslint": "^9.39.5",
     "husky": "^9.0.0",
     "lint-staged": "^15.0.0",
-    "prettier": "^3.0.0",
+    "prettier": "^3.9.6",
     "typescript": "^5.4.5",
-    "vitest": "^3.0.0"
+    "vitest": "^3.2.7"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [

@@ -6,6 +6,9 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 
+const pythonExe =
+  process.env.PYTHON ?? (process.platform === "win32" ? "python" : "python3");
+
 const checklistPath = resolve(".agent/scripts/checklist.py");
 const runId = "20260528-review-gate-test";
 const artifactFiles = [
@@ -156,7 +159,7 @@ function writeArtifactRun(root: string, overrides: Partial<ArtifactMap> = {}) {
 function runChecklist(root: string) {
   const cleanEnv = { ...process.env };
   delete cleanEnv.AWF_ARTIFACT_RUN_ID;
-  return spawnSync("python", [checklistPath, root], {
+  return spawnSync(pythonExe, [checklistPath, root], {
     encoding: "utf8",
     env: {
       ...cleanEnv,

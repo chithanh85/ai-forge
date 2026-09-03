@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "project": {
+    "name": "awf-enterprise-template"
+  },
+  "toolchain": {
+    "package_manager": "npm",
+    "commands": {
+      "install": "npm ci",
+      "test": "npm test",
+      "lint": "npm run lint",
+      "typecheck": "npm run typecheck",
+      "build": "npm run build",
+      "format": "npm run format"
+    }
+  },
+  "clients": {
+    "codex": "auto",
+    "gemini": "auto",
+    "claude": "auto"
+  },
+  "integrations": {
+    "gitnexus": false,
+    "second_brain": false,
+    "teleport": false,
+    "open_design": false,
+    "clawpatch": false,
+    "codebase_memory": false
+  }
+}

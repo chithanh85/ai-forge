@@ -13,6 +13,9 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 
+const pythonExe =
+  process.env.PYTHON ?? (process.platform === "win32" ? "python" : "python3");
+
 const runnerPath = resolve(".agent/scripts/worktree_runner.py");
 const tempRoots: string[] = [];
 
@@ -43,7 +46,7 @@ function createTempGitRepo() {
 }
 
 function runWorktreeRunner(repoRoot: string, args: string[]) {
-  return spawnSync("python", [runnerPath, ...args], {
+  return spawnSync(pythonExe, [runnerPath, ...args], {
     cwd: repoRoot,
     encoding: "utf8",
     env: {
@@ -73,7 +76,7 @@ describe("worktree runner CLI", () => {
       "--cleanup",
       "never",
       "--",
-      "python",
+      pythonExe,
       "-c",
       "import os, pathlib; pathlib.Path('runner-proof.txt').write_text(os.getcwd())",
     ]);
@@ -113,7 +116,7 @@ describe("worktree runner CLI", () => {
       "--cleanup",
       "on-success",
       "--",
-      "python",
+      pythonExe,
       "-c",
       "print('done')",
     ]);
@@ -143,7 +146,7 @@ describe("worktree runner CLI", () => {
       "--cleanup",
       "on-success",
       "--",
-      "python",
+      pythonExe,
       "-c",
       "import sys; sys.exit(7)",
     ]);
@@ -187,7 +190,7 @@ describe("worktree runner CLI", () => {
       "--base-ref",
       "main",
       "--",
-      "python",
+      pythonExe,
       "-c",
       "print('should not run')",
     ]);
@@ -227,7 +230,7 @@ describe("worktree runner CLI", () => {
       "main",
       "--allow-dirty",
       "--",
-      "python",
+      pythonExe,
       "-c",
       "print('ran successfully')",
     ]);
@@ -266,7 +269,7 @@ describe("worktree runner CLI", () => {
       "--worktree-root",
       join(repo, "unsafe-outside-tmp"), // This is outside .tmp/worktrees/
       "--",
-      "python",
+      pythonExe,
       "-c",
       "print('unsafe')",
     ]);

@@ -262,19 +262,8 @@ docker compose up -d
 
 ### MCP Configuration
 
-Add to your IDE's MCP config (e.g., `.mcp.json`, Antigravity settings, or Claude Desktop config):
+Open Design is an **optional integration pack**, not an AWF core dependency. AWF v4.1 deliberately does not ship an `npx` launcher for Open Design because the previously documented package is not a reliable install contract.
 
-```json
-{
-  "mcpServers": {
-    "open-design": {
-      "command": "npx",
-      "args": ["-y", "@anthropic-ai/open-design-mcp@latest"]
-    }
-  }
-}
-```
+Install and run the Open Design daemon using its reviewed/pinned upstream release, then configure your client to use the daemon's supported MCP endpoint. Keep that client-specific endpoint/config outside AWF core unless the project explicitly enables the Open Design pack.
 
-Or if running OD daemon locally, point to its MCP endpoint directly.
-
-> **Note**: The MCP server connects to the running OD daemon. The daemon must be running for MCP tools to work.
+> **Note**: Core AWF workflows must continue to work when Open Design is absent. Do not add an unpinned executable package or a guessed MCP command as a fallback.

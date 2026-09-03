@@ -2,10 +2,9 @@
 # Dành cho OpenAI Codex CLI — đọc AGENTS.md để biết quy tắc chung.
 
 [project]
-name = "ai-forge"
+name = "{{AWF_PROJECT_NAME}}"
 
-# Model mặc định
-model = "gpt-5.5"
+# Model selection is client/user-owned. AWF defines capability requirements, not vendor model pins.
 model_reasoning_effort = "high"
 
 # Sandbox — giới hạn quyền truy cập
@@ -16,5 +15,5 @@ approval_policy = "on-failure"
 
 # Hooks — chạy trước/sau các hành động của Codex
 [hooks]
-pre-commit = "pnpm lint-staged"
-pre-push = "pnpm test"
+pre-commit = "npx lint-staged"
+pre-push = "npm test"

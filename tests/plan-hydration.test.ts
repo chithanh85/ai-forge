@@ -12,6 +12,9 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 
+const pythonExe =
+  process.env.PYTHON ?? (process.platform === "win32" ? "python" : "python3");
+
 const hydratePath = resolve(".agent/scripts/plan_hydrate.py");
 const tempRoots: string[] = [];
 
@@ -75,7 +78,7 @@ function createPlanFixture() {
 }
 
 function runHydrate(root: string, args: string[]) {
-  return spawnSync("python", [hydratePath, ...args], {
+  return spawnSync(pythonExe, [hydratePath, ...args], {
     cwd: root,
     encoding: "utf8",
     env: {

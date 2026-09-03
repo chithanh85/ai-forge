@@ -18,14 +18,7 @@ Antigravity tự động tải các MCP servers cấu hình tại thư mục g�
   "mcpServers": {
     "gitnexus": {
       "command": "npx",
-      "args": ["-y", "gitnexus@latest", "mcp"]
-    },
-    "second-brain": {
-      "command": "npx",
-      "args": ["-y", "@google/second-brain-mcp@latest"],
-      "env": {
-        "BRAIN_STORAGE_PATH": "./second-brain"
-      }
+      "args": ["-y", "gitnexus@1.6.10", "mcp"]
     }
   }
 }

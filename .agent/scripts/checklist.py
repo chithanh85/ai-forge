@@ -285,18 +285,32 @@ def validate_artifacts(project_root):
 
     return "Artifact Gate", True, f"validated {run_dir}"
 
+def load_awf_command(project_root, key, fallback):
+    """Resolve a logical quality command from .awf/manifest.json with safe fallback."""
+    manifest_path = project_root / ".awf" / "manifest.json"
+    if not manifest_path.exists():
+        return fallback
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        command = manifest.get("toolchain", {}).get("commands", {}).get(key)
+        return command if isinstance(command, str) and command.strip() else fallback
+    except (json.JSONDecodeError, OSError):
+        return fallback
+
+
 def main():
-    project_root = sys.argv[1] if len(sys.argv) > 1 else "."
+    project_root = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else "."
+    core_only = "--core" in sys.argv[1:]
     os.chdir(project_root)
     project_root = Path.cwd()
     script_dir = Path(__file__).resolve().parent
     wiki_lint_script = script_dir / "wiki_lint.py"
 
     checks = [
-        ("Lint",      "npm run lint:check 2>&1"),
-        ("TypeCheck", "npm run typecheck 2>&1"),
-        ("Tests",     "npm run test 2>&1"),
-        ("Env Parity","python scripts/maintenance/env_parity_check.py 2>&1"),
+        ("Lint",      load_awf_command(project_root, "lint", "npm run lint:check") + " 2>&1"),
+        ("TypeCheck", load_awf_command(project_root, "typecheck", "npm run typecheck") + " 2>&1"),
+        ("Tests",     load_awf_command(project_root, "test", "npm test") + " 2>&1"),
+        ("Env Parity", f'"{sys.executable}" "scripts/maintenance/env_parity_check.py" 2>&1'),
         (
             "Wiki Lint",
             f'"{sys.executable}" "{wiki_lint_script}" --strict 2>&1',
@@ -318,16 +332,21 @@ def main():
         else:
             failed.append((check_name, output))
 
-    check_name, ok, output = validate_artifacts(project_root)
-    status = "✅" if ok else "❌"
-    print(f"  {status} {check_name}")
-    if ok:
-        passed_count += 1
+    artifact_checks = 0
+    if not core_only:
+        artifact_checks = 1
+        check_name, ok, output = validate_artifacts(project_root)
+        status = "✅" if ok else "❌"
+        print(f"  {status} {check_name}")
+        if ok:
+            passed_count += 1
+        else:
+            failed.append((check_name, output))
     else:
-        failed.append((check_name, output))
+        print("  ➖ Artifact Gate (skipped for bootstrap/core verification)")
 
     print("=" * 50)
-    total = len(checks) + 1
+    total = len(checks) + artifact_checks
     print(f"  Result: {passed_count}/{total} passed")
 
     if failed:

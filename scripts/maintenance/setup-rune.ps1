@@ -52,7 +52,7 @@ Write-Host "🚀 Executing Rune setup with preset: $Preset, tier: $Tier..." -For
 # Step 3: Run npx @rune-kit/rune setup
 try {
     # Using npx -y to avoid interactive package installation prompts
-    $command = "npx -y @rune-kit/rune@latest " + ($argsList -join " ")
+    $command = "npx -y @rune-kit/rune@2.32.0 " + ($argsList -join " ")
     Write-Host "   Running: $command" -ForegroundColor Gray
     
     # Run the setup script
@@ -62,7 +62,7 @@ try {
         Write-Host "⚠️ Rune setup exited with code $($process.ExitCode). Please check the outputs above." -ForegroundColor Yellow
     } else {
         Write-Host "🎉 Rune Skill Mesh successfully configured for your AI agents!" -ForegroundColor Green
-        Write-Host "   To verify hooks status, run: npx @rune-kit/rune doctor" -ForegroundColor Cyan
+        Write-Host "   To verify hooks status, run: npx -y @rune-kit/rune@2.32.0 doctor" -ForegroundColor Cyan
     }
 }
 catch {

@@ -6,6 +6,9 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 
+const pythonExe =
+  process.env.PYTHON ?? (process.platform === "win32" ? "python" : "python3");
+
 const checklistPath = resolve(".agent/scripts/checklist.py");
 const runId = "20260528-test-run";
 const artifactFiles = [
@@ -170,10 +173,10 @@ function writeArtifactRun(
   }
 }
 
-function runChecklist(root: string) {
+function runChecklist(root: string, extraArgs: string[] = []) {
   const cleanEnv = { ...process.env };
   delete cleanEnv.AWF_ARTIFACT_RUN_ID;
-  return spawnSync("python", [checklistPath, root], {
+  return spawnSync(pythonExe, [checklistPath, root, ...extraArgs], {
     encoding: "utf8",
     env: {
       ...cleanEnv,
@@ -201,6 +204,18 @@ describe("artifact gate checklist hook", () => {
 
     expect(result.status).toBe(1);
     expect(result.stdout).toContain("No artifact run directories found");
+  });
+
+  test("bootstrap core verification can skip the project artifact gate explicitly", () => {
+    const root = createProjectRoot();
+    mkdirSync(join(root, ".agent", "artifacts"), { recursive: true });
+
+    const result = runChecklist(root, ["--core"]);
+
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain(
+      "Artifact Gate (skipped for bootstrap/core verification)",
+    );
   });
 
   test("fails when any required artifact file is missing", () => {

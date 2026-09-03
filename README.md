@@ -2,19 +2,19 @@
 
 > **Từ một ý tưởng thô sơ đến hệ thống phần mềm hoàn chỉnh, được hiện thực hóa bởi một "dàn nhạc" AI tự trị.**
 
-[![Version](https://img.shields.io/badge/version-4.0.4-blue.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-4.1.0-blue.svg)](package.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Multi-Agent](https://img.shields.io/badge/Architecture-Multi--Agent-orange.svg)]()
-[![vbsec](https://img.shields.io/badge/Security-vbsec_21_rules-critical.svg)]()
-[![GitNexus](https://img.shields.io/badge/MCP-GitNexus-green.svg)]()
-[![Codebase Memory](https://img.shields.io/badge/MCP-Codebase_Memory-blue.svg)]()
+[![Multi-Agent](https://img.shields.io/badge/Architecture-Multi--Agent-orange.svg)](<>)
+[![vbsec](https://img.shields.io/badge/Security-vbsec_21_rules-critical.svg)](<>)
+[![GitNexus](https://img.shields.io/badge/MCP-GitNexus-green.svg)](<>)
+[![Codebase Memory](https://img.shields.io/badge/MCP-Codebase_Memory-blue.svg)](<>)
 [![Open Design](https://img.shields.io/badge/Design-Open_Design_72_Systems-ff69b4.svg)](https://github.com/nexu-io/open-design)
 [![Clawpatch](https://img.shields.io/badge/Review-Clawpatch_Proactive-yellow.svg)](https://github.com/openclaw/clawpatch)
 [![Google Eng Practices](https://img.shields.io/badge/Review-Google_Eng_Practices-red.svg)](docs/wiki/conventions/code-review.md)
 [![Rune Skill Mesh](https://img.shields.io/badge/Mesh-Rune_Skill_Mesh-blueviolet.svg)](https://github.com/rune-kit/rune)
-[![Auto Fix](https://img.shields.io/badge/CI-Auto--Fix_via_Codex-blueviolet.svg)]()
+[![Auto Fix](https://img.shields.io/badge/CI-Auto--Fix_via_Codex-blueviolet.svg)](<>)
 [![Telegram](https://img.shields.io/badge/AFK-Telegram_Reports-blue.svg)](https://github.com/thith/teleport)
-[![Git Ratchet](https://img.shields.io/badge/Optimizer-Git_Ratchet-green.svg)]()
+[![Git Ratchet](https://img.shields.io/badge/Optimizer-Git_Ratchet-green.svg)](<>)
 
 **AI Forge** không phải là một bộ prompt tĩnh. Đây là một **Enterprise AI Development Ecosystem** — nơi các AI agents đảm nhiệm vai trò chuyên biệt (BA, Architect, Frontend, Backend, QA, DevOps, Security) và cộng tác với nhau để xây dựng phần mềm.
 
@@ -198,6 +198,33 @@ AI Forge tích hợp các bộ rào cản kỹ thuật nghiêm ngặt lấy cả
 
 ---
 
+## 🧩 Native Core v4.1
+
+AWF v4.1 tách **policy** khỏi **client adapter** để project của user không bị khóa vào máy, package manager hay model của người tạo template:
+
+```text
+.awf/manifest.json       → project identity + logical commands + optional capabilities
+.awf/policy/core.md      → policy chung, client-neutral
+AGENTS.md                → Codex/AGENTS-compatible adapter
+GEMINI.md                → Gemini/Antigravity adapter
+CLAUDE.md                → Claude adapter
+scripts/awf/init.mjs     → hydrate project + detect package manager
+scripts/awf/sync.mjs     → regenerate managed adapter regions
+scripts/awf/doctor.mjs   → detect drift / unsafe config / placeholder build
+```
+
+Các lệnh chính:
+
+```bash
+node scripts/awf/init.mjs --project-name my-project
+node scripts/awf/sync.mjs
+node scripts/awf/doctor.mjs
+```
+
+AWF core không pin model/provider. Optional integrations như GitNexus, Second Brain, Teleport, Open Design và Clawpatch phải degrade gracefully khi không có.
+
+---
+
 ## 🚀 Cài đặt Nhanh (One-Command Setup)
 
 ### Yêu cầu tiên quyết
@@ -219,15 +246,20 @@ cd my-project
 
 # Hoặc trên Linux/macOS
 bash ./setup-enterprise.sh --project-name my-project
+
+# Engine canonical (mọi nền tảng)
+node scripts/awf/init.mjs --project-name my-project
 ```
 
 Script sẽ tự động:
 
-- ✅ Kiểm tra và cài đặt dependencies (`pnpm install`)
-- ✅ Thiết lập Git hooks qua Husky & lint-staged
-- ✅ Khởi tạo bộ nhớ Second Brain local
-- ✅ Cấu hình môi trường `.env` từ `.env.example`
-- ✅ Kiểm tra tính tương thích của hệ thống AI client (Antigravity/Codex/Claude)
+- ✅ Hydrate project identity và sinh `.awf/manifest.json`
+- ✅ Detect package manager theo lockfile; template source dùng `npm`, existing repo giữ `pnpm`/`yarn`/`bun` khi phát hiện
+- ✅ Cài dependencies bằng logical command trong manifest
+- ✅ Sinh managed adapter regions cho `AGENTS.md`, `GEMINI.md`, `CLAUDE.md` mà vẫn giữ phần user tự viết
+- ✅ Cấu hình môi trường local từ các file example
+- ✅ Chạy core verification; project artifact gate chỉ áp dụng khi bắt đầu task thực tế
+- ✅ Optional integrations chỉ bật khi user opt-in
 
 ---
 

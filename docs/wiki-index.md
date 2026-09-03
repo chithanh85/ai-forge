@@ -20,7 +20,7 @@
 
 1. AI: Read this index before coding to find relevant conventions.
 2. After learning something new, add a wiki page and update this index.
-3. Run `pnpm wiki:lint` to validate links.
+3. Run `.agent/scripts/wiki_lint.py --strict` with the project's Python 3 executable to validate links.
 
 ## Lessons
 

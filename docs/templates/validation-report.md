@@ -14,9 +14,9 @@ Story hoặc thay đổi nào được validate?
 ## Commands Run
 
 ```text
-pnpm lint
-pnpm test
-python .agent/scripts/checklist.py .
+node scripts/awf/exec.mjs lint --root .
+node scripts/awf/exec.mjs test --root .
+<python3> .agent/scripts/checklist.py .
 ```
 
 ## Results

@@ -12,6 +12,9 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 
+const pythonExe =
+  process.env.PYTHON ?? (process.platform === "win32" ? "python" : "python3");
+
 const sessionManagerPath = resolve(".agent/scripts/session_manager.py");
 const tempRoots: string[] = [];
 
@@ -28,7 +31,7 @@ function createTempRoot() {
 }
 
 function runSessionManager(root: string, args: string[]) {
-  return spawnSync("python", [sessionManagerPath, ...args], {
+  return spawnSync(pythonExe, [sessionManagerPath, ...args], {
     cwd: root,
     encoding: "utf8",
     env: {

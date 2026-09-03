@@ -27,11 +27,11 @@ User types `/deploy`
 
 ```bash
 # All must pass before deploying:
-pnpm test                                    # Tests
-pnpm lint                                    # Lint
+node scripts/awf/exec.mjs test               # Tests
+node scripts/awf/exec.mjs lint               # Lint
 # Security: run /audit (vbs-scan-security) — must PASS or WARN
 python scripts/maintenance/env_parity_check.py  # Env parity
-pnpm build                                  # Build
+node scripts/awf/exec.mjs build              # Build (must be real, not a placeholder)
 ```
 
 ### Phase 3: Deploy

@@ -2,12 +2,7 @@
   "mcpServers": {
     "gitnexus": {
       "command": "npx",
-      "args": ["-y", "gitnexus@latest", "mcp"]
-    },
-    "open-design": {
-      "command": "npx",
-      "args": ["-y", "@anthropic-ai/open-design-mcp@latest"],
-      "_comment": "Optional: requires Open Design daemon running. Install from https://open-design.ai or https://github.com/nexu-io/open-design. AI Forge gracefully falls back to built-in design skills when OD is not available."
+      "args": ["-y", "gitnexus@1.6.10", "mcp"]
     }
   }
 }

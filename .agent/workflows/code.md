@@ -76,8 +76,8 @@ Code written → Run tests
 
 ### Phase 5: Post-Implementation
 
-1. Run `pnpm lint`
-2. Run `pnpm test`
+1. Run the logical `lint` command from `.awf/manifest.json` (or `node scripts/awf/exec.mjs lint`).
+2. Run the logical `test` command from `.awf/manifest.json` (or `node scripts/awf/exec.mjs test`).
 3. Write/update `.agent/artifacts/<run-id>/verification.json`
 4. Write/update `.agent/artifacts/<run-id>/review-decision.json`
 5. Write/update `.agent/artifacts/<run-id>/adversarial-validation.json`

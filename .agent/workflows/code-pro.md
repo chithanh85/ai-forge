@@ -34,7 +34,7 @@ Workflow này hiện thực hóa sự phối hợp đa agent tối ưu: **Codex*
        │
        ▼
 ┌──────────────┐
-│  Phase 4:    │ ➔ Chạy pnpm run audit (Lint + TypeCheck + Test)
+│  Phase 4:    │ ➔ Chạy AWF verification (Lint + TypeCheck + Test)
 │  VERIFY      │   Commit, push remote và lưu bài học vào Second Brain
 └──────────────┘
 ```
@@ -45,11 +45,7 @@ Workflow này hiện thực hóa sự phối hợp đa agent tối ưu: **Codex*
 
 ### Phase 1: Planning (Codex - Tech Lead)
 
-Khi bạn gõ `/code-pro <yêu cầu tính năng>`, hệ thống sẽ gọi ngầm **Codex CLI** ở chế độ non-interactive để phân tích kiến trúc và sinh kế hoạch chi tiết:
-
-```bash
-echo "" | codex exec -m gpt-5.5 -s danger-full-access --dangerously-bypass-approvals-and-sandbox --dangerously-bypass-hook-trust "Hãy phân tích yêu cầu: '<yêu cầu tính năng>'. Hãy tạo file kế hoạch docs/plans/<feature>-plan.md chi tiết, quy định rõ cấu trúc dữ liệu, các hàm cần viết trong file nào, tham số truyền vào và các test case cụ thể."
-```
+Khi bạn gõ `/code-pro <yêu cầu tính năng>`, dùng planner có capability `reasoning-high` của client/router hiện tại. Nếu Codex CLI đã được user cấu hình làm planner, có thể gọi `codex exec` bằng **model, sandbox và approval policy hiện hành của user**. AWF không được override bằng model pin hoặc `dangerously-bypass-*` flags.
 
 ### Phase 2: Coding (Antigravity - Junior Coder)
 
@@ -84,7 +80,7 @@ _Nếu có bản vá (`.patch`), Antigravity sẽ hiển thị diff cho bạn xe
 
 1. Chạy xác thực cuối cùng:
    ```bash
-   pnpm run audit
+   python .agent/scripts/checklist.py .
    ```
 2. Commit mã nguồn với conventional commit:
    `feat: <mô tả> (implemented via /code-pro)`

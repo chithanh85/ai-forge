@@ -6,6 +6,9 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { afterEach, describe, expect, test } from "vitest";
 
+const pythonExe =
+  process.env.PYTHON ?? (process.platform === "win32" ? "python" : "python3");
+
 const wikiLintPath = resolve(".agent/scripts/wiki_lint.py");
 const tempRoots: string[] = [];
 
@@ -27,7 +30,7 @@ function createWikiRoot() {
 }
 
 function runWikiLint(root: string, args: string[]) {
-  return spawnSync("python", [wikiLintPath, ...args], {
+  return spawnSync(pythonExe, [wikiLintPath, ...args], {
     cwd: root,
     encoding: "utf8",
     env: {

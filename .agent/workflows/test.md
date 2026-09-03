@@ -34,9 +34,9 @@ User types `/test`
 
 ### Phase 3: Execution
 
-1. `pnpm test` — run all tests
-2. `pnpm test:coverage` — check coverage
-3. Report results
+1. Run `node scripts/awf/exec.mjs test` (or the manifest's logical `test` command).
+2. Run the project's configured coverage command when one exists; report `NOT_CONFIGURED` otherwise.
+3. Report results.
 
 ### Phase 4: Self-Healing
 

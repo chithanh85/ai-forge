@@ -56,7 +56,7 @@ Workflow này hướng dẫn AI thực hiện tối ưu hóa tự động các k
    - **Benchmark Command**: Lệnh để đo đạc chỉ số hiệu năng (ví dụ: `node scripts/bench.js`).
    - **Metric Pattern**: Regex để lấy giá trị số từ kết quả benchmark (ví dụ: `Execution time: (\d+)ms` hoặc `Bundle Size: (\d+)KB`).
    - **Optimize Direction**: Hướng cải tiến (`lower` đối với thời gian/kích thước, `higher` đối với điểm số/throughput).
-   - **Safety Test Command**: Lệnh chạy kiểm thử đảm bảo tính đúng đắn (ví dụ: `pnpm test`).
+   - **Safety Test Command**: Lệnh chạy kiểm thử đảm bảo tính đúng đắn (ví dụ: `node scripts/awf/exec.mjs test`).
 
 ### Phase 2: Setup & Khởi tạo
 

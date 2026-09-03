@@ -54,7 +54,7 @@ Artifacts must never contain unredacted credentials, environment values, cookies
 
 ## Relationship to Runtime Checkpoints
 
-While **Artifacts** are the static, persistent compliance evidence check-ins required to approve commits/PRs, **Checkpoints** (`.agent/checkpoints/<run-id>/checkpoint.json`) are lightweight, ephemeral JSON state trackers used _during_ execution.
+While **Artifacts** are project-specific compliance evidence required to approve non-trivial work, **Checkpoints** (`.agent/checkpoints/<run-id>/checkpoint.json`) are lightweight, ephemeral JSON state trackers used _during_ execution.
 
 - **Checkpoints** capture real-time events, command history, worktree parameters, and active tasks. They are gitignored and remain local.
-- **Artifacts** are written during the lifecycle phases and committed as long-term governance proof.
+- **Artifacts** belong to the generated project/task. The AWF distribution must not ship template-maintainer run directories or a stale `current` pointer as project history.
