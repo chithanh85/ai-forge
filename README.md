@@ -1,14 +1,16 @@
 # AWF Enterprise Template v4.1
 
-AWF is a **client-neutral AI development workflow template**. It gives a repository one canonical operating policy, project-local configuration, workflow contracts, verification gates, and thin adapters for AI coding clients such as Codex-, Gemini/Antigravity-, and Claude-compatible environments.
+> 🇬🇧 [English README](README.en.md)
 
-AWF is **not** a model router, a promise of unattended software delivery, or a replacement for the native safety model of the client you use.
+AWF là **template workflow phát triển phần mềm bằng AI trung lập với client**. Nó cung cấp cho repository một policy vận hành chuẩn duy nhất, cấu hình cục bộ theo từng project, workflow contract, verification gate và các adapter mỏng cho những môi trường AI coding tương thích với Codex, Gemini/Antigravity và Claude.
 
-## Why v4.1 exists
+AWF **không phải** model router, không hứa hẹn việc giao phần mềm hoàn toàn không cần giám sát, và không thay thế cơ chế an toàn native của client mà bạn đang sử dụng.
 
-Earlier versions accumulated machine-specific assumptions: package-manager commands embedded in rules, provider/model names in workflows, client-specific syntax in shared policy, and template-maintainer runtime state copied into new projects.
+## Vì sao có v4.1
 
-v4.1 changes the distribution model:
+Các phiên bản trước dần tích lũy nhiều giả định gắn với máy của người tạo template: command package manager bị hard-code trong rule, tên provider/model xuất hiện trong workflow, cú pháp riêng của từng client bị đưa vào shared policy, và runtime state của maintainer có thể bị mang sang project mới.
+
+v4.1 thay đổi mô hình phân phối theo hướng **canonical core + native adapters**:
 
 ```text
                          AWF CORE
@@ -29,43 +31,43 @@ v4.1 changes the distribution model:
                npm / pnpm / yarn / bun
 ```
 
-The repository is organized around six principles:
+Repository được tổ chức quanh 6 nguyên tắc:
 
-1. **One canonical policy** — `.awf/policy/core.md` is client-neutral.
-2. **Project-local configuration** — `.awf/manifest.json` records identity, logical commands, clients, and integration state.
-3. **Native adapters, not duplicated policy** — `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` contain AWF-managed regions while preserving project-owned text outside them.
-4. **Toolchain detection** — the target repository keeps its detected package manager instead of inheriting one from the template author.
-5. **Provider neutrality** — AWF defines roles/capabilities; the active client/router/user chooses concrete models.
-6. **Evidence before completion** — tests, artifacts, review decisions, and Git state are checked before a task is called done.
+1. **Một canonical policy** — `.awf/policy/core.md` là policy trung lập với client.
+2. **Cấu hình cục bộ theo project** — `.awf/manifest.json` lưu project identity, logical commands, clients và trạng thái integrations.
+3. **Native adapters thay vì nhân bản policy** — `AGENTS.md`, `GEMINI.md`, `CLAUDE.md` chứa vùng do AWF quản lý nhưng vẫn giữ nguyên nội dung do project tự viết ở bên ngoài vùng đó.
+4. **Tự nhận diện toolchain** — project đích giữ package manager được phát hiện từ chính repository, thay vì kế thừa lựa chọn của tác giả template.
+5. **Trung lập provider** — AWF mô tả role/capability; client/router/user đang hoạt động quyết định model cụ thể.
+6. **Có bằng chứng trước khi tuyên bố hoàn tất** — test, artifacts, review decisions và trạng thái Git phải được kiểm tra trước khi task được coi là done.
 
-## Repository layout
+## Cấu trúc repository
 
 ```text
 .awf/
-  manifest.json             Canonical project-local AWF configuration
-  policy/core.md            Canonical client-neutral operating policy
+  manifest.json             Cấu hình AWF canonical theo project
+  policy/core.md            Policy vận hành canonical, client-neutral
 .agent/
-  agents/                   Specialist role definitions
+  agents/                   Định nghĩa các specialist role
   workflows/                Workflow contracts (/plan, /code, /debug, ...)
-  skills/                   Reusable domain skills
-  schemas/artifacts/        Artifact schemas
-  scripts/                  Checklist, session, worktree and wiki tooling
-  artifacts/                Runtime evidence for the current project
-.planning/                  Project identity and current project state
-docs/                       Current docs plus historical records
-scripts/awf/                Repo-local init/sync/doctor/config/exec engine
+  skills/                   Các domain skill có thể tái sử dụng
+  schemas/artifacts/        Schema cho evidence artifacts
+  scripts/                  Checklist, session, worktree và wiki tooling
+  artifacts/                Runtime evidence của project hiện tại
+.planning/                  Project identity và project state hiện tại
+docs/                       Tài liệu hiện hành + historical records
+scripts/awf/                Engine init/sync/doctor/config/exec cục bộ
 AGENTS.md                    AGENTS-compatible adapter
 GEMINI.md                    Gemini/Antigravity adapter
 CLAUDE.md                    Claude-compatible adapter
 ```
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for source-of-truth boundaries and lifecycle details.
+Xem [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) để hiểu chi tiết source-of-truth boundaries và lifecycle.
 
-## Quick start
+## Bắt đầu nhanh
 
-v4.1 is a **repository-local framework**, not a globally published `awf` CLI.
+v4.1 là một **framework nằm trong repository**, chưa phải một global CLI `awf` được publish độc lập.
 
-Prerequisites: Node.js 18+, Python 3.10+, Git, and the package manager required by the target repository.
+Yêu cầu: Node.js 18+, Python 3.10+, Git và package manager mà repository đích yêu cầu.
 
 ### Windows PowerShell
 
@@ -83,25 +85,25 @@ cd my-project
 bash ./setup-enterprise.sh --project-name my-project
 ```
 
-Both launchers anchor execution to their own project directory, hydrate AWF state, install dependencies unless skipped, run core verification, and initialize Git when requested.
+Cả hai launcher đều tự neo execution vào thư mục project của chính nó, hydrate AWF state, cài dependency nếu không bị skip, chạy core verification và khởi tạo Git khi được yêu cầu.
 
-For flags and an existing-repository adoption path, read [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md).
+Để xem đầy đủ flags và cách áp dụng AWF vào repository đã tồn tại, đọc [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md).
 
-## What initialization changes
+## Quá trình initialization thay đổi gì
 
-`node scripts/awf/init.mjs --project-name <name>` performs bounded project hydration:
+`node scripts/awf/init.mjs --project-name <name>` thực hiện project hydration trong phạm vi kiểm soát:
 
-- sanitizes and records project identity;
-- detects `pnpm-lock.yaml`, `yarn.lock`, `bun.lock*`, or `package-lock.json`;
-- writes logical install/test/lint/typecheck/build/format commands into `.awf/manifest.json`;
-- resets template session state into a fresh project state;
-- hydrates template-owned identity placeholders;
-- synchronizes AWF-managed regions in the three client adapters;
-- preserves content outside managed adapter regions.
+- sanitize và ghi nhận project identity;
+- phát hiện `pnpm-lock.yaml`, `yarn.lock`, `bun.lock*` hoặc `package-lock.json`;
+- ghi logical command cho install/test/lint/typecheck/build/format vào `.awf/manifest.json`;
+- reset template session state thành trạng thái sạch cho project mới;
+- hydrate các identity placeholder thuộc template;
+- đồng bộ vùng AWF-managed trong ba client adapter;
+- giữ nguyên nội dung ngoài managed regions.
 
-Running init/sync repeatedly is designed to be idempotent for AWF-owned regions.
+Việc chạy lại init/sync nhiều lần được thiết kế để **idempotent đối với phần do AWF quản lý**.
 
-## Core commands
+## Các lệnh cốt lõi
 
 ```bash
 node scripts/awf/init.mjs --project-name my-project --root .
@@ -111,34 +113,34 @@ node scripts/awf/configure.mjs --root . --integration gitnexus=true
 node scripts/awf/exec.mjs test --root .
 ```
 
-Agents should prefer logical commands stored in `.awf/manifest.json` instead of hard-coding `npm`, `pnpm`, `yarn`, or `bun`.
+Agent nên ưu tiên logical commands trong `.awf/manifest.json`, thay vì hard-code `npm`, `pnpm`, `yarn` hoặc `bun`.
 
-## Workflow model
+## Mô hình workflow
 
-AWF workflows are contracts, not guarantees that every client can execute every step in the same way.
+Workflow của AWF là **contract**, không phải lời đảm bảo rằng mọi AI client đều thực thi được mọi bước theo cùng một cách.
 
 ```text
 request
   -> intake + risk lane
-  -> plan when required
-  -> design when risk requires it
+  -> plan khi cần
+  -> design khi mức rủi ro yêu cầu
   -> implementation
   -> verification
   -> review / adversarial validation
-  -> audit for high-risk/deploy work
+  -> audit cho high-risk hoặc deploy work
 ```
 
-Risk lanes are defined in [docs/FEATURE_INTAKE.md](docs/FEATURE_INTAKE.md):
+Risk lane được định nghĩa trong [docs/FEATURE_INTAKE.md](docs/FEATURE_INTAKE.md):
 
-- **Tiny** — bounded, low-blast-radius work; compact planning is acceptable.
-- **Normal** — explicit plan and normal verification.
-- **High-Risk** — plan + design + explicit risk approval + stronger verification/audit.
+- **Tiny** — thay đổi nhỏ, blast radius thấp; cho phép planning gọn.
+- **Normal** — cần plan rõ ràng và verification tiêu chuẩn.
+- **High-Risk** — cần plan + design + explicit risk approval + verification/audit mạnh hơn.
 
-The active client may parallelize independent subtasks if it supports safe parallel agents. Sequential execution remains correct.
+Client đang hoạt động có thể chạy song song các subtasks độc lập nếu nó hỗ trợ safe parallel agents. Chạy tuần tự vẫn là đường thực thi đúng về mặt correctness.
 
-## Evidence and artifact gate
+## Evidence và artifact gate
 
-For non-trivial plan/code/debug runs, AWF expects `.agent/artifacts/<run-id>/` to contain:
+Với các run `/plan`, `/code`, `/debug` không tầm thường, AWF kỳ vọng `.agent/artifacts/<run-id>/` có đủ:
 
 ```text
 context-snippets.json
@@ -148,36 +150,36 @@ review-decision.json
 adversarial-validation.json
 ```
 
-The normal checklist fails closed when required evidence is missing or blocking. Bootstrap uses explicit `--core` mode because a brand-new project has no task artifact yet.
+Checklist bình thường sẽ fail closed nếu evidence bắt buộc bị thiếu hoặc có blocking decision. Bootstrap dùng `--core` vì project mới chưa có task artifact thực tế.
 
 ```bash
-python .agent/scripts/checklist.py . --core   # framework/bootstrap verification
-python .agent/scripts/checklist.py .          # normal project/task verification
+python .agent/scripts/checklist.py . --core   # verify framework/bootstrap
+python .agent/scripts/checklist.py .          # verify project/task bình thường
 ```
 
-## Client adapters and model ownership
+## Client adapters và quyền sở hữu model
 
-AWF does not choose a vendor model for you. Managed adapters tell clients to read the core policy, resolve project commands from the manifest, use optional capabilities only when available, and keep provider/model selection client- or user-owned.
+AWF không chọn model vendor thay cho bạn. Managed adapters chỉ yêu cầu client đọc core policy, resolve command từ manifest, dùng optional capability khi thực sự khả dụng, và để việc chọn provider/model thuộc về client/router/user.
 
-Concrete model names, reasoning levels, account configuration, sandbox policy, and approval policy belong to the active client/router/user configuration.
+Tên model cụ thể, reasoning level, account configuration, sandbox policy và approval policy đều thuộc cấu hình của client/router/user đang được sử dụng.
 
 ## Optional integrations
 
-Core must remain usable when optional integrations are absent.
+AWF Core phải vẫn dùng được khi toàn bộ optional integrations đều vắng mặt.
 
-| Integration     | v4.1 posture                                                                                      |
-| --------------- | ------------------------------------------------------------------------------------------------- |
-| GitNexus        | Pinned transport definition is included; setup/indexing is opt-in and capability use is optional. |
-| Second Brain    | Optional remote memory; local auto-memory fallback may be used when present.                      |
-| Codebase Memory | Capability can be recorded, but AWF will not execute an unpinned remote installer.                |
-| Rune            | Separate opt-in setup utility pinned by version.                                                  |
-| Open Design     | Optional external capability; no broken/unpinned npm installer is run by core.                    |
-| Clawpatch       | Optional local review workflow/state; not required for AWF core.                                  |
-| Teleport        | Optional reporting bridge; project-specific setup only.                                           |
+| Integration     | Trạng thái trong v4.1                                                                           |
+| --------------- | ----------------------------------------------------------------------------------------------- |
+| GitNexus        | Có transport definition đã pin version; setup/indexing là opt-in và capability vẫn là optional. |
+| Second Brain    | Remote memory tùy chọn; có thể dùng local auto-memory fallback khi tồn tại.                     |
+| Codebase Memory | Có thể ghi nhận capability, nhưng AWF không chạy remote installer chưa được pin/review.         |
+| Rune            | Utility opt-in riêng và được pin version.                                                       |
+| Open Design     | External capability tùy chọn; AWF Core không chạy installer npm hỏng hoặc unpinned.             |
+| Clawpatch       | Local review workflow/state tùy chọn; không phải dependency bắt buộc của AWF Core.              |
+| Teleport        | Reporting bridge tùy chọn; cấu hình theo từng project.                                          |
 
-See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) for trust boundaries.
+Xem [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) để hiểu trust boundaries.
 
-## Verification in this source repository
+## Verification của source repository này
 
 ```bash
 npm ci
@@ -189,22 +191,22 @@ npm audit --audit-level=high
 node scripts/awf/doctor.mjs --root .
 ```
 
-The current `build` script is deliberately a placeholder because this repository is a framework/template rather than an application. AWF Doctor reports that as **NOT_CONFIGURED/WARN**; a placeholder build is never evidence of a production build.
+Script `build` hiện tại cố ý chỉ là placeholder vì repository này là framework/template chứ không phải application. AWF Doctor báo nó là **NOT_CONFIGURED/WARN**; một placeholder build không bao giờ được coi là evidence rằng application đã build thành công.
 
 ## Security defaults
 
-- Shared workflows do not disable client sandbox/approval/trust protections.
-- Real `.env` and credential files are ignored and must not be committed.
-- Executable integration packages should be pinned.
-- Non-interactive setup does not silently enable optional integrations.
-- High-risk work follows the stronger review/approval path.
-- External AI output is untrusted until verified against repository evidence.
+- Shared workflows không tắt sandbox/approval/trust protection native của client.
+- File `.env` thật và credential thật được ignore và không được commit.
+- Executable integration packages nên được pin version.
+- Non-interactive setup không âm thầm bật optional integrations.
+- High-risk work đi qua review/approval path mạnh hơn.
+- Output của external AI luôn được coi là untrusted cho đến khi được kiểm chứng bằng repository evidence.
 
-Read [SECURITY.md](SECURITY.md) before exposing automation to production credentials or remote execution.
+Đọc [SECURITY.md](SECURITY.md) trước khi cho automation tiếp cận production credentials hoặc remote execution.
 
-## Documentation
+## Tài liệu
 
-Start with [docs/README.md](docs/README.md):
+Bắt đầu từ [docs/README.md](docs/README.md):
 
 - [Architecture](docs/ARCHITECTURE.md)
 - [Getting started](docs/GETTING_STARTED.md)
@@ -214,15 +216,15 @@ Start with [docs/README.md](docs/README.md):
 - [Test matrix](docs/TEST_MATRIX.md)
 - [Knowledge index](docs/wiki-index.md)
 
-`docs/plans/completed/` and dated wiki lessons are **historical evidence**, not the current AWF contract.
+`docs/plans/completed/` và các wiki lesson có ngày tháng là **historical evidence**, không phải AWF contract hiện hành.
 
-## What v4.1 intentionally does not claim
+## Những điều v4.1 cố ý không tuyên bố
 
-- It does not guarantee unattended end-to-end delivery.
-- It does not guarantee multi-agent parallelism on clients that do not support it.
-- It does not route or select models for the user.
-- It does not turn optional MCPs into hard dependencies.
-- It does not treat a placeholder build command as successful application build evidence.
-- It does not make arbitrary existing-repository adoption conflict-free; review the resulting diff.
+- Không đảm bảo end-to-end delivery hoàn toàn không cần giám sát.
+- Không đảm bảo multi-agent parallelism trên client không hỗ trợ tính năng đó.
+- Không route hoặc tự chọn model thay cho user.
+- Không biến optional MCP thành hard dependency.
+- Không coi placeholder build command là bằng chứng application build thành công.
+- Không cam kết việc áp dụng vào mọi existing repository sẽ hoàn toàn không có conflict; luôn review diff sau init/sync.
 
-Those boundaries are deliberate: AWF should improve agent discipline without pretending to own capabilities that belong to the active client or target project.
+Các giới hạn này là chủ đích: AWF nên tăng kỷ luật và khả năng kiểm chứng của AI agent mà không giả vờ sở hữu các capability thực tế thuộc về active client hoặc target project.
