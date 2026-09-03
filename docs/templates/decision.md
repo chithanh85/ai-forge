@@ -1,36 +1,40 @@
-# NNNN Decision Title
+# NNNN — Decision Title
 
-> Template chắt lọc từ [repository-harness](https://github.com/hoangnb24/repository-harness).
-> Lưu ADR tại `docs/adr/NNNN-decision-title.md`. Đánh số tăng dần.
+Store durable architecture decisions under `docs/adr/NNNN-short-title.md`. Create `docs/adr/` when the first project ADR is needed.
 
 **Date:** YYYY-MM-DD
-
-## Status
-
-Proposed | Accepted | Superseded | Rejected
+**Status:** Proposed | Accepted | Superseded | Rejected
 
 ## Context
 
-Vấn đề, ràng buộc, hoặc sự mơ hồ nào buộc phải ra quyết định này?
+What problem, constraint, ambiguity or risk requires a durable decision?
 
 ## Decision
 
-Chúng ta quyết định gì?
+What are we choosing? Be concrete enough that a future maintainer can tell whether the repository still follows this decision.
 
-## Alternatives Considered
+## Alternatives considered
 
-| Phương án     | Ưu điểm | Nhược điểm | Lý do loại |
-| ------------- | ------- | ---------- | ---------- |
-| _Phương án A_ |         |            |            |
-| _Phương án B_ |         |            |            |
+| Alternative | Advantages | Costs / risks | Why not chosen |
+| ----------- | ---------- | ------------- | -------------- |
+| A           |            |               |                |
+| B           |            |               |                |
 
 ## Consequences
 
-- **Positive:** Lợi ích khi áp dụng quyết định này.
-- **Negative:** Trade-off hoặc chi phí phải chấp nhận.
-- **Migration:** Các bước cần thực hiện nếu thay đổi quyết định trong tương lai.
+- **Positive:**
+- **Negative / trade-offs:**
+- **Migration / rollback:**
+- **Operational impact:**
+- **Security impact:**
+
+## Verification
+
+What evidence will prove the decision is correctly implemented?
 
 ## References
 
-- Link đến plan, issue, hoặc discussion liên quan.
-- Second Brain: `recall("{topic}")` nếu cần tra cứu quyết định trước đó.
+- plan / issue / PR / test / benchmark links
+- relevant durable memory reference when an optional memory integration is available
+
+Do not make an external memory system the only record of an architecture decision; the accepted ADR belongs in Git.

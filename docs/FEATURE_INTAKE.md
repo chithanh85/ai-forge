@@ -1,139 +1,114 @@
-# Feature Intake
+# Feature Intake and Risk Lanes
 
-> Chắt lọc từ [repository-harness/FEATURE_INTAKE.md](https://github.com/hoangnb24/repository-harness).
-> Được điều chỉnh cho quy trình AWF — không dùng harness-cli, thay bằng AWF workflows.
+Every substantive request should be classified before implementation. The user does not need to supply a risk label; the agent derives it from repository evidence and the checklist below.
 
-Mọi yêu cầu từ user hoặc hệ thống đều phải đi qua cổng intake trước khi code.
-Agent không cần hỏi user phân loại rủi ro — agent tự phân loại dựa trên checklist bên dưới.
-
-## Intake Flow
+## Intake flow
 
 ```text
-User prompt / request
-    |
-    v
-Phân loại loại đầu vào (Input Type)
-    |
-    v
-Diễn đạt lại thành work item rõ ràng
-    |
-    v
-Tìm affected files, docs, plans, tests
-    |
-    v
-Chạy Risk Checklist (7 câu hỏi)
-    |
-    v
-Chọn làn: Tiny, Normal, hoặc High-Risk
-    |
-    v
-Áp dụng workflow tương ứng
+request
+  -> identify input type
+  -> restate expected outcome
+  -> inspect affected files/contracts/tests
+  -> score risk factors
+  -> choose Tiny / Normal / High-Risk lane
+  -> execute the matching workflow
 ```
 
-## Input Types
+## Input types
 
-Xác định loại đầu vào trước khi chọn làn rủi ro.
+| Type                 | Typical examples                            | Expected planning surface                      |
+| -------------------- | ------------------------------------------- | ---------------------------------------------- |
+| New feature          | New behavior or product capability          | plan required unless truly tiny                |
+| Change request       | Change accepted behavior                    | plan or bounded patch                          |
+| Bug fix              | Reproduce and correct a defect              | scout/diagnose + regression proof              |
+| Maintenance          | Dependency/config/refactor work             | bounded plan when blast radius is non-trivial  |
+| Documentation        | README/wiki/ADR/current docs                | direct patch if behavior is not changing       |
+| AWF/framework change | Policy, workflow, skill, bootstrap, adapter | plan + framework verification when non-trivial |
 
-| Loại                    | Khi nào dùng                               | Artifact đầu ra                 |
-| ----------------------- | ------------------------------------------ | ------------------------------- |
-| **New feature**         | Tính năng mới, chưa có spec                | Plan trong `docs/plans/active/` |
-| **Change request**      | Sửa, tinh chỉnh hành vi đã chấp nhận       | Plan hoặc patch trực tiếp       |
-| **Bug fix**             | Sửa lỗi phát hiện qua test hoặc production | Scout & Diagnose → patch        |
-| **Maintenance**         | Nâng dependency, refactor nội bộ, config   | Plan hoặc patch trực tiếp       |
-| **Docs update**         | Cập nhật wiki, README, ADR                 | Patch trực tiếp                 |
-| **Harness improvement** | Cải thiện workflow, skill, agent rules     | Patch trực tiếp + wiki lesson   |
+Do not grow one permanent monolithic spec. Use current docs, plans, ADRs and durable lessons for the appropriate purpose.
 
-Không mở rộng spec monolithic. Dùng `docs/plans/`, `docs/adr/`, và `docs/wiki/lessons/` làm bề mặt sống (living surface).
+## Risk checklist
 
-## Risk Checklist (7 Câu Hỏi)
+Each applicable factor adds one point:
 
-Agent tự trả lời 7 câu hỏi dưới đây. Mỗi câu "Có" = +1 điểm rủi ro.
+| #   | Risk factor                                                                                            |
+| --- | ------------------------------------------------------------------------------------------------------ |
+| 1   | Database schema, migration, persistent-data contract changes                                           |
+| 2   | Public/internal API contract, auth, protocol or compatibility changes                                  |
+| 3   | Payment, billing, financial or irreversible business logic                                             |
+| 4   | Security/authentication/authorization/cryptography changes                                             |
+| 5   | Broad blast radius: more than about five files or multiple domain boundaries                           |
+| 6   | Production data/runtime migration or deployment with difficult rollback                                |
+| 7   | Impact analysis from available repository/code-intelligence tools indicates high/critical blast radius |
 
-| #   | Câu hỏi                                                           | Nếu "Có" |
-| --- | ----------------------------------------------------------------- | -------- |
-| 1   | Thay đổi database schema (bảng, cột, index, migration)?           | +1       |
-| 2   | Thay đổi API contract (endpoint, request/response shape, auth)?   | +1       |
-| 3   | Ảnh hưởng đến logic thanh toán, billing, hoặc tài chính?          | +1       |
-| 4   | Sửa hoặc thay thế thư viện auth/security (JWT, RBAC, encryption)? | +1       |
-| 5   | Ảnh hưởng đến hơn 5 file hoặc hơn 2 domain boundaries?            | +1       |
-| 6   | Cần migration dữ liệu trên môi trường production?                 | +1       |
-| 7   | GitNexus `impact` trả về risk HIGH hoặc CRITICAL?                 | +1       |
+Use the score as a routing heuristic, not as permission to ignore an obvious severe risk.
 
-**Phân làn:**
+- **0** → Tiny
+- **1–2** → Normal
+- **3+** → High-Risk
 
-- **0 điểm** → Tiny
-- **1–2 điểm** → Normal
-- **3+ điểm** → High-Risk
+A single critical security or irreversible-production concern may justify High-Risk even with a lower numeric score.
 
-## Lanes
+## Tiny lane
 
-### Tiny Lane (0 điểm rủi ro)
+Examples: typo, bounded docs update, internal rename, isolated config correction, small deterministic test-only change.
 
-Dùng cho: typo, thêm comment, cập nhật docs, đổi tên biến nội bộ, config nhỏ, thêm endpoint smoke/health đơn giản.
+Rules:
 
-**Quy tắc:**
+- compact kickoff/plan is enough;
+- direct patch is allowed;
+- verify the changed behavior or documentation;
+- do not create ceremony that costs more than the change;
+- artifact gate may be unnecessary when the task is genuinely trivial and policy permits it.
 
-- Ghi nhận intake classification trước khi code (kickoff line đủ).
-- Cho phép patch trực tiếp, không cần tạo plan file.
-- Chạy lint + test bình thường.
-- Cập nhật `docs/TEST_MATRIX.md` nếu thêm behavior mới.
-- Không bắt buộc tạo Git Worktree.
-- `--fast` flag được phép dùng thoải mái.
+Typical workflow: direct bounded change or `/code --fast` where the active client supports that workflow.
 
-**AWF Workflow:** `/code --fast` hoặc sửa trực tiếp.
+## Normal lane
 
-### Normal Lane (1–2 điểm rủi ro)
+Examples: a bounded feature, API endpoint, UI behavior, business-logic change, non-trivial framework update.
 
-Dùng cho: thêm API endpoint, sửa giao diện, thay đổi business logic đơn giản, thêm tính năng mới trong phạm vi hẹp.
+Rules:
 
-**Quy tắc:**
+- explicit plan with expected output, acceptance criteria, scope, constraints and touchpoints;
+- regression/behavior tests where practical;
+- normal lint/typecheck/test verification;
+- update test-matrix evidence when product/framework behavior changes;
+- use task artifacts when required by the workflow contract;
+- worktree isolation is optional when it materially improves safety.
 
-- Bắt buộc tạo plan (`/plan` hoặc `/plan --fast`).
-- Bắt buộc plan contract 5 thành phần (Expected output, AC, Scope, Constraints, Touchpoints).
-- Tạo Git Worktree nếu task có write isolation requirement.
-- TDD mandatory (Red-Green-Refactor).
-- Cập nhật `docs/TEST_MATRIX.md` khi hoàn thành.
-- Artifact gate 5 JSON files bắt buộc khi đóng run.
+Typical flow:
 
-**AWF Workflow:** `/plan` → `/code`
-
-### High-Risk Lane (3+ điểm rủi ro)
-
-Dùng cho: sửa DB schema, thay thế auth library, migration production data, thay đổi core domain logic.
-
-**Quy tắc:**
-
-- Bắt buộc chạy `/design` trước `/code`.
-- Bắt buộc human approval tại `risk-gate.json` (agent không được tự approve).
-- Kích hoạt `security-auditor` agent làm Red Team phản biện.
-- GitNexus blast radius analysis bắt buộc trước khi sửa bất kỳ symbol nào.
-- Git Worktree isolation bắt buộc.
-- Sau khi code xong: `/audit` bắt buộc trước `/deploy`.
-- Cập nhật `docs/TEST_MATRIX.md` + viết ADR nếu thay đổi kiến trúc.
-
-**AWF Workflow:** `/plan` → `/design` → `/code` → `/test` → `/audit`
-
-## Lane-to-Workflow Routing Table
-
-| Lane          | Plan | Design |   Code   |   Test    | Audit | Worktree | Human Approval |
-| :------------ | :--: | :----: | :------: | :-------: | :---: | :------: | :------------: |
-| **Tiny**      |  —   |   —    | `--fast` | lint+test |   —   |    —     |       —        |
-| **Normal**    |  ✅  |   —    |    ✅    |    ✅     |   —   | optional |       —        |
-| **High-Risk** |  ✅  |   ✅   |    ✅    |    ✅     |  ✅   |    ✅    |       ✅       |
-
-## Tích hợp với AWF Workflows
-
-Orchestrator đọc file này khi tiếp nhận yêu cầu mới:
-
-1. Phân loại input type.
-2. Chạy Risk Checklist 7 câu hỏi.
-3. Chọn lane.
-4. Thông báo lane cho user: `"📋 Intake: [Normal Lane] — 2/7 risk factors detected."`
-5. Áp dụng workflow chain tương ứng.
-
-Khi user chạy `/code --fast` nhưng risk score ≥ 3, agent phải cảnh báo:
-
+```text
+plan -> implementation -> verification -> review
 ```
-⚠️ Risk score 3/7 → High-Risk Lane. Khuyến nghị chạy /plan → /design → /code thay vì --fast.
-Bạn muốn tiếp tục với --fast hay chuyển sang Normal/High-Risk flow?
+
+## High-Risk lane
+
+Examples: production migrations, auth/security changes, broad core-domain changes, large cross-domain refactors.
+
+Rules:
+
+- explicit plan and design before write implementation;
+- blast-radius analysis using available native or optional code-intelligence tools;
+- explicit risk approval where the risk gate requires a human decision;
+- isolated worktree for risky/concurrent writes when available;
+- independent review/adversarial validation;
+- security audit before deploy/merge when applicable;
+- ADR when architecture or durable contracts change;
+- stronger rollback and smoke-test evidence.
+
+Typical flow:
+
+```text
+plan -> design -> approval -> implementation -> test -> review -> audit
 ```
+
+## Capability-aware routing
+
+AWF does not require one specific MCP to classify risk. If GitNexus or another code-intelligence integration is available, use it when it materially improves impact analysis. If unavailable, use native repository search, symbol/call-site inspection, tests and Git history instead.
+
+Parallel subagents are optional. Parallelize only independent work when the active client supports it safely; otherwise execute the same contract sequentially.
+
+## User override
+
+A user can deliberately ask for a faster or narrower path, but shared AWF policy must not silently bypass safety controls, required human approval, or verification evidence. If a requested shortcut conflicts with a blocking risk gate, explain the conflict and preserve the safety boundary.

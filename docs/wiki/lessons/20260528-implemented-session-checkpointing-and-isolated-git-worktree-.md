@@ -1,17 +1,25 @@
-# Lesson: Implemented Session Checkpointing and Isolated Git Worktree Runner
+# Historical Lesson — Session Checkpointing and Isolated Git Worktrees
 
-**Date:** 2026-05-28T11:26:16.394488
-**Type:** lesson
+**Date:** 2026-05-28
+**Type:** historical lesson
 **Tags:** #harness #checkpointing #worktree
+
+> Archive record. Current operational guidance lives in `docs/OPERATIONS.md`.
 
 ## Summary
 
-Implemented Session Checkpointing and Isolated Git Worktree Runner
+AWF introduced two lightweight runtime primitives:
 
-## Detail
+- structured session/run checkpoints through `.agent/scripts/session_manager.py`;
+- isolated write execution through `.agent/scripts/worktree_runner.py` and Git worktrees under `.tmp/worktrees/`.
 
-Implemented session_manager.py checkpoint CLI/API and worktree_runner.py with Git Worktrees. Git Worktree runner safely runs write commands in isolated branch worktrees under .tmp/worktrees/ to prevent canonical root dirtiness, integrating with JSON checkpoints. Vitest tests tests/session-checkpoint.test.ts and tests/worktree-runner.test.ts pass, and AWF checklist is verified green.
+## Durable lesson
 
-## Related Files
+Long-running or concurrent agent execution needs explicit state and write isolation. Chat history alone is not a reliable runtime ledger, and parallel writers should not casually share the canonical working tree.
 
-- (none)
+## Current proof
+
+- `tests/session-checkpoint.test.ts`
+- `tests/worktree-runner.test.ts`
+
+v4.1 additionally made the test/launcher Python path portable across Windows and POSIX environments and separated runtime checkpoints from artifact-gated task evidence.

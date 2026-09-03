@@ -1,55 +1,46 @@
-# Google Antigravity Integration Wiki
+# Gemini / Antigravity Adapter
 
-Tài liệu này hướng dẫn cách cấu hình và sử dụng **Google Antigravity 2.0** và **Antigravity CLI** (`agy`) trong dự án Enterprise của bạn để tối ưu hóa hiệu năng điều phối đa agent song song và tự động hóa chu trình phát triển phần mềm (AWF).
+AWF integrates with Gemini/Antigravity-family coding environments through a **thin client adapter**, not through a separate fork of AWF policy.
 
-## 🚀 Giới thiệu về Antigravity Ecosystem
+## Entry point
 
-- **Antigravity 2.0**: Hệ điều hành desktop độc lập dành cho AI Agents. Nó hỗ trợ chạy các sub-agents song song, quản lý file trong workspace mà không bị bó hẹp trong plugin của IDE.
-- **Antigravity CLI (`agy`)**: Giao diện dòng lệnh chính thức thay thế cho Gemini CLI (kết thúc hỗ trợ ngày 18/06/2026). CLI này hỗ trợ các lệnh slash đặc biệt như `/goal` (chạy autopilot) và `/schedule` (hẹn giờ/cron job).
+`GEMINI.md` contains an AWF-managed region that tells the client to:
 
-## 🛠️ Cấu hình Tích hợp
+- read `.awf/policy/core.md` before non-trivial work;
+- read `.awf/manifest.json` for project commands/configuration;
+- consult rationalization-prevention rules before code/completion claims;
+- use Gemini/Antigravity-native capabilities when they actually exist;
+- avoid inventing unsupported subagent/browser/tool capabilities;
+- keep model/provider selection outside AWF core.
 
-### 1. Model Context Protocol (`.mcp.json`)
+Project-specific Gemini instructions can live outside the managed region and are preserved by `scripts/awf/sync.mjs`.
 
-Antigravity tự động tải các MCP servers cấu hình tại thư mục gốc của dự án. File mẫu chuẩn cho hệ sinh thái Enterprise:
-
-```json
-{
-  "mcpServers": {
-    "gitnexus": {
-      "command": "npx",
-      "args": ["-y", "gitnexus@1.6.10", "mcp"]
-    }
-  }
-}
-```
-
-### 2. File Quy tắc Engine (`GEMINI.md`)
-
-Quy định tập lệnh và hành vi an toàn mà Antigravity Agent Engine phải tuân theo khi bắt đầu session:
-
-- **Routing**: Tự động nhận diện domain của task và chuyển cho Orchestrator định tuyến.
-- **Self-Healing**: Thực thi kiểm thử và tự vá lỗi tối đa 3 lần.
-- **Security Gate**: Bắt buộc quét mã nguồn với vbsec scanner trước khi hoàn thành task.
-
-### 3. Quản lý trạng thái (`.planning/STATE.md`)
-
-Trạng thái dự án đóng vai trò là "bản đồ" để agent định hướng khi chạy ngầm bằng CLI (lệnh `/goal`). Nó phải được cập nhật thường xuyên sau mỗi session.
-
-## 💻 Hướng dẫn Chạy CLI (`agy`)
-
-### 1. Autopilot Mode (`/goal`)
-
-Khi bạn giao một mục tiêu lớn, agent CLI sẽ tự tạo kế hoạch chi tiết, chạy code, chạy test và tự sửa lỗi:
+## Sync after AWF policy changes
 
 ```bash
-agy /goal "Tích hợp API thanh toán Stripe và viết đầy đủ unit tests"
+node scripts/awf/sync.mjs --root .
 ```
 
-### 2. Scheduled Task (`/schedule`)
+Repeated sync should not create unexpected diff.
 
-Bạn có thể thiết lập lịch hẹn giờ hoặc chạy định kỳ (cron) để agent thực hiện nhiệm vụ ngầm (ví dụ: quét lỗ hổng bảo mật hàng ngày):
+## MCP and code intelligence
 
-```bash
-agy /schedule --cron "0 0 * * *" --prompt "Chạy quét bảo mật /audit trên toàn bộ codebase và ghi kết quả báo cáo"
-```
+The source repository currently includes a pinned GitNexus MCP transport definition in `.mcp.json`. Use it when the active client supports that MCP and when impact analysis materially improves the task.
+
+If it is unavailable, use native repository search, symbols, Git history and tests. GitNexus is not a correctness prerequisite for AWF core.
+
+## Agent/subagent behavior
+
+AWF may recommend planner/implementer/reviewer roles or parallel execution for independent work. Actual subagent spawning is a **client capability**. If the current Antigravity/Gemini environment only supports sequential execution, preserve the same plan/review contract sequentially.
+
+## Model selection
+
+Do not copy concrete model names from old historical docs into shared AWF configuration. The user/client/router owns the model mapping and reasoning level.
+
+## State
+
+`.planning/STATE.md` is project state, not a client-specific scratchpad. Temporary client-generated work belongs in ignored runtime areas such as `.tmp/` when possible.
+
+## Safety
+
+Do not use the adapter to bypass the client's trust, approval or sandbox behavior. A client-specific convenience feature never overrides `.awf/policy/core.md` verification and evidence requirements.

@@ -1,68 +1,78 @@
-# Fast Debugging Methodology (The Art of Debugging)
+# Fast Debugging: Evidence-First Method
 
-This document is adapted from the core principles of [The Art of Debugging](https://github.com/stas00/the-art-of-debugging). It outlines how to debug complicated issues quickly and efficiently.
+The goal of fast debugging is not to make more guesses per minute. It is to make each hypothesis cheap, isolated and falsifiable.
 
-## 1. Quick Iterations & Small Payload
+## 1. Capture the symptom
 
-The two most important needs for successful debugging are:
+Before editing code, record:
 
-1. **The debug cycles must be quick**
-2. **The data being debugged must be small**
+- exact failure/error/output;
+- expected behavior;
+- smallest known reproduction;
+- when it last worked, if known;
+- relevant environment/data differences.
 
-### Quick Debug Cycles
+Do not start with a fix hypothesis and search only for confirming evidence.
 
-If you have to wait 10 minutes to reach the failing code, you will lose context and get confused about which hypothesis you are testing. Ideally, getting to the error should take only a few seconds. Shrinking the data is the easiest way to achieve this.
+## 2. Shrink the reproduction
 
-### Small Payload (MRE)
+Reduce data, services and steps until the failure still reproduces with the smallest practical payload. Prefer temporary fixtures under `.tmp/` or test fixtures rather than destructive manipulation of real project data.
 
-Always reduce your payload to the absolute minimum:
+A good reproduction is repeatable from one command or one test.
 
-- `[0.1, 0.2]` is much easier to mental-math than a 1000x1000 matrix.
-- If an ML model fails, test on a 10K parameter model instead of a 175B parameter one.
-- Use **synthetic data** (e.g., `[1.0, 2.0, 3.0]`) or **random data** to quickly trigger crashes without waiting for real data to load.
+## 3. Make the loop atomic
 
-## 2. Make the Debug Loop Fast and Reliable
+Bundle setup + reproduction + assertion into a script/test so each iteration starts from the same state.
 
-### Atomic Debug Cycles
-
-Never rely on manual, sequential steps in your terminal (e.g., "first I run `rm -r data`, then I run `./run.sh`"). You will inevitably forget step 1 and test a false hypothesis.
-Combine them into a single command:
+Example:
 
 ```bash
-rm -r data && ./run.sh
+python scripts/repro_bug.py
 ```
 
-Hit `Arrow Up` and `Enter`. Your debug cycle is now atomic and foolproof.
+Better still, encode the reproduction as a regression test when practical.
 
-### Alias Frequently Used Commands
+## 4. Scout before changing
 
-If you use a command dozens of times a day, alias it:
+Inspect:
 
-```bash
-alias pyt="pytest --disable-warnings --instafail -rA"
-```
+- recent relevant Git history;
+- callers/dependents and data flow;
+- configuration/environment drift;
+- nearby tests and established conventions;
+- optional code-intelligence impact analysis when available.
 
-Keep aliases short (1-3 letters) for high-frequency commands.
+The six questions a completed debug should answer are:
 
-### Cheatsheets
+1. What was the symptom?
+2. How was it reproduced?
+3. Expected vs actual?
+4. What was the concrete root cause?
+5. Why did it appear now?
+6. What is the blast radius of the fix?
 
-Maintain a personal "StasOverflow" (or personal Wiki) for commands you frequently search for. Organize them densely and vertically so your brain can scan them instantly.
+## 5. Bisect the search space
 
-## 3. Divide and Conquer (Bisection)
+Use code/data/config bisection or `git bisect` where useful. Change one diagnostic variable at a time.
 
-When you have a massive codebase and no idea where the bug is, don't guess. Cut the problem in half:
+For concurrency problems, temporarily reduce concurrency only as a diagnostic technique; then restore the real execution model and reproduce/verify the fix under relevant concurrency.
 
-- **Code Bisection:** Put an early `return` or a hardcoded mock in the middle of your code. If the output is now correct, the bug is in the second half. If it still crashes, it's in the first half.
-- **Git Bisect:** If a feature used to work and now fails, use `git bisect` to find the exact commit that introduced the bug. This is mathematically guaranteed to find the bad commit in `O(log N)` steps.
+## 6. Fix the cause, not the observation
 
-## 4. Single Process, Single Thread
+A patch should explain why the root cause is removed. Avoid adding sleeps, broad exception swallowing, disabled assertions, or safety bypasses merely to make the symptom disappear.
 
-Parallelism makes debugging nearly impossible.
+## 7. Prove the fix
 
-- Force your code to run on a single CPU/GPU.
-- Disable multi-threading or async workers temporarily.
-- This ensures logs appear in order and race conditions are eliminated while you hunt down logic bugs.
+- regression test fails before/fails against old behavior where practical;
+- regression test passes after the fix;
+- surrounding tests remain green;
+- lint/typecheck/build checks relevant to the project pass;
+- high-risk fixes receive independent/security review as required.
 
----
+## 8. Stop unproductive loops
 
-_Source: [The Art of Debugging - Fast Debugging Methodology](https://github.com/stas00/the-art-of-debugging/tree/master/methodology)_
+After repeated failed hypotheses, stop editing and refresh evidence: reread logs, narrow the reproduction, inspect another boundary, or request an independent review. Do not turn a self-healing loop into unbounded patch churn.
+
+## 9. Record durable learning
+
+If the bug reveals a non-obvious recurring constraint, update versioned docs/ADR or store a concise durable memory when that optional capability is available.

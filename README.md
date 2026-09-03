@@ -1,302 +1,228 @@
-# 🏗️ AI Forge — Autonomous Multi-Agent Ecosystem
+# AWF Enterprise Template v4.1
 
-> **Từ một ý tưởng thô sơ đến hệ thống phần mềm hoàn chỉnh, được hiện thực hóa bởi một "dàn nhạc" AI tự trị.**
+AWF is a **client-neutral AI development workflow template**. It gives a repository one canonical operating policy, project-local configuration, workflow contracts, verification gates, and thin adapters for AI coding clients such as Codex-, Gemini/Antigravity-, and Claude-compatible environments.
 
-[![Version](https://img.shields.io/badge/version-4.1.0-blue.svg)](package.json)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Multi-Agent](https://img.shields.io/badge/Architecture-Multi--Agent-orange.svg)](<>)
-[![vbsec](https://img.shields.io/badge/Security-vbsec_21_rules-critical.svg)](<>)
-[![GitNexus](https://img.shields.io/badge/MCP-GitNexus-green.svg)](<>)
-[![Codebase Memory](https://img.shields.io/badge/MCP-Codebase_Memory-blue.svg)](<>)
-[![Open Design](https://img.shields.io/badge/Design-Open_Design_72_Systems-ff69b4.svg)](https://github.com/nexu-io/open-design)
-[![Clawpatch](https://img.shields.io/badge/Review-Clawpatch_Proactive-yellow.svg)](https://github.com/openclaw/clawpatch)
-[![Google Eng Practices](https://img.shields.io/badge/Review-Google_Eng_Practices-red.svg)](docs/wiki/conventions/code-review.md)
-[![Rune Skill Mesh](https://img.shields.io/badge/Mesh-Rune_Skill_Mesh-blueviolet.svg)](https://github.com/rune-kit/rune)
-[![Auto Fix](https://img.shields.io/badge/CI-Auto--Fix_via_Codex-blueviolet.svg)](<>)
-[![Telegram](https://img.shields.io/badge/AFK-Telegram_Reports-blue.svg)](https://github.com/thith/teleport)
-[![Git Ratchet](https://img.shields.io/badge/Optimizer-Git_Ratchet-green.svg)](<>)
+AWF is **not** a model router, a promise of unattended software delivery, or a replacement for the native safety model of the client you use.
 
-**AI Forge** không phải là một bộ prompt tĩnh. Đây là một **Enterprise AI Development Ecosystem** — nơi các AI agents đảm nhiệm vai trò chuyên biệt (BA, Architect, Frontend, Backend, QA, DevOps, Security) và cộng tác với nhau để xây dựng phần mềm.
+## Why v4.1 exists
 
-Bạn đóng vai **Tech Lead**. Bạn ra chỉ thị. AI tự phân tích, phân công, lập trình song song, tự review, tự fix bug, quét bảo mật, và tự đóng issue. **Hoàn toàn tự động.**
+Earlier versions accumulated machine-specific assumptions: package-manager commands embedded in rules, provider/model names in workflows, client-specific syntax in shared policy, and template-maintainer runtime state copied into new projects.
 
----
-
-## 🔄 Vòng đời Phát triển Phần mềm (End-to-End)
-
-```
-/brainstorm → /plan → /design → /code → /test → /audit → /deploy
-     💡          📋       🎨       💻       🧪      🔒       🚀
-  Ý tưởng    Kế hoạch  Thiết kế   Code    Test   Bảo mật   Ship
-```
-
-Mỗi bước trong chuỗi là một workflow có cấu trúc, được trang bị Second Brain (bộ nhớ dài hạn), Self-Healing Loop (tự sửa lỗi), và Teleport Bridge (báo cáo AFK qua Telegram).
-
----
-
-## 📖 Trải nghiệm làm việc với AI Forge
-
-### 1. Ý tưởng → Kế hoạch (BA Pipeline)
-
-Gõ `/ba-pipeline`. AI (vai trò BA) phỏng vấn bạn vài câu, sau đó tự động viết **Use Cases** chuẩn IIBA → bẻ nhỏ thành **User Stories** chuẩn INVEST → sinh **Kế hoạch thực thi (Plan)** chi tiết. 100% tự động.
-
-### 2. Thiết kế UI/UX (5-Stage Design Pipeline với tích hợp taste-skill)
-
-Khi yêu cầu làm giao diện, hệ thống kích hoạt chuỗi 5 bước, tự động áp dụng các quy chuẩn chống thiết kế "công thức/rập khuôn" (anti-slop) từ **`taste-skill`**:
-
-| Bước                | Skill                   | Vai trò & Chống thiết kế rập khuôn (taste-skill)                                                                                                                                                                                                                                                               |
-| ------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1. **THINK**        | `frontend-design`       | Đọc vị brief (**Brief Inference**) → xuất ra dòng **Design Read** bắt buộc và thiết lập bộ 3 tham số (**Three Dials**): Variance, Motion, Density trước khi code.                                                                                                                                              |
-| 2a. **GENERATE**    | `ui-ux-pro-max`         | Sinh Design System từ 161 quy tắc ngành (67 styles, 57 fonts). Tránh mặc định dùng font display serif (`Fraunces`, `Instrument_Serif`) hay màu beige/brass cho các brand cao cấp (**Serif/Palette Discipline**). Chặn gradient tím mặc định (**Lila Rule**).                                                   |
-| 2b. **REFERENCE**   | `rico-ui-ux-themes`     | Clone style từ 20 themes (Linear, Stripe, Notion...) hoặc bất kỳ URL.                                                                                                                                                                                                                                          |
-| 3a. **EXTRACT**     | `rico-design-md`        | Scrape thiết kế từ website → DESIGN.md + tokens.json + Tailwind.                                                                                                                                                                                                                                               |
-| 3b. **STANDARDIZE** | `design-tokens`         | Lint, WCAG contrast check, export CSS/Tailwind/DTCG. Tích hợp sẵn 6 theme mẫu chuẩn hóa từ `awesome-design-md` (Stripe, Linear, Vercel, Tailwind, Fintech, Gamify) giúp AI code UI chuẩn thiết kế thương hiệu ngay lập tức.                                                                                    |
-| 4. **CODE**         | Agent implement         | Viết code dựa trên design system đã thống nhất. Áp dụng kỷ luật thiết kế: bento grid khít ô (**Bento Cell Rule**), hạn chế nhãn phụ (**Eyebrow Restraint** - max 1 eyebrow/3 sections), tránh đổi hướng liên tục (**Zigzag Alternation Cap** - max 2), không trùng lặp ý đồ CTA (**No Duplicate CTA Intent**). |
-| 5. **AUDIT**        | `web-design-guidelines` | Quét accessibility, performance, và chạy **Pre-Delivery Checklist** (kiểm tra contrast WCAG AA, tactile feedback khi active, testimonial tối đa 3 dòng, cấm div screenshot).                                                                                                                                   |
-
-### 3. Thực thi Song song
-
-**Orchestrator** nhận diện task phức tạp → vẽ dependency graph → spawn nhiều Agent chạy song song:
-
-```
-User: "Build a secure login system with dashboard UI"
-  ↓
-Orchestrator phát hiện: Security + Frontend + Backend (3 domains)
-  ↓
-Song song:
-  Agent 1: security-auditor   → Auth flow design, JWT, RBAC
-  Agent 2: backend-specialist → API endpoints, middleware
-  Agent 3: frontend-specialist → UI components, dark mode
-  ↓
-Tổng hợp → Conflict check → Unified response
-```
-
-Tiết kiệm đến **72% thời gian** so với xử lý tuần tự.
-
-### 4. Self-Healing Loop
-
-Code chạy test bị lỗi? AI tự đọc log → tự hiểu → tự fix → chạy lại test. Tối đa 3 vòng. Nếu fail → escalate + lưu bài học vào Second Brain.
-
-### 5. Tối ưu hóa định lượng (Git Ratchet - /optimize)
-
-Khi muốn cải thiện hiệu năng (API latency, Bundle Size), vá lỗi bảo mật sau khi quét, hoặc tinh chỉnh prompts của AI, gõ `/optimize`. AI sẽ kích hoạt cơ chế **Git Ratchet**:
-
-1. **Khởi tạo**: Tạo một nhánh git tạm thời cách ly (`optimize/opt-<timestamp>`) từ HEAD hiện tại và đo baseline metric.
-2. **Đề xuất & Thử nghiệm**: AI chỉnh sửa code dựa trên giả thuyết tối ưu hóa.
-3. **Đánh giá tự động**: Chạy benchmark và các cổng kiểm định an toàn (linting, tests):
-   - Nếu metric tốt hơn và vượt qua toàn bộ tests: Tự động `git commit`.
-   - Nếu kết quả thụt lùi (regression) hoặc lỗi: Tự động `git reset --hard` để rollback.
-4. **Hợp nhất**: Khi hoàn tất, tự động merge các commit cải tiến vào nhánh chính và xóa nhánh tạm.
-
-### 6. Quét Bảo mật (vbsec — Powered by SePay)
-
-Gõ `/audit`. AI kích hoạt **[vbs-scan-security](https://github.com/tanviet12/vbsec)** — bộ quét bảo mật reasoning-first, phát hiện **21 loại lỗ hổng** phổ biến trong code do AI sinh ra:
-
-| #   | Vulnerability           | Severity      |
-| --- | ----------------------- | ------------- |
-| 1   | `HARDCODED-SECRET`      | CRITICAL      |
-| 2   | `SQL-INJECTION`         | CRITICAL      |
-| 3   | `XSS`                   | HIGH          |
-| 4   | `IDOR`                  | HIGH          |
-| 5   | `MASS-ASSIGNMENT`       | CRITICAL      |
-| 6   | `COMMAND-INJECTION`     | CRITICAL      |
-| 7   | `BROKEN-ACCESS-CONTROL` | CRITICAL      |
-| ... | +14 rules nữa           | HIGH—CRITICAL |
-
-**Điểm khác biệt so với scanner thông thường:**
-
-- **Reasoning-first**: Không grep mù — trace data flow từ L1 (user input) → sink, chỉ flag khi thực sự nguy hiểm
-- **Auto-scaling**: Repo nhỏ (≤30 files) → inline scan. Repo lớn → tự chia chunk + spawn sub-agents song song
-- **Language overlays**: Chuyên sâu cho Go, PHP, TypeScript/JS, Python (framework-specific patterns)
-- **Bilingual reports**: Tiếng Việt (mặc định) hoặc English (`lang=en`)
-
-Report được lưu tự động vào `vbsec-reports/scan-<timestamp>.md`.
-
-### 7. Codebase Intelligence (Khám phá & Bản đồ Mã nguồn)
-
-AI Forge tích hợp đồng thời 2 công cụ MCP mạnh mẽ để phân tích codebase:
-
-- **GitNexus**: Dùng để phân tích rủi ro (Impact Analysis) và luồng thực thi, đảm bảo refactor an toàn trước khi sửa code.
-- **Codebase-Memory MCP**: Dùng để search semantic siêu tốc và trích xuất kiến trúc (layers, routes, call graphs) toàn dự án. AI (như Antigravity và Codex) tự động sử dụng công cụ này khi cần tra cứu các hàm, module mà không cần người dùng chỉ định.
-
-### 8. Second Brain (Bộ nhớ Vĩnh cửu)
-
-Sau mỗi phiên, AI tự rút bài học và lưu vào Second Brain (MCP Cloud hoặc local fallback). Phiên sau nó tự nhớ quyết định kiến trúc, bug patterns, deploy issues — không cần nhắc lại.
-
-### 9. AFK Mode — Làm việc khi rời bàn
-
-Gõ **"tele me"** hoặc **"gửi tele khi xong"** — agent sẽ gửi báo cáo ngắn qua Telegram khi task hoàn tất và chờ lệnh tiếp theo từ điện thoại của bạn.
-
-```
-🤖 *Gemini on deploy v2.4:*
-✅ Tests passed (42/42)
-🔒 Security audit: PASS
-✅ Deployed to production
-⬜ Smoke test pending your review
-```
-
-### 10. Triết lý Kỹ thuật (TDD, Clean Code & System Design)
-
-Hệ thống không phụ thuộc vào "cảm hứng" viết code của AI, mà ép buộc chất lượng bằng các rào cản kỹ thuật:
-
-- **TDD & Quality Gates:** Luôn ưu tiên viết Test trước. Lệnh `/code` luôn đi kèm với việc tự động chạy `.agent/scripts/checklist.py` (Lint, TypeCheck, Test, Parity Check).
-- **Socratic Gate:** Không bao giờ "code mù". Khi yêu cầu phức tạp, AI dừng lại đặt 3 câu hỏi chiến lược về trade-offs, architecture, và security.
-- **The Lazy Senior Dev (Ponytail Pattern):** AI được cấu hình để suy nghĩ qua thang 7 bước, tuyệt đối dùng lại code hoặc native API thay vì tự viết mới, giúp giảm tới 54% lượng code sinh ra.
-- **Security Gate:** Trước khi deploy, `/audit` phải trả về verdict PASS hoặc WARN. Verdict FAIL = chặn deploy.
-- **Kiến trúc Chuẩn mực:** Bắt buộc dùng `UUID/ULID`, chống N+1 query, và yêu cầu các bản ghi Architecture Decision Records (ADR) trước khi thiết kế hệ thống mới.
-
-### 11. Quản lý Nợ Kỹ Thuật (Technical Debt Ledger) & Context Telemetry
-
-- **Technical Debt Scanner (`scripts/maintenance/debt_scanner.py`):** Tự động truy quét toàn bộ codebase gom các thẻ `FIXME:`, `HACK:`, `TEMP_BYPASS:`, `TODO:`, `MOCK:`, `DEBT:` vào sổ nợ kỹ thuật trung tâm [docs/DEBT_LEDGER.md](docs/DEBT_LEDGER.md). Cờ `--strict` tự động ngăn chặn deploy/merge nếu phát hiện nợ nghiêm trọng vô chủ.
-- **Context Telemetry & Handoff Thresholds:** Kiểm soát ngân sách Token theo 3 mức cảnh báo rõ ràng (60% Warning, 75% Auto-Checkpoint & Handoff sang subagent, 85% Critical Barrier) để triệt tiêu hoàn toàn hiện tượng suy giảm trí nhớ (context degradation) và ảo giác (hallucination) trên các task kéo dài.
-
----
-
-## 🦀 Clawpatch — Proactive Local Review & Patching (Rà soát & vá lỗi chủ động)
-
-Bên cạnh luồng Auto-Fix dựa trên CI (Reactive), AI Forge tích hợp **Clawpatch** để mang lại khả năng rà soát và sửa lỗi chủ động (Proactive) ngay trên môi trường local trước khi commit:
-
-- **Semantic Feature Mapping**: Tự động chia nhỏ và ánh xạ codebase thành các lát cắt tính năng (feature slices) dựa trên cấu trúc thư mục và import graph.
-- **Slice-by-Slice Review**: Gửi từng feature slice qua AI provider (mặc định là Codex) để quét sâu tìm lỗi logic, bảo mật, hoặc code smells.
-- **Local Fix Loop**: Khi phát hiện lỗi (findings), AI có thể chạy một chu trình sửa lỗi (local fix loop) độc lập để tự động tạo bản vá (patch) lưu trong `.clawpatch/patches/`.
-- **An toàn tuyệt đối**: Bản vá được tạo ra không tự động commit/push/merge, Tech Lead có thể tự do review diff trước khi quyết định đưa vào commit bằng các lệnh git tiêu chuẩn.
-
-Lệnh trigger: `/clawpatch` (hoặc chạy trực tiếp `clawpatch review --provider codex --limit 5`).
-
----
-
-## 🛡️ ClaudeKit Guardrails & Harness Engineering (Bảo vệ Vòng Đời Tự Trị)
-
-AI Forge tích hợp các bộ rào cản kỹ thuật nghiêm ngặt lấy cảm hứng từ đợt nâng cấp lớn của **ClaudeKit**, ép buộc hành vi của AI theo khung tiêu chuẩn chất lượng cao nhằm loại bỏ triệt để lỗi "quá tự tin" (overconfidence) và "context tưởng tượng" (hallucination):
-
-### 1. Scout & Diagnose trước khi Sửa lỗi (`/debug`)
-
-- **Chống đoán bừa**: Agent không được đề xuất hay sửa code trước khi hoàn thành pha trinh sát (Scout). Pha Scout yêu cầu quét lịch sử thay đổi (20 commits gần nhất), phân tích caller/dependent trực tiếp (qua GitNexus), và đối chiếu coding convention trong repo.
-- **Fast Debugging Methodology**: Tích hợp các nguyên lý từ "The Art of Debugging" — ép buộc Agent tạo Minimal Reproducible Example (MRE), áp dụng chu trình debug nguyên tử và chiến thuật chia để trị (Bisection).
-- **Advanced Debugging Tactics**: Trang bị sẵn skill `advanced-debugging-tactics` cho các bug siêu khó (Silent Failures, memory leaks), sử dụng `strace` và môi trường giả lập. (Xem thêm: [Fast Debugging Playbook](docs/wiki/debugging-playbook/fast-debugging.md))
-- **Tự động ngắt khi bế tắc**: Giới hạn tối đa 3 lần thử tự động sửa (Self-Healing). Nếu fail cả 3, Agent phải tự động báo cáo nguyên nhân và trả quyền quyết định cho Tech Lead, cấm đập vá vô tội vạ.
-- **Xác minh 6 yếu tố**: Mỗi bản vá hoàn thành phải giải trình rõ: (1) triệu chứng, (2) cách tái hiện, (3) kỳ vọng vs thực tế, (4) nguyên nhân gốc cụ thể, (5) lý do xuất hiện lúc này (Why now), và (6) vùng ảnh hưởng (Blast radius).
-
-### 2. Thiết lập Hợp đồng Phác thảo (`/plan` & `/code`)
-
-- **Plan Contract**: Mọi kế hoạch lập trình phải khai báo rõ 5 thành phần cốt lõi:
-  1. _Expected Output_: Định dạng file, UI, hay tài liệu cần đạt.
-  2. _Acceptance Criteria (AC)_: Tiêu chí nghiệm thu viết dưới dạng Given-When-Then.
-  3. _Scope Boundary_: Giới hạn rõ rệt phần việc KHÔNG đụng đến.
-  4. _Non-negotiable Constraints_: Rào cản kỹ thuật (DB, auth, deps, no breaking changes).
-  5. _Touchpoints & Impact Map_: Toàn bộ các files/routes/functions bị ảnh hưởng được kiểm chứng trước qua GitNexus MCP.
-- **Strict Artifact Gate**: Tự động tạo và kiểm định 5 tệp JSON trạng thái trong `.agent/artifacts/<run-id>/` (`context-snippets.json`, `risk-gate.json`, `verification.json`, `review-decision.json`, `adversarial-validation.json`). Thiếu artifact hoặc điểm review < 3 = tự động khóa luồng hoàn thành.
-- **Risk-Based Lanes**: Tự động chấm điểm rủi ro qua Risk Checklist để định tuyến:
-  - _Tiny Lane_ (0 điểm): Đi tắt qua `/code --fast` (vẫn bắt buộc TDD và checklist).
-  - _Normal Lane_ (1-2 điểm): Đi chuẩn qua `/plan` → `/code`.
-  - _High-Risk Lane_ (3+ điểm): Ép buộc `/plan` → `/design` → `/code` → `/audit` và chờ Tech Lead duyệt.
-
-### 3. Phòng thủ Ngụy biện (Rationalization Prevention)
-
-- **Cấm tự bào chữa**: Ép AI phải tự soi chiếu 8 lý do ngụy biện kinh điển (như: "File nhỏ không cần test", "Mock data để chạy sau", "Chỉ là demo UI") trước khi viết code.
-- **Adversarial Validation**: Ghi nhận toàn bộ lập luận phản biện vào `adversarial-validation.json` để ngăn chặn hành vi nói dối hoặc tự cho là mình đúng.
-
----
-
-## 🧩 Native Core v4.1
-
-AWF v4.1 tách **policy** khỏi **client adapter** để project của user không bị khóa vào máy, package manager hay model của người tạo template:
+v4.1 changes the distribution model:
 
 ```text
-.awf/manifest.json       → project identity + logical commands + optional capabilities
-.awf/policy/core.md      → policy chung, client-neutral
-AGENTS.md                → Codex/AGENTS-compatible adapter
-GEMINI.md                → Gemini/Antigravity adapter
-CLAUDE.md                → Claude adapter
-scripts/awf/init.mjs     → hydrate project + detect package manager
-scripts/awf/sync.mjs     → regenerate managed adapter regions
-scripts/awf/doctor.mjs   → detect drift / unsafe config / placeholder build
+                         AWF CORE
+                policy / contracts / state
+                          |
+                    .awf/manifest.json
+                          |
+                     init / sync
+                          |
+        ---------------------------------------
+        |                  |                  |
+     AGENTS.md          GEMINI.md          CLAUDE.md
+   compatible clients   Gemini-family      Claude-family
+        |                  |                  |
+        ---------------- capabilities --------
+                          |
+                  project toolchain
+               npm / pnpm / yarn / bun
 ```
 
-Các lệnh chính:
+The repository is organized around six principles:
 
-```bash
-node scripts/awf/init.mjs --project-name my-project
-node scripts/awf/sync.mjs
-node scripts/awf/doctor.mjs
+1. **One canonical policy** — `.awf/policy/core.md` is client-neutral.
+2. **Project-local configuration** — `.awf/manifest.json` records identity, logical commands, clients, and integration state.
+3. **Native adapters, not duplicated policy** — `AGENTS.md`, `GEMINI.md`, and `CLAUDE.md` contain AWF-managed regions while preserving project-owned text outside them.
+4. **Toolchain detection** — the target repository keeps its detected package manager instead of inheriting one from the template author.
+5. **Provider neutrality** — AWF defines roles/capabilities; the active client/router/user chooses concrete models.
+6. **Evidence before completion** — tests, artifacts, review decisions, and Git state are checked before a task is called done.
+
+## Repository layout
+
+```text
+.awf/
+  manifest.json             Canonical project-local AWF configuration
+  policy/core.md            Canonical client-neutral operating policy
+.agent/
+  agents/                   Specialist role definitions
+  workflows/                Workflow contracts (/plan, /code, /debug, ...)
+  skills/                   Reusable domain skills
+  schemas/artifacts/        Artifact schemas
+  scripts/                  Checklist, session, worktree and wiki tooling
+  artifacts/                Runtime evidence for the current project
+.planning/                  Project identity and current project state
+docs/                       Current docs plus historical records
+scripts/awf/                Repo-local init/sync/doctor/config/exec engine
+AGENTS.md                    AGENTS-compatible adapter
+GEMINI.md                    Gemini/Antigravity adapter
+CLAUDE.md                    Claude-compatible adapter
 ```
 
-AWF core không pin model/provider. Optional integrations như GitNexus, Second Brain, Teleport, Open Design và Clawpatch phải degrade gracefully khi không có.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for source-of-truth boundaries and lifecycle details.
 
----
+## Quick start
 
-## 🚀 Cài đặt Nhanh (One-Command Setup)
+v4.1 is a **repository-local framework**, not a globally published `awf` CLI.
 
-### Yêu cầu tiên quyết
+Prerequisites: Node.js 18+, Python 3.10+, Git, and the package manager required by the target repository.
 
-- **Node.js**: v18+ (khuyến nghị v20 LTS)
-- **Package Manager**: `npm` (canonical; uses committed `package-lock.json`)
-- **Python**: 3.10+ (cho các scripts phụ trợ)
-- **Git**: 2.30+
+### Windows PowerShell
 
-### 1. Khởi tạo Dự án từ Template
-
-```bash
-# Clone template về máy
-git clone https://github.com/tanviet12/awf-enterprise-template.git my-project
+```powershell
+git clone https://github.com/chithanh85/ai-forge.git my-project
 cd my-project
-
-# Chạy script thiết lập tự động (Windows PowerShell)
-.\setup-enterprise.ps1 -ProjectName "my-project"
-
-# Hoặc trên Linux/macOS
-bash ./setup-enterprise.sh --project-name my-project
-
-# Engine canonical (mọi nền tảng)
-node scripts/awf/init.mjs --project-name my-project
+.\setup-enterprise.ps1 -ProjectName my-project
 ```
 
-Script sẽ tự động:
+### Linux / macOS / WSL
 
-- ✅ Hydrate project identity và sinh `.awf/manifest.json`
-- ✅ Detect package manager theo lockfile; template source dùng `npm`, existing repo giữ `pnpm`/`yarn`/`bun` khi phát hiện
-- ✅ Cài dependencies bằng logical command trong manifest
-- ✅ Sinh managed adapter regions cho `AGENTS.md`, `GEMINI.md`, `CLAUDE.md` mà vẫn giữ phần user tự viết
-- ✅ Cấu hình môi trường local từ các file example
-- ✅ Chạy core verification; project artifact gate chỉ áp dụng khi bắt đầu task thực tế
-- ✅ Optional integrations chỉ bật khi user opt-in
+```bash
+git clone https://github.com/chithanh85/ai-forge.git my-project
+cd my-project
+bash ./setup-enterprise.sh --project-name my-project
+```
 
----
+Both launchers anchor execution to their own project directory, hydrate AWF state, install dependencies unless skipped, run core verification, and initialize Git when requested.
 
-## 🛠️ Danh mục Workflows & Lệnh Điều Khiển
+For flags and an existing-repository adoption path, read [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md).
 
-| Lệnh / Workflow   | Tác dụng chính                                                    |
-| ----------------- | ----------------------------------------------------------------- |
-| `/ba-pipeline`    | Khảo sát nghiệp vụ, sinh Use Cases & User Stories INVEST          |
-| `/brainstorm`     | Thảo luận ý tưởng, phân tích trade-offs và kiến trúc              |
-| `/plan`           | Lập kế hoạch chi tiết, định tuyến Risk Lane và tạo Contract       |
-| `/design`         | Thiết kế hệ thống: DB Schema, API Contracts, System Architecture  |
-| `/code`           | Viết code theo TDD, tuân thủ Clean Code và kích hoạt Orchestrator |
-| `/debug`          | Sửa lỗi với quy trình Scout & Diagnose 6 bước, chống phỏng đoán   |
-| `/test`           | Chạy kiểm thử tự động (Unit, Integration, E2E)                    |
-| `/audit`          | Quét bảo mật toàn diện với `vbsec` (21 rules)                     |
-| `/optimize`       | Tối ưu hóa hiệu năng/bảo mật định lượng theo cơ chế Git Ratchet   |
-| `/clawpatch`      | Rà soát và tạo bản vá lỗi chủ động theo feature slices            |
-| `/setup-services` | Tự động cấu hình GitHub repo, Cloudflare Workers và CI/CD         |
-| `/setup-teleport` | Thiết lập cầu nối báo cáo tiến độ qua Telegram khi AFK            |
+## What initialization changes
 
----
+`node scripts/awf/init.mjs --project-name <name>` performs bounded project hydration:
 
-## 👥 Vai trò Đội ngũ AI Agents
+- sanitizes and records project identity;
+- detects `pnpm-lock.yaml`, `yarn.lock`, `bun.lock*`, or `package-lock.json`;
+- writes logical install/test/lint/typecheck/build/format commands into `.awf/manifest.json`;
+- resets template session state into a fresh project state;
+- hydrates template-owned identity placeholders;
+- synchronizes AWF-managed regions in the three client adapters;
+- preserves content outside managed adapter regions.
 
-| Agent                 | Vai trò chuyên biệt                                                      |
-| --------------------- | ------------------------------------------------------------------------ |
-| `orchestrator`        | Tổng công trình sư: Phân tích, lập dependency graph, điều phối song song |
-| `business-analyst`    | Phân tích nghiệp vụ, chuẩn hóa yêu cầu theo IIBA & INVEST                |
-| `system-architect`    | Thiết kế kiến trúc tổng thể, mô hình dữ liệu và API Contracts            |
-| `frontend-specialist` | Xây dựng UI/UX với 5-Stage Pipeline, chống thiết kế rập khuôn            |
-| `backend-specialist`  | Phát triển API, xử lý nghiệp vụ backend, tối ưu hóa truy vấn CSDL        |
-| `security-auditor`    | Quét lỗ hổng bảo mật với `vbsec`, đóng vai Red Team rà soát mã nguồn     |
-| `qa-engineer`         | Thiết kế kịch bản kiểm thử, đảm bảo độ bao phủ test theo TDD             |
-| `devops-engineer`     | Quản lý hạ tầng, CI/CD pipelines, Docker và deployment scripts           |
+Running init/sync repeatedly is designed to be idempotent for AWF-owned regions.
 
----
+## Core commands
 
-## 📄 License
+```bash
+node scripts/awf/init.mjs --project-name my-project --root .
+node scripts/awf/sync.mjs --root .
+node scripts/awf/doctor.mjs --root .
+node scripts/awf/configure.mjs --root . --integration gitnexus=true
+node scripts/awf/exec.mjs test --root .
+```
 
-Dự án được phân phối dưới giấy phép **MIT License**. Xem file [LICENSE](LICENSE) để biết thêm chi tiết.
+Agents should prefer logical commands stored in `.awf/manifest.json` instead of hard-coding `npm`, `pnpm`, `yarn`, or `bun`.
+
+## Workflow model
+
+AWF workflows are contracts, not guarantees that every client can execute every step in the same way.
+
+```text
+request
+  -> intake + risk lane
+  -> plan when required
+  -> design when risk requires it
+  -> implementation
+  -> verification
+  -> review / adversarial validation
+  -> audit for high-risk/deploy work
+```
+
+Risk lanes are defined in [docs/FEATURE_INTAKE.md](docs/FEATURE_INTAKE.md):
+
+- **Tiny** — bounded, low-blast-radius work; compact planning is acceptable.
+- **Normal** — explicit plan and normal verification.
+- **High-Risk** — plan + design + explicit risk approval + stronger verification/audit.
+
+The active client may parallelize independent subtasks if it supports safe parallel agents. Sequential execution remains correct.
+
+## Evidence and artifact gate
+
+For non-trivial plan/code/debug runs, AWF expects `.agent/artifacts/<run-id>/` to contain:
+
+```text
+context-snippets.json
+risk-gate.json
+verification.json
+review-decision.json
+adversarial-validation.json
+```
+
+The normal checklist fails closed when required evidence is missing or blocking. Bootstrap uses explicit `--core` mode because a brand-new project has no task artifact yet.
+
+```bash
+python .agent/scripts/checklist.py . --core   # framework/bootstrap verification
+python .agent/scripts/checklist.py .          # normal project/task verification
+```
+
+## Client adapters and model ownership
+
+AWF does not choose a vendor model for you. Managed adapters tell clients to read the core policy, resolve project commands from the manifest, use optional capabilities only when available, and keep provider/model selection client- or user-owned.
+
+Concrete model names, reasoning levels, account configuration, sandbox policy, and approval policy belong to the active client/router/user configuration.
+
+## Optional integrations
+
+Core must remain usable when optional integrations are absent.
+
+| Integration     | v4.1 posture                                                                                      |
+| --------------- | ------------------------------------------------------------------------------------------------- |
+| GitNexus        | Pinned transport definition is included; setup/indexing is opt-in and capability use is optional. |
+| Second Brain    | Optional remote memory; local auto-memory fallback may be used when present.                      |
+| Codebase Memory | Capability can be recorded, but AWF will not execute an unpinned remote installer.                |
+| Rune            | Separate opt-in setup utility pinned by version.                                                  |
+| Open Design     | Optional external capability; no broken/unpinned npm installer is run by core.                    |
+| Clawpatch       | Optional local review workflow/state; not required for AWF core.                                  |
+| Teleport        | Optional reporting bridge; project-specific setup only.                                           |
+
+See [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) for trust boundaries.
+
+## Verification in this source repository
+
+```bash
+npm ci
+npm run lint
+npm run typecheck
+npm test
+npm run wiki:lint
+npm audit --audit-level=high
+node scripts/awf/doctor.mjs --root .
+```
+
+The current `build` script is deliberately a placeholder because this repository is a framework/template rather than an application. AWF Doctor reports that as **NOT_CONFIGURED/WARN**; a placeholder build is never evidence of a production build.
+
+## Security defaults
+
+- Shared workflows do not disable client sandbox/approval/trust protections.
+- Real `.env` and credential files are ignored and must not be committed.
+- Executable integration packages should be pinned.
+- Non-interactive setup does not silently enable optional integrations.
+- High-risk work follows the stronger review/approval path.
+- External AI output is untrusted until verified against repository evidence.
+
+Read [SECURITY.md](SECURITY.md) before exposing automation to production credentials or remote execution.
+
+## Documentation
+
+Start with [docs/README.md](docs/README.md):
+
+- [Architecture](docs/ARCHITECTURE.md)
+- [Getting started](docs/GETTING_STARTED.md)
+- [Operations](docs/OPERATIONS.md)
+- [Integrations](docs/INTEGRATIONS.md)
+- [Feature intake](docs/FEATURE_INTAKE.md)
+- [Test matrix](docs/TEST_MATRIX.md)
+- [Knowledge index](docs/wiki-index.md)
+
+`docs/plans/completed/` and dated wiki lessons are **historical evidence**, not the current AWF contract.
+
+## What v4.1 intentionally does not claim
+
+- It does not guarantee unattended end-to-end delivery.
+- It does not guarantee multi-agent parallelism on clients that do not support it.
+- It does not route or select models for the user.
+- It does not turn optional MCPs into hard dependencies.
+- It does not treat a placeholder build command as successful application build evidence.
+- It does not make arbitrary existing-repository adoption conflict-free; review the resulting diff.
+
+Those boundaries are deliberate: AWF should improve agent discipline without pretending to own capabilities that belong to the active client or target project.

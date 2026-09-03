@@ -1,63 +1,54 @@
-# 🧠 Second Brain v2.0 — Enterprise AI Memory Layer
+# Second Brain Integration Boundary
 
-> Persistent AI memory layer with Knowledge Graph & Multi-hop Recall using Cloudflare Workers (free tier).
+`second-brain/` in this repository is **documentation for an optional memory capability**. The AWF template does not contain or deploy the remote Second Brain service itself.
 
-## What's New in v2.0
+## AWF expectation
 
-- **🕸️ Memory Graph**: Auto-links related memories (>60% similarity) into a knowledge graph. Supports multi-hop traversal (`hops=1-3`).
-- **🛡️ Graceful Degradation**: Automatic fallback to D1 SQL keyword search if Vectorize is unavailable. Endpoint `/health` for monitoring.
-- **🎚️ Advanced Recall**: Parameterized recency weighting (`recency_weight`), MMR diversity (`diversity`), and similarity threshold cutoff (`min_score`).
-- **⚡ Qwen3-Embedding-0.6B**: 1024 dimensions, 32K context window, 100+ languages (including Vietnamese).
+When a compatible Second Brain integration is available, agents may use it for durable decisions and lessons on non-trivial work. When it is unavailable, core work must continue and may use the local auto-memory fallback under `.agent/skills/auto-memory/` when appropriate.
 
-## Quick Deploy (7 steps)
+Remote memory must never be required to understand the current repository; durable project truth still belongs in Git, `.planning/`, `.awf/`, and `docs/`.
 
-```bash
-# 1. Clone
-git clone https://github.com/chithanh85/second-brain-cloudflare.git
-cd second-brain-cloudflare
+## Enable the capability
 
-# 2. Install dependencies
-npm install
+Platform setup can record the capability:
 
-# 3. Login to Cloudflare
-npx wrangler login
-
-# 4. Create D1 database
-npm run db:create
-# Copy database_id into wrangler.toml
-
-# 5. Create Vectorize index (1024 dimensions for qwen3-embedding)
-npm run vectors:create
-
-# 6. Run database schema migration (includes edges table for Memory Graph)
-npm run db:migrate:remote
-
-# 7. Deploy
-npm run deploy
+```powershell
+.\setup-enterprise.ps1 -ProjectName my-project -EnableBrain
 ```
 
-## Configure in your project
+```bash
+bash ./setup-enterprise.sh --project-name my-project --enable-brain
+```
 
-Update `credentials/credentials.toml` or `.mcp.json`:
+Or update the manifest explicitly:
+
+```bash
+node scripts/awf/configure.mjs --root . --integration second_brain=true
+```
+
+Enabling the manifest flag does not deploy a cloud service. Configure a compatible endpoint/credential using the service and client documentation you chose.
+
+## Credential example
+
+If the integration reads `credentials/credentials.toml`, use placeholders such as:
 
 ```toml
 [second_brain]
-url = "https://second-brain.your-subdomain.workers.dev"
-auth_token = "your-secret-token-here"
+url = "https://memory.example.invalid"
+auth_token = "replace-locally"
 ```
 
-## MCP Tools Available (7 tools)
+`credentials/credentials.toml` is ignored and must not be committed.
 
-| Tool          | Parameters                                                                       | Description                                                                  |
-| ------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `remember`    | `content`, `tags?`, `source?`                                                    | Store new knowledge (auto dedup >95%, auto-link >60%)                        |
-| `recall`      | `query`, `topK?`, `tag?`, `hops?`, `recency_weight?`, `diversity?`, `min_score?` | Semantic search + Multi-hop graph expansion + MMR diversity                  |
-| `append`      | `id`, `addition`                                                                 | Append timestamped update to existing entry                                  |
-| `list_recent` | `n?`, `tag?`                                                                     | List recent entries ordered by date                                          |
-| `forget`      | `id`                                                                             | Delete entry, vector chunks, and graph edges                                 |
-| `link`        | `source_id`, `target_id`, `relation?`                                            | Manually link 2 memories (`related`, `extends`, `contradicts`, `depends_on`) |
-| `connections` | `id`, `depth?`                                                                   | Inspect connected memories in the knowledge graph                            |
+## Good memory content
 
-## Cost
+- architecture decisions and rejected alternatives;
+- non-obvious bug root causes;
+- recurring deployment/environment constraints;
+- stable conventions not already better represented in versioned docs.
 
-**$0/month** on Cloudflare free tier (100k requests/day, 5GB D1, 30M vector dimensions).
+Do not store secrets, temporary logs, or large copies of source files merely to avoid reading the repository.
+
+## Source of truth
+
+If remote memory disagrees with the current repository, verify the repository and update or retire the stale memory. Second Brain is recall assistance, not authority over Git.

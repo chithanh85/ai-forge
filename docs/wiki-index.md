@@ -1,31 +1,41 @@
-# Knowledge Wiki Index
+# AWF Knowledge Index
 
-> AI reads this file to navigate project knowledge.
+Agents use this index to locate **current** project/framework guidance. Historical lessons are listed separately and must not override current policy or docs.
 
-## Structure
+## Current guidance
 
-| Page                                                                    | Type        | Description                                    | Updated    |
-| ----------------------------------------------------------------------- | ----------- | ---------------------------------------------- | ---------- |
-| [Feature Intake](FEATURE_INTAKE.md)                                     | process     | Work intake classification and risk lanes      | 2026-06-12 |
-| [Test Matrix](TEST_MATRIX.md)                                           | process     | Behavior-to-proof validation matrix            | 2026-06-12 |
-| [Decision Template](templates/decision.md)                              | template    | ADR template for architecture decisions        | 2026-06-12 |
-| [Validation Report Template](templates/validation-report.md)            | template    | Post-implementation validation report template | 2026-06-12 |
-| [Code review](wiki/conventions/code-review.md)                          | convention  | Code review guidelines and comment taxonomy    | -          |
-| [Antigravity](wiki/antigravity.md)                                      | integration | Google Antigravity 2.0 & CLI integration guide | -          |
-| [Rune integration](wiki/integration/rune.md)                            | integration | Rune Skill Mesh integration and 1-click setup  | -          |
-| [Template initialized](wiki/lessons/20260520-template-initialized.md)   | lesson      | Template setup lesson                          | -          |
-| [Clawpatch integration](wiki/lessons/20260524-clawpatch-integration.md) | lesson      | Clawpatch integration lesson                   | -          |
+| Page                                                        | Type         | Purpose                                          |
+| ----------------------------------------------------------- | ------------ | ------------------------------------------------ |
+| [Documentation map](README.md)                              | index        | Current vs historical docs                       |
+| [Architecture](ARCHITECTURE.md)                             | architecture | AWF v4.1 source-of-truth and adapter model       |
+| [Getting Started](GETTING_STARTED.md)                       | operations   | Bootstrap and first verification                 |
+| [Operations](OPERATIONS.md)                                 | operations   | Sync, doctor, artifacts, worktrees, maintenance  |
+| [Integrations](INTEGRATIONS.md)                             | integration  | Optional capability trust boundaries             |
+| [Feature Intake](FEATURE_INTAKE.md)                         | process      | Risk lanes and workflow routing                  |
+| [Test Matrix](TEST_MATRIX.md)                               | process      | Behavior-to-proof traceability                   |
+| [Decision template](templates/decision.md)                  | template     | Durable ADR format                               |
+| [Validation report](templates/validation-report.md)         | template     | Evidence-oriented validation report              |
+| [Code Review](wiki/conventions/code-review.md)              | convention   | Review priorities and trust rules                |
+| [Fast Debugging](wiki/debugging-playbook/fast-debugging.md) | methodology  | Evidence-first debugging loop                    |
+| [Antigravity adapter](wiki/antigravity.md)                  | integration  | Using AWF from Gemini/Antigravity-family clients |
+| [Rune integration](wiki/integration/rune.md)                | integration  | Optional pinned Rune setup boundary              |
 
-## How to Use
+## Historical lessons
 
-1. AI: Read this index before coding to find relevant conventions.
-2. After learning something new, add a wiki page and update this index.
-3. Run `.agent/scripts/wiki_lint.py --strict` with the project's Python 3 executable to validate links.
+These pages record what happened at the time. They are not current operational contracts:
 
-## Lessons
+- [Template initialization (2026-05-20)](wiki/lessons/20260520-template-initialized.md)
+- [Clawpatch integration (2026-05-24)](wiki/lessons/20260524-clawpatch-integration.md)
+- [Session checkpointing and worktree runner (2026-05-28)](wiki/lessons/20260528-implemented-session-checkpointing-and-isolated-git-worktree-.md)
 
-- [Implemented Session Checkpointing and Isolated Git Worktree Runner](wiki/lessons/20260528-implemented-session-checkpointing-and-isolated-git-worktree-.md) — lesson — #harness, #checkpointing, #worktree
+Historical implementation plans are under `plans/completed/`.
 
-- [Clawpatch Integration](wiki/lessons/20260524-clawpatch-integration.md) — architectural-decision — #clawpatch, #code-review, #awf-template
+## Maintenance
 
-- [Template initialized](wiki/lessons/20260520-template-initialized.md) — lesson — #setup, #template
+After changing wiki/index links, run:
+
+```bash
+npm run wiki:lint
+```
+
+When current guidance conflicts with a historical lesson, follow `.awf/policy/core.md`, `.awf/manifest.json`, and the current docs.

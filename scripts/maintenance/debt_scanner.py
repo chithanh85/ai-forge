@@ -161,33 +161,39 @@ def generate_markdown_ledger(findings: list[dict], output_file: Path) -> None:
     total_debt_score = sum(f["weight"] for f in findings)
 
     content = [
-        "# 📋 Technical Debt Ledger",
+        "# Technical Debt Ledger",
         "",
         f"> Last updated: **{now_str}** | Total Debt Score: **{total_debt_score}**",
         "",
-        "### 📊 Summary",
-        f"- 🔴 **High Severity (FIXME / HACK / BYPASS):** {high_count}",
-        f"- 🟡 **Medium Severity (TODO / DEBT):** {med_count}",
-        f"- 🔵 **Low Severity (MOCK / NOTES):** {low_count}",
-        f"- 📦 **Total Items:** {len(findings)}",
+        "## Summary",
+        f"- **High Severity (FIXME / HACK / BYPASS):** {high_count}",
+        f"- **Medium Severity (TODO / DEBT):** {med_count}",
+        f"- **Low Severity (MOCK / NOTES):** {low_count}",
+        f"- **Total Items:** {len(findings)}",
         "",
-        "---",
-        "",
-        "### 📝 Debt Registry",
+        "## Debt Registry",
         "",
         "| Severity | Tag | Location | Owner | Description |",
         "| :--- | :--- | :--- | :--- | :--- |",
     ]
 
     if not findings:
-        content.append("| None | - | - | - | ✨ No technical debt markers found! |")
+        content.append("| None | - | - | - | No technical debt markers found. |")
     else:
-        # Sort by Severity (High first), then file path
         severity_order = {"HIGH": 0, "MEDIUM": 1, "LOW": 2}
-        sorted_findings = sorted(findings, key=lambda x: (severity_order.get(x["severity"], 99), x["file"], x["line"]))
+        sorted_findings = sorted(
+            findings,
+            key=lambda x: (severity_order.get(x["severity"], 99), x["file"], x["line"]),
+        )
         for item in sorted_findings:
-            sev_badge = "🔴 `HIGH`" if item["severity"] == "HIGH" else ("🟡 `MED`" if item["severity"] == "MEDIUM" else "🔵 `LOW`")
-            loc_link = f"[{item['file']}:{item['line']}](../../{item['file']}#L{item['line']})" if output_file.parent.name == "docs" else f"[{item['file']}:{item['line']}]({item['file']}#L{item['line']})"
+            sev_badge = {"HIGH": "`HIGH`", "MEDIUM": "`MED`", "LOW": "`LOW`"}.get(
+                item["severity"], "`UNKNOWN`"
+            )
+            loc_link = (
+                f"[{item['file']}:{item['line']}](../{item['file']}#L{item['line']})"
+                if output_file.parent.name == "docs"
+                else f"[{item['file']}:{item['line']}]({item['file']}#L{item['line']})"
+            )
             content.append(
                 f"| {sev_badge} | `{item['tag']}` | {loc_link} | `{item['owner']}` | {item['content']} |"
             )
@@ -195,7 +201,6 @@ def generate_markdown_ledger(findings: list[dict], output_file: Path) -> None:
     content.append("")
     output_file.parent.mkdir(parents=True, exist_ok=True)
     output_file.write_text("\n".join(content), encoding="utf-8")
-
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Scan technical debt markers and maintain debt ledger.")
@@ -208,23 +213,23 @@ def main() -> int:
     repo_root = Path(args.root).resolve()
     out_file = (repo_root / args.output).resolve()
 
-    print(f"🔍 Scanning technical debt across {repo_root}...")
+    print(f"Scanning technical debt across {repo_root}...")
     findings = scan_repo(repo_root, DEFAULT_EXCLUDES, DEFAULT_EXTENSIONS)
 
     generate_markdown_ledger(findings, out_file)
-    print(f"✅ Generated Technical Debt Ledger: {out_file}")
+    print(f"Generated Technical Debt Ledger: {out_file}")
 
     if args.json_output:
         json_file = (repo_root / args.json_output).resolve()
         json_file.parent.mkdir(parents=True, exist_ok=True)
         json_file.write_text(json.dumps({"updated_at": datetime.now(timezone.utc).isoformat(), "total": len(findings), "items": findings}, indent=2), encoding="utf-8")
-        print(f"✅ Generated JSON Ledger: {json_file}")
+        print(f"Generated JSON Ledger: {json_file}")
 
     unassigned_high = [f for f in findings if f["severity"] == "HIGH" and f["owner"] == "Unassigned"]
     high_items = [f for f in findings if f["severity"] == "HIGH"]
 
     if args.strict and unassigned_high:
-        print(f"❌ Strict mode failure: Found {len(unassigned_high)} UNASSIGNED HIGH severity debt item(s).", file=sys.stderr)
+        print(f"Strict mode failure: Found {len(unassigned_high)} UNASSIGNED HIGH severity debt item(s).", file=sys.stderr)
         for item in unassigned_high:
             print(f"   - {item['file']}:{item['line']} [{item['tag']}] {item['content']}", file=sys.stderr)
         return 1

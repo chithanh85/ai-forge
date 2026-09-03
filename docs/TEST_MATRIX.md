@@ -1,56 +1,50 @@
 # Test Matrix
 
-> Chắt lọc từ [repository-harness/TEST_MATRIX.md](https://github.com/hoangnb24/repository-harness).
-> Được điều chỉnh cho quy trình AWF — link đến `verification.json` artifacts thay vì `harness-cli`.
+This file maps important AWF framework behavior to executable proof. Projects may extend it with their own product behaviors after bootstrap.
 
-File này ánh xạ hành vi sản phẩm đến bằng chứng kiểm thử.
+Do not mark a behavior implemented because code exists; point to a test or validation path that proves the contract.
 
-Không đánh dấu một hàng là `implemented` cho đến khi có test hoặc validation evidence thực sự tồn tại.
+## Status values
 
-## Status Values
+| Status        | Meaning                                          |
+| ------------- | ------------------------------------------------ |
+| `planned`     | Desired behavior accepted, proof not implemented |
+| `in_progress` | Implementation/proof is being built              |
+| `implemented` | Behavior exists and proof passes                 |
+| `changed`     | Contract changed and evidence needs review       |
+| `retired`     | No longer part of the contract                   |
 
-| Status        | Ý nghĩa                                           |
-| ------------- | ------------------------------------------------- |
-| `planned`     | Đã chấp nhận là hành vi mong muốn, chưa implement |
-| `in_progress` | Đang được xây dựng                                |
-| `implemented` | Đã implement và có proof tồn tại                  |
-| `changed`     | Contract thay đổi sau khi đã implement trước đó   |
-| `retired`     | Không còn là một phần của product contract        |
+## AWF v4.1 framework matrix
 
-## Cách sử dụng
+| Behavior                                                                          | Proof                                                        | Status        |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------------- |
+| Native init hydrates project identity and manifest                                | `tests/native-bootstrap.test.ts`                             | `implemented` |
+| Existing package manager is detected and repeated init is idempotent              | `tests/native-bootstrap.test.ts`                             | `implemented` |
+| Launchers are anchored to their script directory and Bash detects Python portably | `tests/native-bootstrap.test.ts` + fresh Windows/Linux smoke | `implemented` |
+| Rationalization-prevention rule is referenced by adapters/workflows               | `tests/rationalization-table.test.ts`                        | `implemented` |
+| Artifact gate fails closed and bootstrap can explicitly use core mode             | `tests/artifact-gate.test.ts`                                | `implemented` |
+| Plan hydration and phase state are deterministic                                  | `tests/plan-hydration.test.ts`                               | `implemented` |
+| Review gate blocks low-score/blocking reviewer outcomes                           | `tests/plan-review-gate.test.ts`                             | `implemented` |
+| Session checkpoint commands persist structured state                              | `tests/session-checkpoint.test.ts`                           | `implemented` |
+| Git worktree runner isolates writes and preserves exit semantics                  | `tests/worktree-runner.test.ts`                              | `implemented` |
+| Wiki strict/changed validation works                                              | `tests/wiki-lint.test.ts`                                    | `implemented` |
+| Optimizer ratchet handles improve/regress/dirty states                            | `tests/optimize.test.ts`                                     | `implemented` |
+| CI review parser enforces strict review JSON/policy behavior                      | `tests/ci/review-parser.test.mjs`                            | `implemented` |
 
-### Cho AI Agents
+## Project extension table
 
-1. **Sau `/code`**: Khi hoàn thành implement một behavior mới, thêm hoặc cập nhật hàng tương ứng trong bảng Matrix bên dưới.
-2. **Sau `/test`**: Cập nhật cột proof (Unit/Integration/E2E) khi test được viết và pass.
-3. **Sau `/debug`**: Nếu fix bug thay đổi behavior, cập nhật status thành `changed`.
-4. **Link Artifact**: Ghi `run-id` của artifact tương ứng trong cột AWF Artifact để truy vết.
+Append project-specific behavior below this line rather than deleting the AWF framework rows.
 
-### Cho Tech Lead
+| Story / feature | Contract                              | Unit | Integration | E2E | Platform          | Status    | Evidence / run-id    |
+| --------------- | ------------------------------------- | ---- | ----------- | --- | ----------------- | --------- | -------------------- |
+| _example_       | _Given/When/Then or concise behavior_ | —    | —           | —   | _api/web/cli/..._ | `planned` | _artifact/test path_ |
 
-- Đọc bảng này để biết toàn cảnh coverage theo behavior.
-- Hàng nào có status `planned` nhưng chưa có proof = gap cần đóng.
-- Hàng nào có status `changed` = cần review lại test hiện tại.
+Legend: ✅ proof exists and passes; ❌ proof exists and fails; — not applicable/not yet implemented.
 
-## Matrix
+## Update rules
 
-| Story/Feature   | Contract (Behavior)                  | Unit | Integration | E2E | Platform | Status        | AWF Artifact    |
-| --------------- | ------------------------------------ | ---- | ----------- | --- | -------- | ------------- | --------------- |
-| _Ví dụ: US-001_ | _User đăng nhập bằng email/password_ | ✅   | ✅          | —   | web      | `implemented` | `20260601-auth` |
-|                 |                                      |      |             |     |          |               |                 |
-
-> **Ghi chú:**
->
-> - ✅ = có test và pass
-> - ❌ = có test nhưng fail
-> - — = chưa có test / không áp dụng
-> - Platform: `web`, `mobile`, `api`, `cli`, `worker`
-> - AWF Artifact: `run-id` từ `.agent/artifacts/<run-id>/verification.json`
-
-## Quy tắc Cập nhật
-
-1. **Thêm hàng mới** khi implement behavior mới (không phải refactor nội bộ).
-2. **Không xóa hàng** khi behavior thay đổi — đổi status sang `changed` hoặc `retired`.
-3. **Một behavior = một hàng** — không gộp nhiều behaviors vào một hàng.
-4. **Contract column** viết dưới dạng Given-When-Then hoặc mô tả ngắn gọn.
-5. Agent chạy `python .agent/scripts/checklist.py .` không validate file này — đây là tài liệu tham khảo cho Tech Lead, không phải enforcement gate.
+1. Add a row when externally meaningful behavior changes or a durable framework contract is added.
+2. Do not use this matrix for every internal refactor.
+3. Do not delete historical contract rows merely because behavior changed; use `changed` or `retired` where traceability matters.
+4. Prefer test-file or artifact references that another reviewer can actually inspect.
+5. The checklist does not currently parse this table as an enforcement gate; it is a human/agent traceability surface.

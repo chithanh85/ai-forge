@@ -1,17 +1,25 @@
-# Lesson: Template initialized
+# Historical Lesson — Template Initialized
 
-**Date:** 2026-05-20T10:49:27.734022
-**Type:** lesson
+**Date:** 2026-05-20
+**Type:** historical lesson
 **Tags:** #setup #template
+
+> Archive record from the pre-v4.1 template. For current setup, read `docs/GETTING_STARTED.md` and `docs/ARCHITECTURE.md`.
 
 ## Summary
 
-Template initialized
+The project was initialized as an early AI-assisted development template with shared agent/workflow/skill assets and repository intelligence/memory experiments.
 
-## Detail
+## Why it still matters
 
-AI Forge Template v4.0.2 with 38 skills, 8 workflows, auto-memory system, Orchestrator, GitNexus
+This initial structure established the `.agent/`, `.planning/`, workflow and skill conventions that later evolved into AWF.
 
-## Related Files
+## Superseded assumptions
 
-- (none)
+The early template used more shared client-specific configuration and machine/tool assumptions. AWF v4.1 replaced that distribution model with:
+
+- `.awf/policy/core.md` as canonical client-neutral policy;
+- `.awf/manifest.json` as project-local configuration;
+- thin generated client adapters;
+- detected toolchain commands;
+- optional integration capability boundaries.

@@ -1,17 +1,24 @@
-# Architectural-Decision: Clawpatch Integration
+# Historical Decision — Clawpatch Integration
 
-**Date:** 2026-05-24T14:06:56.869628
-**Type:** architectural-decision
+**Date:** 2026-05-24
+**Type:** historical architecture decision
 **Tags:** #clawpatch #code-review #awf-template
 
-## Summary
+> Archive record. Clawpatch is an optional integration in AWF v4.1; it is not part of core correctness.
 
-Clawpatch Integration
+## Decision at the time
 
-## Detail
+The template added a local proactive-review workflow around Clawpatch and kept its runtime state under `.clawpatch/`.
 
-Integrated Clawpatch (v0.4.0) local proactive code review into the AWF (AI Forge) template. Added local workflow /clawpatch in .agent/workflows/clawpatch.md, registered command in GEMINI.md, added gitignore rule for .clawpatch/, and updated project README.md and .planning/STATE.md. Confirmed integration via 5-step smoke test.
+## Durable principle
 
-## Related Files
+Proactive external review can be useful before commit, but findings and generated patches remain untrusted until reviewed and verified against the repository.
 
-- (none)
+## v4.1 interpretation
+
+- Clawpatch is optional and may be unavailable.
+- `.clawpatch/` runtime state is ignored by Git.
+- Clawpatch does not replace tests, artifact gates, diff review or approval controls.
+- AWF does not require a specific provider/model for independent review.
+
+See `docs/INTEGRATIONS.md` and `docs/wiki/conventions/code-review.md` for current guidance.

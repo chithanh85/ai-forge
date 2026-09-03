@@ -2,7 +2,7 @@
   "name": "awf-enterprise-template",
   "version": "4.1.0",
   "private": true,
-  "description": "Autonomous Multi-Agent Template",
+  "description": "Client-neutral AI development workflow template",
   "scripts": {
     "dev": "echo 'Configure your dev server here'",
     "build": "echo 'Configure your build here'",
